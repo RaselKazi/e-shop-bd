@@ -8,21 +8,23 @@ import {
   useAsyncDebounce,
 } from 'react-table'
 
-import { COLUMNS, MOCK_DATA } from '../../../data/TableData'
+import { COLUMNS } from '../../../data/TableData'
 import TableGlobalFilter from './TableGlobalFilter'
 
-interface Data {
-  firstName: string
-  lastName: string
-  age: number
-  visits: number
-  progress: number
-  status: string
+type TableProps = {
+  TableData: {}
 }
-function ProductTable() {
-  const columns = useMemo(() => COLUMNS, [])
-  const data = useMemo(() => MOCK_DATA, [])
+interface Data {
+  name: string
+  description: string
+  category: string
+  price: Number
+  stock: Number
+}
 
+function ProductTable({ TableData }: TableProps) {
+  const columns = useMemo(() => COLUMNS, [])
+  const data = useMemo(() => TableData, [])
   const {
     getTableProps,
     getTableBodyProps,
@@ -39,7 +41,7 @@ function ProductTable() {
     setPageSize,
     state,
     setGlobalFilter,
-  } = useTable<Data>(
+  } = useTable(
     {
       columns,
       data,
@@ -48,7 +50,7 @@ function ProductTable() {
     useSortBy,
     usePagination
   )
-
+  console.log(TableData)
   return (
     <div className=" border mx-8 bg-gray-900 border-sky-500 rounded-lg mt-8 flex flex-col">
       <div className="px-10 flex justify-between items-center">
@@ -56,14 +58,11 @@ function ProductTable() {
           filter={state.globalFilter}
           setFilter={setGlobalFilter}
         ></TableGlobalFilter>
-        <button
-          type="submit"
-          className=" h-10 border hover:border-sky-400 hover:bg-sky-800  border-sky-500  bg-gray-900  px-7 rounded-md text-sm text-sky-400 hover:text-white font-medium transition duration-200"
-        >
-          <Link href="dashboard/newproduct" passHref>
+        <Link href="newproduct">
+          <button className=" h-10 border hover:border-sky-400 hover:bg-sky-800  border-sky-500  bg-gray-900  px-7 rounded-md text-sm text-sky-400 hover:text-white font-medium transition duration-200">
             Add Product
-          </Link>
-        </button>
+          </button>
+        </Link>
       </div>
 
       <div className="-my-2 -mx-4 sm:-mx-6 lg:-mx-8">

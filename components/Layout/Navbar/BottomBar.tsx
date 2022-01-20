@@ -1,13 +1,14 @@
 import Link from 'next/link'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { Store } from '../../../utils/Store'
+import CartItem from '../../Cart/CartItem'
 import MobileMenu from './MobileMenu'
-
+type IQuantity = { quantity: number; price: number }
 function BottomBar() {
   const [open, setOpen] = useState(false)
   const [cartopen, setCartOpen] = useState(false)
   const [aboutopen, setAboutOpen] = useState(false)
-
-  console.log(open)
+  const { state, dispatch } = useContext(Store)
   return (
     <div className=" bg-yellow-500 flex items-center justify-between  xl:px-24 sm:px-10 px-4">
       <div>
@@ -69,10 +70,10 @@ function BottomBar() {
           </li>
 
           <li className=" relative">
-            <Link href="/products">
+            <Link href="/product">
               <a className="p-3">
                 New products
-                <span className=" absolute z-20 -top-7 right-0 p-1 rounded bg-purple-700 text-xs z-10 capitalize px-4">
+                <span className=" absolute z-20 -top-7 right-0 p-1 rounded bg-purple-700 text-xs  capitalize px-4">
                   New
                 </span>
                 <span className="absolute -top-3 right-6 p-1 bg-purple-700 h-3 w-3 transform rotate-45"></span>
@@ -81,10 +82,10 @@ function BottomBar() {
           </li>
 
           <li className=" relative">
-            <Link href="/">
+            <Link href="/product/2">
               <a className="p-3">
                 Best sales
-                <span className=" absolute z-20 -top-7 right-0 p-1 rounded bg-red-600 text-xs z-10 capitalize px-4 ">
+                <span className=" absolute z-20 -top-7 right-0 p-1 rounded bg-red-600 text-xs capitalize px-4 ">
                   Hot
                 </span>
                 <span className="absolute -top-3 right-6 p-1 bg-red-600 h-3 w-3 transform rotate-45"></span>
@@ -167,24 +168,24 @@ function BottomBar() {
             >
               <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
             </svg>
-            <span className="lg:hidden absolute z-20 top-0 left-9 h-5 w-5 rounded-full box-border flex items-center justify-center bg-black text-xs text-white">
-              0
+            <span className=" absolute z-20 -top-1 left-9 h-5 w-5 rounded-full box-border flex items-center justify-center bg-red-600 text-md text-white">
+              {state.cart.cartItems.length}
             </span>
           </span>
           <div className="lg:flex group hidden items-center space-x-2">
-            <span>My cart -</span>
-            <span className=" font-normal">$0.00</span>
+            <span>{`My cart - $ ${state.cart.cartItems.reduce(
+              (a: number, c: IQuantity) => a + c.quantity * c.price,
+              0
+            )}`}</span>
           </div>
         </button>
 
         {cartopen && (
           <div
-            className="bg-white shadow-lg absolute right-0 top-12 border p-5 rounded z-50  items-center justify-center h-40 w-72"
+            className="bg-white shadow-lg absolute right-0 top-12 border rounded z-50  items-center justify-center w-96"
             onClick={() => setCartOpen(false)}
           >
-            <ul>
-              <li>Your cart is </li>
-            </ul>
+            <CartItem variant="min" />
           </div>
         )}
       </div>

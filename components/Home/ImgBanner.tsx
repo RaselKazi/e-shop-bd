@@ -1,9 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import banner from '../../public/images/bn4.webp'
 
-function ImgBanner() {
+type ImgBannerProps = {
+  imgLink: String
+}
+function ImgBanner({ imgLink }: ImgBannerProps) {
   return (
     <div className=" pt-10">
       <Link href="/">
@@ -11,7 +13,7 @@ function ImgBanner() {
           <Image
             className="w-full duration-300 hover:opacity-80"
             alt="banner"
-            src={banner}
+            src={`/../public/images/${imgLink}`}
             layout="responsive"
             width={800}
             height={200}

@@ -1,5 +1,14 @@
 import React from 'react'
 
+const menuItem = [
+  { title: 'SHOP', link: '' },
+  { title: 'CONTACT', link: '' },
+  { title: 'FAQ', link: '' },
+  { title: 'TERMS & CONDITION', link: '' },
+  { title: 'PRIVACY & POLICY', link: '' },
+  { title: 'LOGIN', link: '' },
+  { title: 'REGISTER', link: '' },
+]
 function MobileMenu() {
   return (
     <div className="space-x-6 text-xs font-semibold w-full">
@@ -25,27 +34,12 @@ function MobileMenu() {
             <span className="absolute top-5 right-16 p-1 bg-red-600 h-2 w-2 mr-1 transform rotate-45"></span>
           </a>
         </li>
-        <li className=" duration-300 hover:tracking-widest hover:shadow border-b py-4 px-10">
-          <a href="shop.html">Shop</a>
-        </li>
-        <li className=" duration-300 hover:tracking-widest hover:shadow border-b py-4 px-10">
-          <a href="contact-us.html">CONTACT</a>
-        </li>
-        <li className=" duration-300 hover:tracking-widest hover:shadow border-b py-4 px-10">
-          <a href="faq.html">FAQ</a>
-        </li>
-        <li className=" duration-300 hover:tracking-widest hover:shadow border-b py-4 px-10">
-          <a href="terms-and-condition.html">Terms condition</a>
-        </li>
-        <li className=" duration-300 hover:tracking-widest hover:shadow border-b py-4 px-10">
-          <a href="privacy-policy.html">Privacy policy</a>
-        </li>
-        <li className=" duration-300 hover:tracking-widest hover:shadow border-b py-4 px-10">
-          <a href="login.html">LogIn</a>
-        </li>
-        <li className=" duration-300 hover:tracking-widest hover:shadow border-b py-4 px-10">
-          <a href="registration.html">Register</a>
-        </li>
+
+        {menuItem.map((item) => (
+          <li className=" duration-300 hover:tracking-widest hover:shadow border-b py-4 px-10">
+            <a href="shop.html">{item.title}</a>
+          </li>
+        ))}
       </ul>
     </div>
   )

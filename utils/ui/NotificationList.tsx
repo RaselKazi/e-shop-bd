@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import blog from '../public/images/10.jpg'
+import blog from '../../public/images/10.jpg'
 function NotificationList() {
   return (
     <div className="py-2">

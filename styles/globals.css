@@ -1,3 +1,74 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input[type='number'] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.swiper-pagination-horizontal {
+  left: 42% !important;
+  top: -2% !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: rgb(255, 150, 0) !important;
+  width: 30px !important;
+  border-radius: 5px !important;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  height: 40px !important;
+  width: 40px !important;
+  border-radius: 50%;
+  padding: 4px, 8px !important;
+  background: rgba(255, 149, 0, 0.5);
+}
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: white;
+  background: rgb(255, 150, 0);
+}
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 18px !important;
+  font-weight: bold;
+  color: white;
+}
+
+/*------scroll bar---------------------*/
+::-webkit-scrollbar {
+  width: 5px;
+  height: 7px;
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: #525965;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #525965;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #525965;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+::-webkit-scrollbar-track:hover {
+  background: transparent;
+}
+::-webkit-scrollbar-track:active {
+  background: transparent;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import Layout from '../components/Layout/Layout'
-import Sidebar from '../components/Layout/Sidebar/Sidebar'
+import Layout from '../../components/Layout/Layout'
+import Sidebar from '../../components/Layout/Sidebar/Sidebar'
 
-import MidProductCard from '../components/Product/MidProductCard'
-import ProductCard from '../components/Product/ProductCard'
-
-function products() {
+import MidProductCard from '../../components/Product/MidProductCard'
+import ProductCard from '../../components/Product/ProductCard'
+import dbConnect, { convertDocToObj } from '../../utils/dbConnect'
+import Product from '../../models/productModel'
+function products({ allProducts }) {
   const [tabe, setTabe] = useState('tabe')
   return (
     <Layout>
@@ -31,7 +32,7 @@ function products() {
                     </button>
 
                     <button
-                      className=" inline-block p-1 px-3 text-white bg-gray-600 hover:bg-yellow-500 rounded-sm font-medium duration-300 focus:outline-none hidden lg:block"
+                      className="p-1 px-3 text-white bg-gray-600 hover:bg-yellow-500 rounded-sm font-medium duration-300 focus:outline-none hidden lg:block"
                       onClick={() => setTabe('tabe')}
                     >
                       <svg
@@ -90,7 +91,9 @@ function products() {
                 </div>
                 {tabe === 'tabe1' ? (
                   <div className="grid gap-10 py-10 ">
-                    <MidProductCard></MidProductCard>
+                    {allProducts.map((pro: any) => (
+                      <MidProductCard productData={pro} />
+                    ))}
                   </div>
                 ) : (
                   <div
@@ -101,7 +104,9 @@ function products() {
                         : 'lg:grid-cols-3 sm:grid-cols-2 grid-cols-1'
                     } `}
                   >
-                    <ProductCard></ProductCard>
+                    {allProducts.map((pro: any) => (
+                      <ProductCard productData={pro} />
+                    ))}
                   </div>
                 )}
               </div>
@@ -142,3 +147,15 @@ function products() {
 }
 
 export default products
+
+export async function getServerSideProps() {
+  await dbConnect()
+
+  const allProducts = await Product.find({}).lean().limit(20)
+
+  return {
+    props: {
+      allProducts: allProducts.map(convertDocToObj),
+    },
+  }
+}

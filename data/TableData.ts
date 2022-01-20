@@ -1,28 +1,35 @@
+import ActionButton from '../components/Dashboard/Table/ActionButton'
+import { AvatarCell } from '../components/Dashboard/Table/AvatarCell'
+
 export const COLUMNS = [
   {
-    Header: 'First Name',
-    accessor: 'firstName',
-  },
-  {
-    Header: 'Last Name',
-    accessor: 'lastName',
+    Header: 'Product Images',
+    accessor: 'name',
+    Cell: AvatarCell,
+    imgAccessor: 'images',
+    emailAccessor: 'email',
   },
 
   {
-    Header: 'Age',
-    accessor: 'age',
+    Header: 'Description',
+    accessor: 'description',
   },
   {
-    Header: 'Visits',
-    accessor: 'visits',
+    Header: 'Category',
+    accessor: 'category',
   },
   {
-    Header: 'Status',
-    accessor: 'status',
+    Header: 'Price',
+    accessor: 'price',
   },
   {
-    Header: 'Profile Progress',
-    accessor: 'progress',
+    Header: 'Stock',
+    accessor: 'stock',
+  },
+  {
+    Header: 'action',
+    accessor: '_id',
+    Cell: ActionButton,
   },
 ]
 

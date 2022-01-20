@@ -1,8 +1,33 @@
 import Link from 'next/link'
 import { useState } from 'react'
+import axios from 'axios'
+import InputField from '../utils/ui/InputField'
+import { Controller, useForm, SubmitHandler } from 'react-hook-form'
+
+type FormValues = {
+  name: string
+}
 
 function registration() {
   const [toggleButton, setToggleButton] = useState(false)
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>()
+  const onSubmit: SubmitHandler<FormValues> = async ({ name }) => {
+    try {
+      const myForm = new FormData()
+
+      myForm.set('name', name)
+
+      // await axios.post('/api/admin/products', myForm, {
+      //   headers: { 'Content-Type': 'application/json' },
+      // })
+    } catch (err) {}
+  }
   return (
     <section>
       <div
@@ -26,49 +51,28 @@ function registration() {
             </h1>
           </div>
 
-          <form action="login" className="p-10 space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="p-10 space-y-4">
             {/* ---name---- */}
 
-            {toggleButton && (
-              <div>
-                <h4 className="text-gray-500">
-                  Name <span className="text-red-500">*</span>
-                </h4>
-                <div className="relative">
-                  <span className="absolute top-3 left-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 mb-2 w-5 text-gray-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                      ></path>
-                    </svg>
-                  </span>
-                  <input
-                    className="
-                      border-b-2 border-gray-300
-                      w-full
-                      py-2
-                      pl-6
-                      focus:border-blue-300
-                      text-gray-400
-                      focus:outline-none
-                      placeholder-gray-400
-                    "
-                    type="text"
-                    placeholder="Type your Username"
-                    required
-                  />
-                </div>
-              </div>
-            )}
+            {/* {toggleButton && (
+              <Controller
+                name="name"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: true,
+                }}
+                render={({ field }) => (
+                  <InputField
+                    id="name"
+                    label="Name"
+                    error={Boolean(errors.name)}
+                    helperText={errors.name ? 'Name is required' : ''}
+                    {...field}
+                  ></InputField>
+                )}
+              ></Controller>
+            )} */}
 
             {/* ---email--- */}
             <div>
@@ -92,21 +96,37 @@ function registration() {
                     ></path>
                   </svg>
                 </span>
-                <input
-                  className="
-                      border-b-2 border-gray-300
+                <Controller
+                  name="name"
+                  control={control}
+                  defaultValue=""
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field }) => (
+                    <input
+                      className={`border-b-2 
                       w-full
                       py-2
                       pl-6
-                      focus:border-blue-300
+                      
                       text-gray-400
                       focus:outline-none
-                      placeholder-gray-400
-                    "
-                  type="text"
-                  placeholder="Type your email"
-                  required
-                />
+                      placeholder-gray-400 ${
+                        Boolean(errors.name)
+                          ? 'border-red-600 focus:border-red-600'
+                          : 'border-gray-300 focus:border-blue-300'
+                      }`}
+                      type="text"
+                      placeholder="Type your email"
+                      id="name"
+                      label="Name"
+                      error={Boolean(errors.name)}
+                      helperText={errors.name ? 'Name is required' : ''}
+                      {...field}
+                    />
+                  )}
+                ></Controller>
               </div>
             </div>
             {/* ---Password---- */}

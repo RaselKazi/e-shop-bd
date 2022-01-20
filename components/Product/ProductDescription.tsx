@@ -2,7 +2,7 @@ import React from 'react'
 
 function ProductDescription() {
   return (
-    <div x-show="tab === 'tab1'">
+    <div>
       <div className="text-sm text-gray-600 leading-loose">
         <strong>Viewing angle (typical)</strong>
 

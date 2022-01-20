@@ -6,19 +6,29 @@ import ImgLogo from '../components/Home/ImgLogo'
 import NewProductSection from '../components/Home/NewProductSection'
 import ImgBanner from '../components/Home/ImgBanner'
 import CategoriesImgTab from '../components/Home/CategoriesImgTab'
-import MaxProductCard from '../components/Product/MaxProductCard'
+
 import MidProductCard from '../components/Product/MidProductCard'
 import CategoriesCard from '../components/Home/CategoriesCard'
 import Tag from '../components/Tag'
 import MinProductCard from '../components/Product/MinProductCard'
+import BannerCarousel from '../components/Home/BannerCarousel'
 
-const Home: NextPage = () => {
+import SidebarCategories from '../components/Layout/Sidebar/SidebarCategories'
+import dbConnect, { convertDocToObj } from '../utils/dbConnect'
+import Product from '../models/productModel'
+import ProductCard from '../components/Product/ProductCard'
+const Home: NextPage = ({ allProducts }) => {
   return (
     <Layout>
       <section className="xl:px-24 sm:px-10 px-4 pt-10">
-        <div className=" lg:grid hidden grid-cols-4  divide-x  divide-gray-200 border rounded mt-6 p-4 px-0">
-          <CategoriesCard></CategoriesCard>
+        <div className="lg:grid lg:grid-cols-5 gap-8 sm:border rounded sm:p-5 relative fakeLoader">
+          <div className="hidden lg:block">
+            <SidebarCategories></SidebarCategories>
+          </div>
+          <BannerCarousel></BannerCarousel>
         </div>
+
+        <CategoriesCard></CategoriesCard>
       </section>
       <section className="xl:px-24 sm:px-10 px-4 pt-10">
         <div className="lg:grid lg:grid-cols-4 gap-8 overflow-hidden">
@@ -59,16 +69,15 @@ const Home: NextPage = () => {
             <div className=" border border-gray-200 rounded sm:p-5 p-2">
               <div className="owl-carousel owl-carousel-02">
                 <div className=" grid grid-cols-2 sm:gap-6 gap-2 divide-y">
-                  <MinProductCard></MinProductCard>
-                  <MinProductCard></MinProductCard>
-                  <MinProductCard></MinProductCard>
-                  <MinProductCard></MinProductCard>
+                  {allProducts.map((pro: any) => (
+                    <MinProductCard productData={pro} />
+                  ))}
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <ImgBanner></ImgBanner>
+        <ImgBanner imgLink="bn1.png"></ImgBanner>
       </section>
       <section className="xl:px-24 sm:px-10 px-4 pt-10">
         <div>
@@ -80,25 +89,47 @@ const Home: NextPage = () => {
           </a>
         </div>
         <div className=" md:grid md:grid-cols-3 border rounded">
-          <MaxProductCard></MaxProductCard>
+          <MidProductCard productData={allProducts[0]} card="max" />
           <div className="col-span-2">
-            <MidProductCard></MidProductCard>
-            <MidProductCard></MidProductCard>
+            {allProducts.slice(2, 4).map((pro: any) => (
+              <MidProductCard productData={pro} />
+            ))}
           </div>
         </div>
         <div className=" md:grid md:grid-cols-2 gap-8 pt-10">
           <div className="mb-6 md:mb-0">
-            <ImgBanner></ImgBanner>
+            <ImgBanner imgLink="bn2.webp"></ImgBanner>
           </div>
-          <ImgBanner></ImgBanner>
+          <ImgBanner imgLink="bn3.webp"></ImgBanner>
         </div>
       </section>
       <section className="xl:px-24 sm:px-10 px-4 pt-10 overflow-hidden">
-        <ImgBanner></ImgBanner>
         <CategoriesImgTab></CategoriesImgTab>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 lg:grid-cols-4 pt-6">
+          {allProducts.map((pro: any) => (
+            <ProductCard productData={pro} />
+          ))}
+        </div>
+
+        <ImgBanner imgLink="bn4.webp"></ImgBanner>
       </section>
       <section className="xl:px-24 sm:px-10 px-4 pt-10 overflow-hidden">
-        <NewProductSection></NewProductSection>
+        <div>
+          {/* -Hero text- */}
+          <div>
+            <a className=" font-bold border-b-2 border-yellow-500 inline-block pb-1">
+              BEST SELLERS
+            </a>
+          </div>
+
+          {/* carousel */}
+          <div className=" py-7 border-t-2 border-gray-100 grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3  md:grid-cols-2">
+            <NewProductSection productData={allProducts} />
+            <NewProductSection productData={allProducts} />
+            <NewProductSection productData={allProducts} />
+          </div>
+        </div>
+
         <ImgLogo></ImgLogo>
       </section>
 
@@ -108,3 +139,15 @@ const Home: NextPage = () => {
 }
 
 export default Home
+
+export async function getServerSideProps() {
+  await dbConnect()
+
+  const allProducts = await Product.find({}).lean().limit(20)
+
+  return {
+    props: {
+      allProducts: allProducts.map(convertDocToObj),
+    },
+  }
+}

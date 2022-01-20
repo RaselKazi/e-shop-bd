@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import React from 'react'
 import product from '../../public/images/3__33781.1528613921.webp'
-import { cardHoverItem } from '../../data/CardProductData'
-import CountdownTimer from '../../utils/CountdownTimer'
+import { cardHoverItem } from '../../data/ProductCardData'
+import CountdownTimer from '../../utils/ui/CountdownTimer'
 
 function MaxProductCard() {
   return (
@@ -20,7 +20,10 @@ function MaxProductCard() {
         <div className="space-y-3 absolute top-1/4">
           {cardHoverItem.map((item) => {
             return (
-              <div className=" group-hover:block hidden transition duration-300 delay-100">
+              <div
+                key={item.title}
+                className=" group-hover:block hidden transition duration-300 delay-100"
+              >
                 <button className=" group text-white hover:bg-yellow-500 duration-100 bg-black bg-opacity-60 text-xs font-medium p-2 rounded flex items-center">
                   {item.icon}
                   <span className=" hidden duration-300 ml-2">

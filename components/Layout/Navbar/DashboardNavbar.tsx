@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import blog from '../../../public/images/10.jpg'
-import NotificationList from '../../../utils/NotificationList'
-import ProfileList from '../../../utils/ProfileList'
+import NotificationList from '../../../utils/ui/NotificationList'
+import ProfileList from '../../../utils/ui/ProfileList'
 
 function DashboardNavbar() {
   const [mobileMenu, setMobileMenu] = useState(false)

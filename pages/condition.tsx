@@ -4,7 +4,6 @@ import Layout from '../components/Layout/Layout'
 function condition() {
   return (
     <Layout>
-      {' '}
       <section className="xl:px-24 sm:px-10 px-4 pt-5">
         <div className=" text-gray-500">
           <p>

@@ -4,8 +4,9 @@ import Sidebar from '../../components/Layout/Sidebar/Sidebar'
 import ProductCardDetails from '../../components/Product/ProductCardDetails'
 import ProductDetails from '../../components/Product/ProductDetails'
 import ProductZoomCarousel from '../../components/Product/ProductZoomCarousel'
-
-function Product() {
+import dbConnect, { convertDocToObj } from '../../utils/dbConnect'
+import Product from '../../models/productModel'
+function ProductDetail({ product }) {
   return (
     <Layout>
       <main>
@@ -16,10 +17,14 @@ function Product() {
             <div className="col-span-3">
               <div className="sm:grid sm:grid-cols-2 gap-8">
                 <div>
-                  <ProductZoomCarousel></ProductZoomCarousel>
+                  <ProductZoomCarousel
+                    images={product.images}
+                  ></ProductZoomCarousel>
                 </div>
                 <div>
-                  <ProductCardDetails></ProductCardDetails>
+                  <ProductCardDetails
+                    productData={product}
+                  ></ProductCardDetails>
                 </div>
               </div>
 
@@ -32,4 +37,17 @@ function Product() {
   )
 }
 
-export default Product
+export default ProductDetail
+
+export async function getServerSideProps({ params }) {
+  const { id } = params
+
+  await dbConnect()
+  const product = await Product.findById(id).lean()
+
+  return {
+    props: {
+      product: convertDocToObj(product),
+    },
+  }
+}

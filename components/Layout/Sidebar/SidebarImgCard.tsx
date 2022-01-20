@@ -8,7 +8,7 @@ function SideberImgCaed() {
         className="w-full hover:opacity-80 duration-300"
         alt=""
         src={sidebarimg}
-        layout="fixed"
+        layout="responsive"
         width={305}
         height={400}
       />
