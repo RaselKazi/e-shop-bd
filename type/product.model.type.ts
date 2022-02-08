@@ -2,7 +2,7 @@ import { Key, ReactNode } from 'react'
 
 export interface IProduct {
   _id: Key | null | undefined
-  quantity: Number | any
+  quantity: number
   name: String
   description: String
   price: Number
