@@ -1,20 +1,15 @@
 import axios from 'axios'
-import { useRouter } from 'next/router'
 import { useContext, useEffect, useReducer, useState } from 'react'
 import MostOrdered from '../../components/Dashboard/MostOrdered'
 import MostTypeOfOrder from '../../components/Dashboard/MostTypeOfOrder'
 import OrderReport from '../../components/Dashboard/OrderReport'
 import StatsCard from '../../components/Dashboard/StatsCard'
 import DashboardLayout from '../../components/Layout/DashboardLayout'
-import DashboardNavbar from '../../components/Layout/Navbar/DashboardNavbar'
-import DashboardMainSidebar from '../../components/Layout/Sidebar/DashboardMainSidebar'
-import DashboardSidebar from '../../components/Layout/Sidebar/DashboardSidebar'
 import useCheckAdminAndRedirect from '../../hook/useCheckAdminAndRedirect'
 import { getError } from '../../utils/error'
 import { Store } from '../../utils/Store'
-import Preloader from '../../utils/ui/Preloader'
 
-function reducer(state, action) {
+function reducer(state: any, action: { type: string; payload?: any }) {
   switch (action.type) {
     case 'FETCH_REQUEST':
       return { ...state, loading: true, error: '' }

@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { useContext, useState } from 'react'
+import { IProduct } from '../../type/product.model.type'
 import { Store } from '../../utils/Store'
 import CartProductCard from '../Product/CartProductCard'
 
@@ -9,14 +10,14 @@ type CartItemProps = {
 export default function CartItem({ variant }: CartItemProps) {
   const { state, dispatch } = useContext(Store)
 
-  const updateCartHandler = async (item, quantity) => {
+  const updateCartHandler = async (item: IProduct, quantity: number) => {
     if (quantity <= 0 || '') {
     } else {
       dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, quantity } })
     }
   }
 
-  const removeItemHandler = (item) => {
+  const removeItemHandler = (item: IProduct) => {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item })
   }
   const router = useRouter()
@@ -28,7 +29,7 @@ export default function CartItem({ variant }: CartItemProps) {
 
   return (
     <div>
-      {state.cart.cartItems.map((item) => (
+      {state.cart.cartItems.map((item: IProduct) => (
         <div
           key={item._id}
           className=" mx-8 my-4 grid grid-cols-5 border-b  border-gray-200 hover:bg-gray-100 cursor-pointer "

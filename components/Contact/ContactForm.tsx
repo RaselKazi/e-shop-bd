@@ -5,7 +5,7 @@ export default function ContactForm() {
     <form action="contact" className=" text-gray-500">
       <div className=" grid sm:grid-cols-2 gap-6 mb-5">
         <div>
-          <label className=" text-sm font-bold" for="name">
+          <label className=" text-sm font-bold" htmlFor="name">
             First Name
           </label>
           <input
@@ -15,7 +15,7 @@ export default function ContactForm() {
         </div>
 
         <div>
-          <label className=" text-sm font-bold" for="name">
+          <label className=" text-sm font-bold" htmlFor="name">
             Last Name
           </label>
           <input
@@ -26,7 +26,7 @@ export default function ContactForm() {
       </div>
 
       <div className="mb-5">
-        <label className=" text-sm font-bold" for="name">
+        <label className=" text-sm font-bold" htmlFor="name">
           Email <span className=" text-red-500">*</span> ({' '}
           <a className="text-blue-400" href="privacy-policy.html">
             privacy policy
@@ -41,7 +41,7 @@ export default function ContactForm() {
       </div>
 
       <div className="mb-5">
-        <label className=" text-sm font-bold" for="name">
+        <label className=" text-sm font-bold" htmlFor="name">
           Messages <span className=" text-red-500">*</span>
         </label>
         <textarea

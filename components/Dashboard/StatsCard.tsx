@@ -1,6 +1,13 @@
 import React from 'react'
-
-function StatsCard({ data }) {
+type StatsCardProps = {
+  data: {
+    ordersPrice: Number | any
+    productsCount: Number
+    ordersCount: Number
+    usersCount: Number
+  }
+}
+function StatsCard({ data }: StatsCardProps) {
   const stats = [
     {
       title: 'Total Revenue',
