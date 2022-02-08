@@ -1,6 +1,9 @@
+import Cookies from 'js-cookie'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useContext, useState } from 'react'
 import { socialIconData } from '../../../data/FooterData'
+import { Store } from '../../../utils/Store'
 const profileItem = [
   { title: 'Compare', link: '' },
   { title: 'Check out', link: '' },
@@ -9,18 +12,42 @@ const profileItem = [
 ]
 function TopBar() {
   const [open, setOpen] = useState(false)
+  const router = useRouter()
+  const { state, dispatch } = useContext(Store)
+  const logoutHandler = () => {
+    dispatch({ type: 'USER_LOGOUT' })
+    Cookies.remove('userInfo')
+    Cookies.remove('cartItems')
+    Cookies.remove('shippinhAddress')
+    Cookies.remove('paymentMethod')
+    router.push('/')
+  }
+
   return (
     <div className="flex justify-between bg-gray-100 py-3 xl:px-24 sm:px-10 px-4">
       <div className=" sm:block hidden">
         <p className="text-sm text-gray-600">
-          Welcome to E-market!
-          <Link href="/login">
-            <a className=" text-yellow-500 ml-1">Sign in </a>
-          </Link>
-          or
-          <Link href="/registration">
-            <a className=" text-yellow-500"> Register</a>
-          </Link>
+          {state.userInfo ? (
+            <div>
+              Welcome to E-market
+              <Link href="/profile">
+                <a className=" ml-4 text-md font-medium capitalize hover:text-yellow-500 transition duration-300 cursor-pointer ">
+                  {state.userInfo?.name}
+                </a>
+              </Link>
+            </div>
+          ) : (
+            <div>
+              Please
+              <Link href="/login">
+                <a className=" text-yellow-500 mx-2">Sign in </a>
+              </Link>
+              or
+              <Link href="/register">
+                <a className="ml-2 text-yellow-500"> Register</a>
+              </Link>
+            </div>
+          )}
         </p>
       </div>
 
@@ -78,11 +105,46 @@ function TopBar() {
               className=" absolute rounded p-3 bg-white border w-full shadow mt-2 text-base overflow-hidden duration-300"
               onClick={() => setOpen(false)}
             >
-              {profileItem.map((item) => (
-                <a className=" mb-2 block" href="#">
-                  {item.title}
-                </a>
-              ))}
+              <ul className=" ">
+                {state.userInfo?.role === 'admin' ? (
+                  <Link href="/dashboard">
+                    <li className=" py-1 rounded cursor-pointer capitalize hover:bg-gray-100 transition duration-200 border-b border-gray-300">
+                      Admin panel
+                    </li>
+                  </Link>
+                ) : (
+                  <Link href="/profile">
+                    <li className=" py-1 rounded cursor-pointer capitalize hover:bg-gray-100 transition duration-200 border-b border-gray-300">
+                      Profile
+                    </li>
+                  </Link>
+                )}
+                <Link href="/product/compare">
+                  <li className=" py-1 rounded cursor-pointer capitalize hover:bg-gray-100 transition duration-200 border-b border-gray-300">
+                    Compare
+                  </li>
+                </Link>
+                <Link href="/place-older">
+                  <li className="py-1 rounded cursor-pointer  capitalize hover:bg-gray-100 transition duration-200 border-b border-gray-300">
+                    Check out
+                  </li>
+                </Link>
+
+                {state.userInfo ? (
+                  <li
+                    className=" py-1 rounded cursor-pointer  capitalize hover:bg-gray-100 transition duration-200 border-b border-gray-300"
+                    onClick={logoutHandler}
+                  >
+                    Log out
+                  </li>
+                ) : (
+                  <Link href="/login">
+                    <li className="py-1 rounded cursor-pointer  capitalize hover:bg-gray-100 transition duration-200 border-b border-gray-300">
+                      Sign in
+                    </li>
+                  </Link>
+                )}
+              </ul>
             </div>
           )}
         </div>

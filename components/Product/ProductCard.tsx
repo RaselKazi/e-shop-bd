@@ -2,9 +2,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import dynamic from 'next/dynamic'
-import CountdownTimerOne from '../../utils/ui/CountdownTimerOne'
 import RatingStar from '../../utils/ui/RatingStar'
 import HoverCardItem from '../../utils/ui/HoverCardItem'
+import CountdownTimer from '../../utils/ui/CountdownTimer'
 function ProductCard({ productData }) {
   return (
     <div className="bg-gray-200 bg-opacity-30 py-8 border rounded border-t-0">
@@ -14,7 +14,7 @@ function ProductCard({ productData }) {
             <Image
               className=" mx-auto h-full w-full cursor-pointer"
               alt=""
-              src={productData.images[0].url}
+              src={productData?.images[0].url}
               layout="responsive"
               width={280}
               height={260}
@@ -25,18 +25,24 @@ function ProductCard({ productData }) {
             <HoverCardItem productId={productData} />
           </div>
           {/* <!--bages---> */}
-          <div className=" absolute top-2 right-4 text-xs text-white bg-red-500 h-12 w-12 flex items-center justify-center rounded-full">
-            <span>-14%</span>
-          </div>
+
+          {productData.discount > 0 && (
+            <div className=" absolute top-0 right-0 text-base font-bold text-white bg-red-600 h-7 w-14 flex items-center justify-center rounded">
+              <span>{`- ${productData.discount} %`}</span>
+            </div>
+          )}
 
           {/*coundown-timmer*/}
           <div className=" transition duration-300  opacity-1 block group-hover:hidden group-hover:opacity-0 ">
             {' '}
-            <CountdownTimerOne></CountdownTimerOne>
+            <CountdownTimer
+              discountDate={productData.discountTargetDate}
+              variant="black"
+            ></CountdownTimer>
           </div>
         </div>
         {/* <!------> */}
-        <div className="text-center ">
+        <div className="text-center mt-4">
           {/* <!--Titile--> */}
           <Link href={`product/${productData._id}`}>
             <a className=" text-gray-800 font-medium hover:text-yellow-500">
@@ -50,11 +56,16 @@ function ProductCard({ productData }) {
           {/* --Price-- */}
           <div className=" flex items-center justify-center mt-3">
             <span className=" text-yellow-500 text-xl font-bold mr-4">
-              {`$${productData.price}`}
+              {`$${
+                productData.price -
+                (productData.price * productData.discount) / 100
+              }`}
             </span>
-            <span className=" text-gray-500">
-              <del>£456.00</del>
-            </span>
+            {productData.discount > 0 && (
+              <span className=" text-gray-500 text-xl">
+                <del>{`$${productData.price}`}</del>
+              </span>
+            )}
           </div>
         </div>
       </div>

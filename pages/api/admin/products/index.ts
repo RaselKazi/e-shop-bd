@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import nc from 'next-connect'
 import Product from '../../../../models/productModel'
+import { isAdmin, isAuth } from '../../../../utils/auth'
 import dbConnect from '../../../../utils/dbConnect'
 const cloudinary = require('cloudinary')
 const fileUpload = require('express-fileupload')
@@ -16,7 +17,7 @@ export const config = {
   },
 }
 const handler = nc()
-
+handler.use(isAuth, isAdmin)
 handler
   .use(fileUpload())
   .post(async (req: NextApiRequest, res: NextApiResponse) => {

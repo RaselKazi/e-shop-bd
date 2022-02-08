@@ -1,10 +1,20 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import ProductCard from '../Product/ProductCard'
 import { CategoriesImgList } from '../../data/ImageData'
+import { Store } from '../../utils/Store'
+import { useRouter } from 'next/router'
 
 function CategoriesImgTab() {
   const [openCategories, setOpenCategories] = useState('')
+
+  const { state, dispatch } = useContext(Store)
+  const router = useRouter()
+  const categoryHandler = (category: string) => {
+    dispatch({ type: 'SAVE_FILTER_CATEGORY', payload: category })
+    setOpenCategories(category)
+    router.push(`/?category=${category.split(' ').join('')}`)
+  }
   return (
     <div className="border rounded">
       <div className=" grid grid-cols-7 divide-x divide-y">
@@ -14,7 +24,7 @@ function CategoriesImgTab() {
               openCategories === item.title && 'bg-gray-100'
             }`}
             onClick={() => {
-              setOpenCategories(item.title)
+              categoryHandler(item.title)
             }}
           >
             <Image

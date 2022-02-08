@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { useForm } from 'react-hook-form'
 import { Country, State } from 'country-state-city'
@@ -18,8 +18,16 @@ export type RegistrationFormFields = {
 }
 
 export default function shipping() {
-  const [stateOfCountry, setStateOfCountry] = useState('')
-  const [country, setCountry] = useState('')
+  const { state, dispatch } = useContext(Store)
+  const {
+    userInfo,
+    cart: { shippingAddress, cartItems },
+  } = state
+
+  const [stateOfCountry, setStateOfCountry] = useState(
+    shippingAddress.stateOfCountry
+  )
+  const [country, setCountry] = useState(shippingAddress.country)
 
   const {
     register,
@@ -27,11 +35,16 @@ export default function shipping() {
     formState: { errors },
   } = useForm<RegistrationFormFields>()
   const router = useRouter()
-  const { state, dispatch } = useContext(Store)
-  const {
-    userInfo,
-    cart: { shippingAddress },
-  } = state
+
+  useEffect(() => {
+    if (!userInfo) {
+      router.push('/login?redirect=/shipping')
+    }
+    if (cartItems.length === 0) {
+      router.push('/cart')
+    }
+  }, [])
+
   const onSubmit = handleSubmit(
     ({ fullName, address, city, postalCode, phoneNumber }) => {
       dispatch({
@@ -46,15 +59,18 @@ export default function shipping() {
           phoneNumber,
         },
       })
-      Cookies.set('shippingAddress', {
-        fullName,
-        address,
-        city,
-        postalCode,
-        country,
-        stateOfCountry,
-        phoneNumber,
-      })
+      Cookies.set(
+        'shippingAddress',
+        JSON.stringify({
+          fullName,
+          address,
+          city,
+          postalCode,
+          country,
+          stateOfCountry,
+          phoneNumber,
+        })
+      )
       router.push('/payment')
     }
   )
@@ -72,6 +88,7 @@ export default function shipping() {
             <div className=" flex flex-col">
               <div className="my-3">
                 <input
+                  value={shippingAddress.fullName}
                   type="text"
                   placeholder="Full Name"
                   className={` border-2 rounded-md w-full py-3 text-xl pl-6 text-gray-800 focus:outline-none placeholder-gray-400 transition duration-300   ${
@@ -89,6 +106,7 @@ export default function shipping() {
               </div>
               <div className="my-3">
                 <input
+                  value={shippingAddress.address}
                   type="text"
                   placeholder="Address"
                   className={` border-2 rounded-md w-full py-3 text-xl pl-6 text-gray-800 focus:outline-none placeholder-gray-400 transition duration-300   ${
@@ -106,6 +124,7 @@ export default function shipping() {
               </div>
               <div className="my-3">
                 <input
+                  value={shippingAddress.city}
                   type="text"
                   placeholder="City"
                   className={` border-2 rounded-md w-full py-3 text-xl pl-6 text-gray-800 focus:outline-none placeholder-gray-400 transition duration-300   ${
@@ -163,6 +182,7 @@ export default function shipping() {
               )}
               <div className="my-3">
                 <input
+                  value={shippingAddress.postalCode}
                   type="number"
                   placeholder="Postal Code"
                   className={` border-2 rounded-md w-full py-3 text-xl pl-6 text-gray-800 focus:outline-none placeholder-gray-400 transition duration-300   ${
@@ -181,6 +201,7 @@ export default function shipping() {
               <div className="my-3">
                 <input
                   type="number"
+                  value={shippingAddress.phoneNumber}
                   placeholder="Phone Number"
                   className={` border-2 rounded-md w-full py-3 text-xl pl-6  text-gray-800 focus:outline-none placeholder-gray-400 transition duration-300   ${
                     errors.phoneNumber

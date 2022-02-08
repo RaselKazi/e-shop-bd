@@ -4,6 +4,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import { cardHoverItem } from '../../data/ProductCardData'
 import { Store } from '../Store'
 import 'react-toastify/dist/ReactToastify.css'
+import { useRouter } from 'next/router'
 type HoverCardItemProps = {
   productId?: String
 }
@@ -11,6 +12,8 @@ export default function HoverCardItem({ productId }) {
   const [hoverEffect, setHoverEffect] = useState('')
 
   const { state, dispatch } = useContext(Store)
+  const router = useRouter()
+
   const AddToCart = async (product: { _id: String }) => {
     const existItem = state.cart.cartItems.find(
       (x: { _id: String }) => x._id === product._id
@@ -18,22 +21,34 @@ export default function HoverCardItem({ productId }) {
     const quantity = existItem ? existItem.quantity + 1 : 1
     const { data } = await axios.get(`/api/product/${product._id}`)
     if (data.countInStock < quantity) {
-      window.alert('Sorry. Product is out of stock')
+      toast.error('🛒 Sorry. Product is out of stock')
+
       return
     }
-    toast.success('Add to Cart a Product')
+
+    toast('🛒 Add to Cart a Product')
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } })
   }
 
   // const AddToWish = () => {
   //   console.log('hihihi')
   // }
-  // const AddToCompare = () => {
-  //   console.log('hihihi')
-  // }
-  // const QuickView = () => {
-  //   console.log('hihihi')
-  // }
+  const AddToCompare = async (product: { _id: String }) => {
+    const existItem = state.compareCartItems.find(
+      (x: { _id: String }) => x._id === product._id
+    )
+    if (existItem) {
+      toast('🛒 Product exist')
+    } else if (state.compareCartItems.length > 3) {
+      toast('🛒 Compare Cart is full')
+    } else {
+      toast('🛒 Add to CompareCart a Product')
+      dispatch({ type: 'COMPARE_CART_ADD_ITEM', payload: product })
+    }
+  }
+  const QuickView = (product: { _id: any }) => {
+    router.push(`/product/${product._id}`)
+  }
   return (
     <div>
       <div className=" group-hover:block hidden transition duration-300 delay-700">
@@ -94,6 +109,7 @@ export default function HoverCardItem({ productId }) {
           className={`group text-white hover:bg-yellow-500 transition duration-100 bg-black bg-opacity-60 text-xs font-medium p-2 my-2 rounded flex items-center  delay-700`}
           onMouseEnter={() => setHoverEffect('Add to Compare')}
           onMouseLeave={() => setHoverEffect('')}
+          onClick={() => AddToCompare(productId)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -119,6 +135,7 @@ export default function HoverCardItem({ productId }) {
           className={`group text-white hover:bg-yellow-500 transition duration-100 bg-black bg-opacity-60 text-xs font-medium p-2 my-2 rounded flex items-center  delay-700`}
           onMouseEnter={() => setHoverEffect('Quick view')}
           onMouseLeave={() => setHoverEffect('')}
+          onClick={() => QuickView(productId)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +161,7 @@ export default function HoverCardItem({ productId }) {
         </button>
       </div>
 
-      <ToastContainer theme="dark" limit={2} />
+      <ToastContainer limit={2} />
     </div>
   )
 }

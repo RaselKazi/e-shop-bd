@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import ReactPaginate from 'react-paginate'
 import Layout from '../../components/Layout/Layout'
 import Sidebar from '../../components/Layout/Sidebar/Sidebar'
 
@@ -6,8 +7,66 @@ import MidProductCard from '../../components/Product/MidProductCard'
 import ProductCard from '../../components/Product/ProductCard'
 import dbConnect, { convertDocToObj } from '../../utils/dbConnect'
 import Product from '../../models/productModel'
-function products({ allProducts }) {
-  const [tabe, setTabe] = useState('tabe')
+import { Store } from '../../utils/Store'
+import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
+
+const PAGE_SIZE = 9
+
+function products(props) {
+  const [tabs, setTabs] = useState('tabe')
+
+  const { state, dispatch } = useContext(Store)
+  const router = useRouter()
+
+  const {
+    query = 'all',
+    category = 'all',
+    brand = 'all',
+    price = 'all',
+    rating = 'all',
+    sort = 'featured',
+  } = router.query
+  const { products, countProducts, categories, brands, pages } = props
+
+  const filterSearch = ({
+    page,
+    searchQuery,
+    category,
+    // brand,
+    min,
+    max,
+    price,
+    // rating,
+    sort,
+  }) => {
+    const path = router.pathname
+    const { query } = router
+    if (page) query.page = page
+    if (searchQuery) query.searchQuery = searchQuery
+    if (sort) query.sort = sort
+    if (category) query.category = category
+    // if (brand) query.brand = brand
+    if (price) query.price = price
+    // if (rating) query.rating = rating
+    // if (min) query.min ? query.min : query.min === 0 ? 0 : min
+    // if (max) query.max ? query.max : query.max === 0 ? 0 : max
+
+    router.push({
+      pathname: path,
+      query: query,
+    })
+  }
+
+  const sortHandler = (e) => {
+    filterSearch({ sort: e.target.value })
+  }
+
+  const handlePage = (data) => {
+    const page = data.selected + 1
+    filterSearch({ page })
+  }
+
   return (
     <Layout>
       <main>
@@ -26,14 +85,14 @@ function products({ allProducts }) {
 
                     <button
                       className=" inline-block p-1 px-3 text-white bg-gray-600 hover:bg-yellow-500 rounded-sm font-medium duration-300 focus:outline-none"
-                      onClick={() => setTabe('tabe2')}
+                      onClick={() => setTabs('tabs2')}
                     >
                       2
                     </button>
 
                     <button
                       className="p-1 px-3 text-white bg-gray-600 hover:bg-yellow-500 rounded-sm font-medium duration-300 focus:outline-none hidden lg:block"
-                      onClick={() => setTabe('tabe')}
+                      onClick={() => setTabs('tabs')}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +112,7 @@ function products({ allProducts }) {
 
                     <button
                       className=" inline-block p-1 px-3 text-white bg-gray-600 hover:bg-yellow-500 rounded-sm font-medium duration-300 "
-                      onClick={() => setTabe('tabe1')}
+                      onClick={() => setTabs('tabs1')}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -77,21 +136,24 @@ function products({ allProducts }) {
                       <p>SORT BY: </p>
                     </div>
 
-                    <select className=" focus:outline-none border focus:border-gray-500 p-1 px-2">
+                    <select
+                      className=" focus:outline-none border focus:border-gray-500 p-1 px-2"
+                      onChange={sortHandler}
+                    >
                       <option value="featured">Featured Items</option>
                       <option value="newest">Newest Items</option>
-                      <option value="bestselling">Best Selling</option>
+
                       <option value="alphaasc">A to Z</option>
                       <option value="alphadesc">Z to A</option>
-                      <option value="avgcustomerreview">By Review</option>
-                      <option value="priceasc">Price: Ascending</option>
-                      <option value="pricedesc">Price: Descending</option>
+                      <option value="toprated">By Review</option>
+                      <option value="lowest">Price: Low to High</option>
+                      <option value="highest">Price: High to Low</option>
                     </select>
                   </div>
                 </div>
-                {tabe === 'tabe1' ? (
+                {tabs === 'tabs1' ? (
                   <div className="grid gap-10 py-10 ">
-                    {allProducts.map((pro: any) => (
+                    {products.map((pro: any) => (
                       <MidProductCard productData={pro} />
                     ))}
                   </div>
@@ -99,12 +161,12 @@ function products({ allProducts }) {
                   <div
                     className={`
                     grid gap-10 py-10 ${
-                      tabe === 'tabe2'
+                      tabs === 'tabs2'
                         ? 'sm:grid-cols-2 grid-cols-1'
                         : 'lg:grid-cols-3 sm:grid-cols-2 grid-cols-1'
                     } `}
                   >
-                    {allProducts.map((pro: any) => (
+                    {products.map((pro: any) => (
                       <ProductCard productData={pro} />
                     ))}
                   </div>
@@ -112,31 +174,23 @@ function products({ allProducts }) {
               </div>
 
               {/* <!----Pagination----> */}
+
               <div className=" inline-flex items-center space-x-1 my-4">
-                <button className="p-3 focus:outline-none py-1 bg-gray-100 border rounded font-medium bg-yellow-500 text-white duration-300">
-                  1
-                </button>
-                <button className="p-3 focus:outline-none py-1 bg-gray-100 border rounded font-medium hover:bg-yellow-500 hover:text-white duration-300">
-                  2
-                </button>
-                <button className="p-3 focus:outline-none py-1 bg-gray-100 border rounded font-medium hover:bg-yellow-500 hover:text-white duration-300">
-                  3
-                </button>
-                <button className="p-3 focus:outline-none py-1 bg-gray-100 border rounded font-medium hover:bg-yellow-500 hover:text-white duration-300 flex items-center">
-                  <span>Next</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 ml-1"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </button>
+                <ReactPaginate
+                  previousLabel={'< previous'}
+                  nextLabel={'next >'}
+                  breakLabel={'...'}
+                  pageCount={pages}
+                  marginPagesDisplayed={2}
+                  pageRangeDisplayed={3}
+                  onPageChange={handlePage}
+                  containerClassName={'inline-flex items-center space-x-1 my-4'}
+                  pageLinkClassName={'page-link'}
+                  previousLinkClassName={'page-link'}
+                  nextLinkClassName={'page-link'}
+                  breakLinkClassName={'page-link'}
+                  activeLinkClassName={'active-page'}
+                />
               </div>
             </div>
           </div>
@@ -145,17 +199,103 @@ function products({ allProducts }) {
     </Layout>
   )
 }
+export default dynamic(() => Promise.resolve(products), { ssr: false })
 
-export default products
-
-export async function getServerSideProps() {
+export async function getServerSideProps({ query }) {
   await dbConnect()
 
-  const allProducts = await Product.find({}).lean().limit(20)
+  const pageSize = query.pageSize || PAGE_SIZE
+  const page = query.page || 1
+  const category = query.category || ''
+  const brand = query.brand || ''
+  const price = query.price || ''
+  const rating = query.rating || ''
+  const sort = query.sort || ''
+  const searchQuery = query.query || ''
 
+  const queryFilter =
+    searchQuery && searchQuery !== 'all'
+      ? {
+          name: {
+            $regex: searchQuery,
+            $options: 'i',
+          },
+        }
+      : {}
+  const categoryFilter = category && category !== 'all' ? { category } : {}
+  const brandFilter = brand && brand !== 'all' ? { brand } : {}
+  const ratingFilter =
+    rating && rating !== 'all'
+      ? {
+          rating: {
+            $gte: Number(rating),
+          },
+        }
+      : {}
+  // 10-50
+  const priceFilter =
+    price && price !== '-'
+      ? {
+          price: {
+            $gte: Number(price.split('-')[0]),
+            $lte: Number(price.split('-')[1]),
+          },
+        }
+      : {}
+
+  const order =
+    sort === 'featured'
+      ? { isFeatured: -1 }
+      : sort === 'lowest'
+      ? { price: 1 }
+      : sort === 'highest'
+      ? { price: -1 }
+      : sort === 'alphaasc'
+      ? { name: 1 }
+      : sort === 'alphadesc'
+      ? { name: -1 }
+      : sort === 'toprated'
+      ? { rating: -1 }
+      : sort === 'newest'
+      ? { createdAt: -1 }
+      : sort === 'Bestselling'
+      ? { price: -1 }
+      : { _id: -1 }
+
+  const categories = await Product.find().distinct('category')
+  const brands = await Product.find().distinct('brand')
+  const productDocs = await Product.find(
+    {
+      ...queryFilter,
+      ...categoryFilter,
+      ...priceFilter,
+      ...brandFilter,
+      ...ratingFilter,
+    },
+    '-reviews'
+  )
+    .sort(order)
+    .skip(pageSize * (page - 1))
+    .limit(pageSize)
+    .lean()
+
+  const countProducts = await Product.countDocuments({
+    ...queryFilter,
+    ...categoryFilter,
+    ...priceFilter,
+    ...brandFilter,
+    ...ratingFilter,
+  })
+
+  const products = productDocs.map(convertDocToObj)
   return {
     props: {
-      allProducts: allProducts.map(convertDocToObj),
+      products,
+      countProducts,
+      page,
+      pages: Math.ceil(countProducts / pageSize),
+      categories,
+      brands,
     },
   }
 }

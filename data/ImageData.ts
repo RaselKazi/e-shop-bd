@@ -4,7 +4,7 @@ export const CategoriesImgList = [
   { title: 'Bags', img: '3original.webp' },
   { title: 'jewelrys', img: '6original.webp' },
   { title: 'Smart TVs', img: '5original.webp' },
-  { title: 'Cellphone', img: '4original.webp' },
+  { title: 'SmartPhones', img: '4original.webp' },
   { title: 'Sports', img: '1original.webp' },
 ]
 

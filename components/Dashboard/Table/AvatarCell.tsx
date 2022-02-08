@@ -8,10 +8,10 @@ type avatar = {
 
 export function AvatarCell({ value, column, row }: avatar) {
   return (
-    <div className="flex justify-between items-center">
-      <div className=" h-full w-full -space-x-5 inline-block">
-        {row.original[column.imgAccessor].map((img) => {
-          return (
+    <div className=" pl-4 flex justify-start items-center">
+      {row.original[column.imgAccessor].map((img) => {
+        return (
+          <div className="rounded-full  -mx-2  border-4 border-gray-400 flex z-10">
             <Image
               className="rounded-full hover:opacity-80"
               alt="h"
@@ -20,11 +20,12 @@ export function AvatarCell({ value, column, row }: avatar) {
               width={40}
               height={40}
             />
-          )
-        })}
-      </div>
+          </div>
+        )
+      })}
+
       <div className="ml-4">
-        <div className="text-sm font-medium text-gray-100">{value}</div>
+        {/* <div className="text-sm font-medium text-gray-100">{value}</div> */}
         {/* <div className="text-sm text-gray-400">
           {row.original[column.imgAccessor]}
         </div> */}

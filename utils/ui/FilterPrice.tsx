@@ -1,9 +1,18 @@
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 type PriceProps = {
   name: String
 }
 export default function FilterPrice({ name }: PriceProps) {
   const [open, setOpen] = useState(false)
+  const [minPrice, setMinPrice] = useState('')
+  const [maxPrice, setMaxPrice] = useState('')
+  const router = useRouter()
+  const handelSubmit = (e) => {
+    e.preventDefault()
+
+    router.push(`/product?price=${minPrice}-${maxPrice}`)
+  }
   return (
     <div className=" mt-6">
       <button className=" flex justify-between w-full">
@@ -51,18 +60,21 @@ export default function FilterPrice({ name }: PriceProps) {
           <input
             type="number"
             placeholder="Min."
-            value=""
+            value={minPrice}
             className="p-2 text-gray-600 border border-gray-300 rounded focus:outline-none"
+            onChange={(e) => setMinPrice(e.target.value)}
           />
           <input
             type="number"
             placeholder="Max."
-            value=""
+            value={maxPrice}
             className="p-2 text-gray-600 border border-gray-300 rounded focus:outline-none"
+            onChange={(e) => setMaxPrice(e.target.value)}
           />
           <button
             type="submit"
             className="bg-white cursor-pointer p-2 text-gray-600 border border-gray-300 rounded focus:outline-none"
+            onClick={handelSubmit}
           >
             Update
           </button>

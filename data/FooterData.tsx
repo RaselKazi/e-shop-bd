@@ -88,29 +88,35 @@ export const footerMenu = [
 export const footerMenuItem = [
   {
     title: 'OUR SHOPS',
+
     items: [
       { name: 'Product Support', link: '' },
-      { name: 'Product Support', link: '' },
-      { name: 'Product Support', link: '' },
-      { name: 'Product Support', link: '' },
+      { name: 'PCs Setup', link: '' },
+      { name: 'Services', link: '' },
+      { name: 'Conditions', link: '' },
+      { name: 'Privacy Policy', link: '' },
+      { name: 'Return Exchange', link: '' },
     ],
   },
   {
     title: 'INFORMATION',
+
     items: [
-      { name: 'Product Support', link: '' },
-      { name: 'Product Support', link: '' },
-      { name: 'Product Support', link: '' },
-      { name: 'Product Support', link: '' },
+      { name: 'Features', link: '' },
+      { name: 'Shop', link: '' },
+      { name: 'Blog', link: '' },
+      { name: 'Contact Us', link: '' },
     ],
   },
   {
     title: 'ALL CATEGORIES',
     items: [
-      { name: 'Product Support', link: '' },
-      { name: 'Product Support', link: '' },
-      { name: 'Product Support', link: '' },
-      { name: 'Product Support', link: '' },
+      { name: 'Accessories', link: '' },
+      { name: 'Computer', link: '' },
+      { name: 'Maternity', link: '' },
+      { name: 'Smartphone', link: '' },
+      { name: 'Jewelry & Watches', link: '' },
+      { name: 'View All', link: '' },
     ],
   },
   {

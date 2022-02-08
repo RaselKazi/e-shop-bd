@@ -33,7 +33,7 @@ export default function DesktopFooterItem() {
                 {menuItem.items.map((item) => {
                   return (
                     <li className=" text-gray-600 mb-2">
-                      <a href="contact-us.html">
+                      <a>
                         <span className=" inline-block">
                           <svg
                             className="svg-inline--fa fa-dot-circle fa-w-16 w-2 h-2"

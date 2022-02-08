@@ -1,19 +1,19 @@
 import ActionButton from '../components/Dashboard/Table/ActionButton'
 import { AvatarCell } from '../components/Dashboard/Table/AvatarCell'
 
-export const COLUMNS = [
+export const PRODUCTCOLUMNS = [
   {
     Header: 'Product Images',
-    accessor: 'name',
     Cell: AvatarCell,
     imgAccessor: 'images',
     emailAccessor: 'email',
   },
 
   {
-    Header: 'Description',
-    accessor: 'description',
+    Header: 'Product Name',
+    accessor: 'name',
   },
+
   {
     Header: 'Category',
     accessor: 'category',
@@ -33,117 +33,58 @@ export const COLUMNS = [
   },
 ]
 
-export const MOCK_DATA = [
+export const ORDERSCOLUMNS = [
   {
-    firstName: 'horn-od926',
-    lastName: 'selection-gsykp',
-    age: 22,
-    visits: 20,
-    progress: 39,
-    status: 'single',
+    Header: 'Name',
+    accessor: 'shippingAddress.fullName',
   },
   {
-    firstName: 'heart-nff6w',
-    lastName: 'information-nyp92',
-    age: 16,
-    visits: 98,
-    progress: 40,
-    status: 'complicated',
+    Header: 'Address',
+    accessor: 'shippingAddress.address',
   },
   {
-    firstName: 'minute-yri12',
-    lastName: 'fairies-iutct',
-    age: 7,
-    visits: 77,
-    progress: 39,
-    status: 'single',
+    Header: 'Price',
+    accessor: 'itemsPrice',
   },
   {
-    firstName: 'degree-jx4h0',
-    lastName: 'man-u2y40',
-    age: 27,
-    visits: 54,
-    progress: 92,
-    status: 'relationship',
+    Header: 'Payment',
+    accessor: 'paymentMethod',
   },
   {
-    firstName: 'degree-jx4h0',
-    lastName: 'man-u2y40',
-    age: 27,
-    visits: 54,
-    progress: 92,
-    status: 'relationship',
+    Header: 'Total',
+    accessor: 'totalPrice',
   },
   {
-    firstName: 'degree-jx4h0',
-    lastName: 'man-u2y40',
-    age: 27,
-    visits: 54,
-    progress: 92,
-    status: 'relationship',
+    Header: 'Paid',
+    accessor: 'isPaid',
   },
   {
-    firstName: 'degree-jx4h0',
-    lastName: 'man-u2y40',
-    age: 27,
-    visits: 54,
-    progress: 92,
-    status: 'relationship',
+    Header: 'Delivered',
+    accessor: 'isDelivered',
   },
   {
-    firstName: 'degree-jx4h0',
-    lastName: 'man-u2y40',
-    age: 27,
-    visits: 54,
-    progress: 92,
-    status: 'relationship',
+    Header: 'action',
+    accessor: '_id',
+    Cell: ActionButton,
+  },
+]
+
+export const USERSCOLUMNS = [
+  {
+    Header: 'Name',
+    accessor: 'name',
   },
   {
-    firstName: 'degree-jx4h0',
-    lastName: 'man-u2y40',
-    age: 27,
-    visits: 54,
-    progress: 92,
-    status: 'relationship',
+    Header: 'Email',
+    accessor: 'email',
   },
   {
-    firstName: 'degree-jx4h0',
-    lastName: 'man-u2y40',
-    age: 27,
-    visits: 54,
-    progress: 92,
-    status: 'relationship',
+    Header: 'Role',
+    accessor: 'role',
   },
   {
-    firstName: 'degree-jx4h0',
-    lastName: 'man-u2y40',
-    age: 27,
-    visits: 54,
-    progress: 92,
-    status: 'relationship',
-  },
-  {
-    firstName: 'degree-jx4h0',
-    lastName: 'man-u2y40',
-    age: 27,
-    visits: 54,
-    progress: 92,
-    status: 'relationship',
-  },
-  {
-    firstName: 'degree-jx4h0',
-    lastName: 'man-u2y40',
-    age: 27,
-    visits: 54,
-    progress: 92,
-    status: 'relationship',
-  },
-  {
-    firstName: 'degree-jx4h0',
-    lastName: 'man-u2y40',
-    age: 27,
-    visits: 54,
-    progress: 92,
-    status: 'relationship',
+    Header: 'action',
+    accessor: '_id',
+    Cell: ActionButton,
   },
 ]

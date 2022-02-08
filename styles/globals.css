@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .page-link {
+    @apply px-4 rounded-md  py-2 bg-gray-100  hover:text-white hover:bg-yellow-500 transition font-semibold duration-300 text-lg text-gray-900;
+  }
+  .active-page {
+    @apply bg-yellow-500 hover:bg-yellow-600 text-white;
+  }
+}
+
 input[type='number'] {
   -webkit-appearance: none;
   appearance: none;

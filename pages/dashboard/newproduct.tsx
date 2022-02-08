@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useForm, SubmitHandler } from 'react-hook-form'
@@ -8,15 +8,19 @@ import DashboardLayout from '../../components/Layout/DashboardLayout'
 
 import {
   categoriesOptionList,
+  brandsList,
   SizeList,
   ColorList,
 } from '../../data/CategoriesData'
 import 'react-toastify/dist/ReactToastify.css'
 import Select from 'react-select'
+import { Store } from '../../utils/Store'
+import useCheckAdminAndRedirect from '../../hook/useCheckAdminAndRedirect'
 type FormValues = {
   name: string
   description: string
   category: string
+  brand: string
   size: string
   colors: string[]
   price: Number
@@ -24,10 +28,13 @@ type FormValues = {
 }
 
 function newproduct() {
+  useCheckAdminAndRedirect()
   const [images, setImages] = useState([])
   const [imagesPreview, setImagesPreview] = useState([])
   const router = useRouter()
 
+  const { state, dispatch } = useContext(Store)
+  const { userInfo } = state
   const createProductImagesChange = (e: {
     target: { files: Iterable<unknown> | ArrayLike<unknown> }
   }) => {
@@ -58,6 +65,7 @@ function newproduct() {
     name,
     description,
     category,
+    brand,
     price,
     stock,
     size,
@@ -69,16 +77,21 @@ function newproduct() {
       myForm.set('price', price)
       myForm.set('description', description)
       myForm.set('category', category)
+      myForm.set('brand', brand)
       myForm.set('stock', stock)
       myForm.set('size', size)
 
       images.forEach((image) => {
         myForm.append('images', image)
       })
+      toast.success('product submit')
       await axios.post('/api/admin/products', myForm, {
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${userInfo.token}`,
+        },
       })
-      toast.success('Wow hi')
+      toast.success('product add successfully')
     } catch (err) {
       toast.error(`${err}`)
     }
@@ -172,6 +185,32 @@ function newproduct() {
                     {...register('category')}
                   >
                     {categoriesOptionList.map((List) => (
+                      <option
+                        className=" text-slate-400"
+                        value={List.split(' ').join('')}
+                      >
+                        {List}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className=" grid sm:grid-cols-2 gap-6 mb-5">
+                <div>
+                  <label className=" text-gray-200 text-sm font-bold ">
+                    Brand
+                  </label>
+                  <select
+                    className={`  py-2 border-2 
+                    focus:text-sky-500 placeholder-gray-500 focus:border-sky-400 focus:ring-sky-400 transition duration-300 text-gray-200 p-4 shadow rounded h-10 w-full bg-gray-800  focus:bg-gray-800 focus:outline-none ${
+                      errors.brand
+                        ? 'border-red-800 focus:border-red-800'
+                        : 'border-sky-800 focus:border-sky-400 '
+                    }`}
+                    {...register('brand')}
+                  >
+                    {brandsList.map((List) => (
                       <option className=" text-slate-400" value={List}>
                         {List}
                       </option>

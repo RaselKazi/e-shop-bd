@@ -32,7 +32,7 @@ export const CategoriesMenuItem = [
     ),
   },
   {
-    title: 'Smartphone',
+    title: 'SmartPhones',
     icon: (
       <svg
         className="svg-inline--fa fa-desktop fa-w-18 w-4 h-4 mb-1 inline-block mr-1"
@@ -44,6 +44,31 @@ export const CategoriesMenuItem = [
           fill="currentColor"
           d="M272 0H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h224c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48zM160 480c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm112-108c0 6.6-5.4 12-12 12H60c-6.6 0-12-5.4-12-12V60c0-6.6 5.4-12 12-12h200c6.6 0 12 5.4 12 12v312z"
         ></path>
+      </svg>
+    ),
+  },
+  {
+    title: 'Camera',
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="svg-inline--fa fa-desktop fa-w-18 w-4 h-4 mb-1 inline-block mr-2"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+        />
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+        />
       </svg>
     ),
   },
@@ -64,7 +89,7 @@ export const CategoriesMenuItem = [
     ),
   },
   {
-    title: 'Gifts, Sport, Toys',
+    title: 'Gifts Sport Toys',
     icon: (
       <svg
         className="svg-inline--fa fa-desktop fa-w-18 w-4 h-4 mb-1 inline-block mr-2"
@@ -214,13 +239,33 @@ export const TagList = [
 ]
 
 export const categoriesOptionList = [
-  'Laptop',
-  'Footwear',
-  'Bottom',
-  'Tops',
-  'Attire',
-  'Camera',
+  'Accessories',
+  'Computer',
   'SmartPhones',
+  'Camera',
+  'Sport Clothing',
+  'Gifts Sport Toys',
+  'Home Furniture',
+  'Kitchen',
+]
+export const brandsList = [
+  'Apple',
+  'Samsung',
+  'Huawei',
+  'OPPO',
+  'Realme',
+  'Vivo',
+  'Apple',
+  'HP',
+  'Dell',
+  'Acer',
+  'Asus',
+  'NIKE',
+  'Hermes',
+  'Gucci',
+  'Zara',
+  'Philippe',
+  'Rolex',
 ]
 export const ColorList = [
   { value: 'red', label: 'red' },

@@ -3,20 +3,28 @@ import { footerMenuItem } from '../../../data/FooterData'
 import ContactDetails from './contactDetails'
 
 export default function MobileAccordionTab() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState('')
+
+  const handleClick = (item) => {
+    if (open === '') {
+      setOpen(item)
+    } else {
+      setOpen('')
+    }
+  }
   return (
     <div className="w-11/12">
       <div className="mb-3">
         <button
           className="bg-gray-200 bg-opacity-90 p-2 px-4 rounded border  focus:outline-none flex items-center justify-between w-full font-bold text-sm"
           onClick={() => {
-            setOpen(!open)
+            handleClick('CONTACT')
           }}
         >
           <span>CONTACT</span>
           <span
             className={`transform duration-500 p-1 bg-gray-400 rounded-full text-white ${
-              open && '-rotate-180'
+              open === 'CONTACT' && '-rotate-180'
             }`}
           >
             <svg
@@ -37,7 +45,7 @@ export default function MobileAccordionTab() {
         </button>
         <div
           className={`relative overflow-hidden transition-all  duration-300 max-h-full ${
-            open ? ' block' : 'hidden'
+            open === 'CONTACT' ? ' block' : 'hidden'
           }`}
         >
           <ul className=" p-5 pb-0">
@@ -49,9 +57,18 @@ export default function MobileAccordionTab() {
       {footerMenuItem.map((menuItem) => {
         return (
           <div className="mb-3">
-            <button className="bg-gray-200 bg-opacity-90 p-2 px-4 rounded border  focus:outline-none flex items-center justify-between w-full font-bold text-sm">
-              <span>OUR SHOPS</span>
-              <span className="transform duration-500 p-1 bg-gray-400 rounded-full text-white">
+            <button
+              className="bg-gray-200 bg-opacity-90 p-2 px-4 rounded border  focus:outline-none flex items-center justify-between w-full font-bold text-sm"
+              onClick={() => {
+                handleClick(menuItem.title)
+              }}
+            >
+              <span>{menuItem.title}</span>
+              <span
+                className={`transform duration-500 p-1 bg-gray-400 rounded-full text-white ${
+                  open === `${menuItem.title}` && '-rotate-180'
+                }`}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-4 w-4"
@@ -69,12 +86,16 @@ export default function MobileAccordionTab() {
               </span>
             </button>
 
-            <div className="relative overflow-hidden transition-all max-h-0 duration-700">
+            <div
+              className={`relative overflow-hidden transition-all  duration-500 max-h-full ${
+                open === `${menuItem.title}` ? ' block' : 'hidden'
+              }`}
+            >
               <ul className="p-5 pb-0">
                 {menuItem.items.map((item) => {
                   return (
                     <li className=" text-gray-600 mb-2">
-                      <a href="contact-us.html">
+                      <a href="">
                         <span className=" inline-block">
                           <svg
                             className="svg-inline--fa fa-dot-circle fa-w-16 w-2 h-2"
@@ -88,7 +109,7 @@ export default function MobileAccordionTab() {
                             ></path>
                           </svg>
                         </span>
-                        <span className=" ml-2">Product Support</span>
+                        <span className=" ml-2">{item.name}</span>
                       </a>
                     </li>
                   )

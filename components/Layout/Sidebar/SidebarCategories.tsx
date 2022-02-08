@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { CategoriesMenuItem } from '../../../data/CategoriesData'
+import { Store } from '../../../utils/Store'
+import Link from 'next/link'
 export default function SidebarCategories() {
   const [open, setOpen] = useState(false)
+
   return (
     <ul className=" border rounded divide-y">
       <li className="  p-3 flex items-center bg-gray-200 bg-opacity-80 rounded">
@@ -25,14 +28,22 @@ export default function SidebarCategories() {
       </li>
 
       {CategoriesMenuItem.map((item) => (
-        <li className="p-4 hover:bg-gray-100">
-          <a className="w-full  flex items-center justify-between text-gray-500 text-sm hover:text-yellow-500">
-            <span>
-              {item.icon}
-              {item.title}
-            </span>
-          </a>
-        </li>
+        <Link
+          key={item.title}
+          href={`/product?category=${item.title.split(' ').join('')}`}
+        >
+          <li
+            className="p-4 hover:bg-gray-100 cursor-pointer"
+            // onClick={() => categoryHandler(item.title)}
+          >
+            <a className="w-full  flex items-center justify-between text-gray-500 text-sm hover:text-yellow-500">
+              <span>
+                {item.icon}
+                {item.title}
+              </span>
+            </a>
+          </li>
+        </Link>
       ))}
 
       {/* <!-------more catagory----------> */}

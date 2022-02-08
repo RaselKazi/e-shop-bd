@@ -19,9 +19,11 @@ async function dbConnect() {
 
 export default dbConnect
 
+/* convert Doc to object */
 export function convertDocToObj(doc) {
   doc._id = doc._id.toString()
   doc.createdAt = doc.createdAt.toString()
+  doc.discountTargetDate = doc.discountTargetDate.toString()
   doc.images.map((img) => (img._id = img._id.toString()))
   doc.updatedAt = doc.updatedAt.toString()
   return doc

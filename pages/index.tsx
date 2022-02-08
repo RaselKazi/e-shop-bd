@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react'
+import { ReactElement, useContext, useState } from 'react'
 import type { NextPage } from 'next'
 import Layout from '../components/Layout/Layout'
 import BlogSection from '../components/Home/BlogSection'
@@ -9,7 +9,7 @@ import CategoriesImgTab from '../components/Home/CategoriesImgTab'
 
 import MidProductCard from '../components/Product/MidProductCard'
 import CategoriesCard from '../components/Home/CategoriesCard'
-import Tag from '../components/Tag'
+import Tag from '../components/Layout/Sidebar/Tag'
 import MinProductCard from '../components/Product/MinProductCard'
 import BannerCarousel from '../components/Home/BannerCarousel'
 
@@ -17,7 +17,24 @@ import SidebarCategories from '../components/Layout/Sidebar/SidebarCategories'
 import dbConnect, { convertDocToObj } from '../utils/dbConnect'
 import Product from '../models/productModel'
 import ProductCard from '../components/Product/ProductCard'
-const Home: NextPage = ({ allProducts }) => {
+import HeadLineText from '../utils/ui/HeadLineText'
+import { Store } from '../utils/Store'
+import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
+const Home: NextPage = (props) => {
+  const { state, dispatch } = useContext(Store)
+  const [productTab, setProductTab] = useState('')
+  const router = useRouter()
+
+  const {
+    allProducts,
+    topProducts,
+    productCategory,
+    FeaturedProducts,
+    NewArrivalsProducts,
+    BestsellingProducts,
+  } = props
+
   return (
     <Layout>
       <section className="xl:px-24 sm:px-10 px-4 pt-10">
@@ -44,35 +61,25 @@ const Home: NextPage = ({ allProducts }) => {
             <Tag></Tag>
           </div>
 
-          <div x-data="{ tab:'tab1'}" className=" lg:col-span-3">
+          <div className=" lg:col-span-3">
             <div className=" sm:flex items-center justify-between">
-              <a
-                href="shop.html"
-                className=" font-bold border-b-2 border-yellow-500 inline-block pb-1 sm:ml-0 ml-4"
-              >
+              <a className=" font-bold border-b-2 border-yellow-500 inline-block pb-1 sm:ml-0 ml-4">
                 FASHION
               </a>
               <div className="pt-2 sm:pt-0">
-                <ul className=" text-center sm:space-x-4">
-                  <li className="group inline-block sm:m-0 m-1">
-                    <a
-                      className=" hover:text-yellow-500 text-gray-500 border-b-2 border-yellow-500"
-                      href="shop.html"
-                    >
-                      Bestselling
-                    </a>
-                    <div className="  bg-yellow-500 duration-300 h-0.5 hover:w-full w-0 mx-auto -mb-0.5 mt-1 flex justify-center"></div>
-                  </li>
+                <ul className="flex text-center sm:space-x-4">
+                  <HeadLineText
+                    productTab={productTab}
+                    setProductTab={setProductTab}
+                  />
                 </ul>
               </div>
             </div>
             <div className=" border border-gray-200 rounded sm:p-5 p-2">
-              <div className="owl-carousel owl-carousel-02">
-                <div className=" grid grid-cols-2 sm:gap-6 gap-2 divide-y">
-                  {allProducts.map((pro: any) => (
-                    <MinProductCard productData={pro} />
-                  ))}
-                </div>
+              <div className=" grid grid-cols-2 sm:gap-6 gap-2 divide-y">
+                {topProducts.map((pro: any) => (
+                  <MinProductCard productData={pro} />
+                ))}
               </div>
             </div>
           </div>
@@ -106,7 +113,7 @@ const Home: NextPage = ({ allProducts }) => {
       <section className="xl:px-24 sm:px-10 px-4 pt-10 overflow-hidden">
         <CategoriesImgTab></CategoriesImgTab>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 lg:grid-cols-4 pt-6">
-          {allProducts.map((pro: any) => (
+          {productCategory.map((pro: any) => (
             <ProductCard productData={pro} />
           ))}
         </div>
@@ -114,19 +121,28 @@ const Home: NextPage = ({ allProducts }) => {
         <ImgBanner imgLink="bn4.webp"></ImgBanner>
       </section>
       <section className="xl:px-24 sm:px-10 px-4 pt-10 overflow-hidden">
-        <div>
-          {/* -Hero text- */}
-          <div>
-            <a className=" font-bold border-b-2 border-yellow-500 inline-block pb-1">
+        <div className=" border-gray-100 grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3  md:grid-cols-2">
+          {/* carousel */}
+          <div className=" ">
+            <a className=" font-bold border-b-2 border-yellow-500 inline-block pb-1 ml-3">
               BEST SELLERS
             </a>
-          </div>
 
-          {/* carousel */}
-          <div className=" py-7 border-t-2 border-gray-100 grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3  md:grid-cols-2">
-            <NewProductSection productData={allProducts} />
-            <NewProductSection productData={allProducts} />
-            <NewProductSection productData={allProducts} />
+            <NewProductSection productData={BestsellingProducts} />
+          </div>
+          <div className=" ">
+            <a className=" font-bold border-b-2 border-yellow-500 inline-block pb-1 ml-3">
+              FEATURED PRODUCTS
+            </a>
+
+            <NewProductSection productData={FeaturedProducts} />
+          </div>
+          <div className=" ">
+            <a className=" font-bold border-b-2 border-yellow-500 inline-block pb-1 ml-3">
+              NEWS PRODUCTS
+            </a>
+
+            <NewProductSection productData={NewArrivalsProducts} />
           </div>
         </div>
 
@@ -137,17 +153,56 @@ const Home: NextPage = ({ allProducts }) => {
     </Layout>
   )
 }
+export default dynamic(() => Promise.resolve(Home), { ssr: false })
 
-export default Home
-
-export async function getServerSideProps() {
+export async function getServerSideProps({ query }) {
   await dbConnect()
 
-  const allProducts = await Product.find({}).lean().limit(20)
+  const category = query.category || ''
+  const sort = query.sort || ''
+
+  const categoryFilter = category && category !== 'all' ? { category } : {}
+  const order =
+    sort === 'Featured'
+      ? { isFeatured: -1 }
+      : sort === 'Bestselling'
+      ? { price: -1 }
+      : sort === 'TopReviewed'
+      ? { rating: -1 }
+      : sort === 'NewArrivals'
+      ? { createdAt: -1 }
+      : { _id: -1 }
+
+  const allProducts = await Product.find({}).lean().limit(4)
+  // const categories = await Product.find().distinct('category')
+  const topProducts = await Product.find({}).sort(order).limit(4).lean()
+  const FeaturedProducts = await Product.find({})
+    .sort({ isFeatured: -1 })
+    .limit(8)
+    .lean()
+  const NewArrivalsProducts = await Product.find({})
+    .sort({ createdAt: -1 })
+    .limit(8)
+    .lean()
+  const BestsellingProducts = await Product.find({})
+    .sort({ price: -1 })
+    .limit(8)
+    .lean()
+
+  const productCategory = await Product.find({
+    ...categoryFilter,
+  })
+    .limit(4)
+    .lean()
 
   return {
     props: {
       allProducts: allProducts.map(convertDocToObj),
+      topProducts: topProducts.map(convertDocToObj),
+      FeaturedProducts: FeaturedProducts.map(convertDocToObj),
+      NewArrivalsProducts: NewArrivalsProducts.map(convertDocToObj),
+      BestsellingProducts: BestsellingProducts.map(convertDocToObj),
+      productCategory: productCategory.map(convertDocToObj),
     },
   }
 }

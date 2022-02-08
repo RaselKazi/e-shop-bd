@@ -1,37 +1,58 @@
 import Link from 'next/link'
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import InputField from '../utils/ui/InputField'
-import { Controller, useForm, SubmitHandler } from 'react-hook-form'
-
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { useRouter } from 'next/router'
+import { Store } from '../utils/Store'
+import Cookies from 'js-cookie'
+import { toast, ToastContainer } from 'react-toastify'
+import { getError } from '../utils/error'
+import 'react-toastify/dist/ReactToastify.css'
+import useGoTO from '../hook/useGoTO'
 type FormValues = {
-  name: string
+  email: string
+  password: string
 }
 
-function registration() {
-  const [toggleButton, setToggleButton] = useState(false)
+function login() {
+  const router = useRouter()
+  const { redirect } = router.query
+  const { state, dispatch } = useContext(Store)
+  const { userInfo } = state
 
+  useEffect(() => {
+    if (userInfo) {
+      router.push('/')
+    }
+  }, [])
+
+  const useGoTO = () => {
+    router.push('/register')
+  }
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>()
-  const onSubmit: SubmitHandler<FormValues> = async ({ name }) => {
+  const onSubmit: SubmitHandler<FormValues> = async ({ email, password }) => {
     try {
-      const myForm = new FormData()
+      const { data } = await axios.post('/api/users/login', {
+        email,
+        password,
+      })
+      toast.success('User login successfully')
+      dispatch({ type: 'USER_LOGIN', payload: data })
 
-      myForm.set('name', name)
-
-      // await axios.post('/api/admin/products', myForm, {
-      //   headers: { 'Content-Type': 'application/json' },
-      // })
-    } catch (err) {}
+      Cookies.set('userInfo', JSON.stringify(data))
+      router.push(redirect || '/')
+    } catch (err) {
+      toast.error(getError(err))
+    }
   }
   return (
     <section>
       <div
-        className="h-screen
+        className=" min-h-screen
             bg-gradient-to-tr
             to-pink-600
             from-sky-400
@@ -46,34 +67,10 @@ function registration() {
         <div className="xl:w-2/5 md:w-2/3 sm:w-full w-full bg-white p-5 rounded-xl shadow-2xl transition duration-300">
           {/* ----text----- */}
           <div className="text-center">
-            <h1 className="text-3xl font-extrabold">
-              {toggleButton ? 'Registration' : 'Login'}
-            </h1>
+            <h1 className="text-3xl font-extrabold">Login</h1>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="p-10 space-y-4">
-            {/* ---name---- */}
-
-            {/* {toggleButton && (
-              <Controller
-                name="name"
-                control={control}
-                defaultValue=""
-                rules={{
-                  required: true,
-                }}
-                render={({ field }) => (
-                  <InputField
-                    id="name"
-                    label="Name"
-                    error={Boolean(errors.name)}
-                    helperText={errors.name ? 'Name is required' : ''}
-                    {...field}
-                  ></InputField>
-                )}
-              ></Controller>
-            )} */}
-
             {/* ---email--- */}
             <div>
               <h4 className="text-gray-500">
@@ -83,7 +80,7 @@ function registration() {
                 <span className="absolute top-3 left-0">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 mb-2 w-5 text-gray-400"
+                    className="h-6 mx-2 w-6 text-gray-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -96,37 +93,28 @@ function registration() {
                     ></path>
                   </svg>
                 </span>
-                <Controller
-                  name="name"
-                  control={control}
-                  defaultValue=""
-                  rules={{
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className={` border-2 rounded-md w-full py-2 text-lg pl-10 text-gray-800 focus:outline-none placeholder-gray-400 transition duration-300   ${
+                    errors.email
+                      ? 'border-red-800 focus:border-red-800'
+                      : 'border-gray-300 focus:border-sky-400 '
+                  }`}
+                  {...register('email', {
                     required: true,
-                  }}
-                  render={({ field }) => (
-                    <input
-                      className={`border-b-2 
-                      w-full
-                      py-2
-                      pl-6
-                      
-                      text-gray-400
-                      focus:outline-none
-                      placeholder-gray-400 ${
-                        Boolean(errors.name)
-                          ? 'border-red-600 focus:border-red-600'
-                          : 'border-gray-300 focus:border-blue-300'
-                      }`}
-                      type="text"
-                      placeholder="Type your email"
-                      id="name"
-                      label="Name"
-                      error={Boolean(errors.name)}
-                      helperText={errors.name ? 'Name is required' : ''}
-                      {...field}
-                    />
-                  )}
-                ></Controller>
+                    pattern: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                  })}
+                />
+                {errors.email && (
+                  <span className=" flex text-red-500 ">
+                    {errors.email
+                      ? errors.email.type === 'pattern'
+                        ? 'Email is not valid'
+                        : 'Email is required'
+                      : ''}
+                  </span>
+                )}
               </div>
             </div>
             {/* ---Password---- */}
@@ -138,7 +126,7 @@ function registration() {
                 <span className="absolute top-3 left-0">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 mb-2 w-5 text-gray-400"
+                    className="h-6 mx-2 w-6 text-gray-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -152,81 +140,32 @@ function registration() {
                   </svg>
                 </span>
                 <input
-                  className="
-                      border-b-2 border-gray-300
-                      w-full
-                      py-2
-                      pl-6
-                      focus:border-blue-300
-                      text-gray-400
-                      focus:outline-none
-                      placeholder-gray-400
-                    "
                   type="password"
-                  placeholder="Type your Password"
-                  required
+                  placeholder="type your Password"
+                  className={` border-2 rounded-md w-full py-2 text-lg pl-10 text-gray-800 focus:outline-none placeholder-gray-400 transition duration-300   ${
+                    errors.password
+                      ? 'border-red-800 focus:border-red-800'
+                      : 'border-gray-300 focus:border-sky-400 '
+                  }`}
+                  {...register('password', {
+                    required: true,
+                    minLength: 8,
+                  })}
                 />
+                {errors.password && (
+                  <span className=" flex text-red-500 ">
+                    {errors.password
+                      ? errors.password.type === 'minLength'
+                        ? 'Password length is more than 7'
+                        : 'Password is required'
+                      : ''}
+                  </span>
+                )}
               </div>
             </div>
-            {/* Confirm Password--- */}
-            {toggleButton && (
-              <div>
-                <h4 className="text-gray-500">
-                  Confirm Password <span className="text-red-500">*</span>
-                </h4>
-                <div className="relative">
-                  <span className="absolute top-3 left-0">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 mb-2 w-5 text-gray-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                      />
-                    </svg>
-                  </span>
-                  <input
-                    className="
-                      border-b-2 border-gray-300
-                      w-full
-                      py-2
-                      pl-6
-                      focus:border-blue-300
-                      text-gray-400
-                      focus:outline-none
-                      placeholder-gray-400
-                    "
-                    type="password"
-                    placeholder="Re-type your Password"
-                    required
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* ---Term and condition--- */}
-
-            {toggleButton ? (
-              <div className="flex items-center">
-                <input className="h-4 w-4 mr-2" type="checkbox" required />
-                <span className="text-gray-600">
-                  I agree all statements in
-                  <a className="underline" href="#">
-                    Terms of service
-                  </a>
-                </span>
-              </div>
-            ) : (
-              <div className="text-right text-gray-600">
-                <a href="#">Fotget password?</a>
-              </div>
-            )}
+            <div className="text-right text-gray-600">
+              <a href="">Fotget password?</a>
+            </div>
 
             {/* ---button--- */}
             <div className="flex space-x-4 pt-2">
@@ -247,7 +186,7 @@ function registration() {
                     text-white
                   "
               >
-                {toggleButton ? 'Registration' : 'Login'}
+                Login
               </button>
             </div>
           </form>
@@ -333,15 +272,8 @@ function registration() {
             </div>
 
             <div className="text-center mt-6">
-              <a
-                className="text-sky-400 flex items-center justify-center hover:text-sky-700 cursor-pointer transition duration-300"
-                onClick={() => setToggleButton(!toggleButton)}
-              >
-                <span>
-                  {toggleButton
-                    ? 'Already have a account'
-                    : 'Create New account'}
-                </span>
+              <a className="text-sky-400 flex items-center justify-center hover:text-sky-700 cursor-pointer transition duration-300">
+                <span onClick={useGoTO}>Create New account</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 ml-1"
@@ -361,8 +293,9 @@ function registration() {
           </div>
         </div>
       </div>
+      <ToastContainer limit={2} />
     </section>
   )
 }
 
-export default registration
+export default login

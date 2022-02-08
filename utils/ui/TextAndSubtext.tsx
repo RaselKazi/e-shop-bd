@@ -5,8 +5,8 @@ type TextAndSubtextProps = {
 }
 export default function TextAndSubtext({ Text, Subtext }: TextAndSubtextProps) {
   return (
-    <div className="px-3 my-4">
-      <div className=" text-xl font-bold text-gray-900 uppercase">
+    <div className="pl-4 my-2">
+      <div className=" text-lg font-bold text-gray-800 uppercase">
         {`${Text} : `}
         <span className=" capitalize text-lg font-medium text-gray-700 border-gray-800 border-dashed border-b-2">
           {Subtext}

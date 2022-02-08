@@ -10,7 +10,7 @@ import CartProductCard from '../Product/CartProductCard'
 
 function NewProductSection({ productData }) {
   return (
-    <div className=" relative">
+    <div className=" relative py-2 mx-3 border-t-2">
       <Swiper
         modules={[Pagination, Autoplay]}
         spaceBetween={50}
@@ -24,12 +24,12 @@ function NewProductSection({ productData }) {
         }}
       >
         <SwiperSlide>
-          {productData.map((pro: any) => (
+          {productData.slice(0, 4).map((pro: any) => (
             <CartProductCard CartData={pro} />
           ))}
         </SwiperSlide>
         <SwiperSlide>
-          {productData.map((pro: any) => (
+          {productData.slice(4, 8).map((pro: any) => (
             <CartProductCard CartData={pro} />
           ))}
         </SwiperSlide>

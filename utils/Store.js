@@ -3,15 +3,21 @@ import { createContext, useReducer } from 'react'
 
 export const Store = createContext()
 const initialState = {
+  filter: { categories: 'all', price: '', search: '' },
   product: [],
+  user: [],
+
+  compareCartItems: Cookies.get('compareCartItems')
+    ? JSON.parse(Cookies.get('compareCartItems'))
+    : [],
 
   cart: {
     cartItems: Cookies.get('cartItems')
       ? JSON.parse(Cookies.get('cartItems'))
       : [],
     shippingAddress: Cookies.get('shippingAddress')
-      ? Cookies.get('shippingAddress')
-      : new Object(),
+      ? JSON.parse(Cookies.get('shippingAddress'))
+      : {},
     paymentMethod: Cookies.get('paymentMethod')
       ? Cookies.get('paymentMethod')
       : '',
@@ -27,6 +33,12 @@ function reducer(state, action) {
       const newItem = action.payload
 
       return { ...state, product: newItem }
+    }
+
+    case 'ADD_USER': {
+      const newItem = action.payload
+
+      return { ...state, user: newItem }
     }
 
     case 'CART_ADD_ITEM': {
@@ -77,10 +89,44 @@ function reducer(state, action) {
         userInfo: null,
         cart: {
           cartItems: [],
-          shippingAddress: { location: {} },
+          shippingAddress: {},
           paymentMethod: '',
         },
       }
+    case 'SAVE_FILTER_CATEGORY':
+      return {
+        ...state,
+        filter: { ...state.filter, categories: action.payload },
+      }
+
+    case 'SAVE_FILTER_SEARCH':
+      return {
+        ...state,
+        filter: { ...state.filter, search: action.payload },
+      }
+    case 'COMPARE_CART_ADD_ITEM': {
+      const newItem = action.payload
+      const existItem = state.compareCartItems.find(
+        (item) => item._id === newItem._id
+      )
+      const compareCartItems = existItem
+        ? state.compareCartItems.map((item) =>
+            item.name === existItem.name ? newItem : item
+          )
+        : [...state.compareCartItems, newItem]
+      Cookies.set('compareCartItems', JSON.stringify(compareCartItems))
+      return { ...state, compareCartItems }
+    }
+    case 'COMPARE_CART_REMOVE_ITEM': {
+      const compareCartItems = state.compareCartItems.filter(
+        (item) => item._id !== action.payload._id
+      )
+      Cookies.set('compareCartItems', JSON.stringify(compareCartItems))
+      return { ...state, compareCartItems }
+    }
+
+    case 'COMPARE_CART_CLEAR':
+      return { ...state, compareCartItems: [] }
 
     default:
       return state

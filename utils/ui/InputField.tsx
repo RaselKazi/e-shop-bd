@@ -13,7 +13,6 @@ export default function InputField({
   helperText,
   file,
 }: InputFieldProps) {
-  console.log(file)
   return (
     <div>
       <h4 className="text-gray-500">

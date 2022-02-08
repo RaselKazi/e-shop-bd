@@ -30,9 +30,13 @@ function MidProductCard({ card, productData }: ProductCard) {
         </Link>
 
         {/* <!--bages---> */}
-        <div className=" absolute top-4 right-10 text-xs text-white bg-red-500 h-10 w-10 flex items-center justify-center rounded-full">
-          <span>-27%</span>
-        </div>
+        {productData.discount > 0 && (
+          <div className="  absolute top-0 right-0 text-base font-bold text-white bg-red-600 h-7 w-16 flex items-center justify-center rounded">
+            <span>
+              <span>{`- ${productData.discount} %`}</span>
+            </span>
+          </div>
+        )}
 
         <div className="space-y-3 absolute top-1/4">
           <HoverCardItem productId={productData} />
@@ -48,11 +52,16 @@ function MidProductCard({ card, productData }: ProductCard) {
         </Link>
         <div className=" flex items-center my-2">
           <span className=" text-yellow-500 text-2xl font-bold mr-4">
-            {`$${productData?.price}`}
+            {`$${
+              productData.price -
+              (productData.price * productData.discount) / 100
+            }`}
           </span>
-          <span className=" text-gray-500 text-xl">
-            <del>£450.00</del>
-          </span>
+          {productData.discount > 0 && (
+            <span className=" text-gray-500 text-xl">
+              <del>{`$${productData.price}`}</del>
+            </span>
+          )}
         </div>
         <div>
           <span className=" text-gray-500 text-sm leading-loose">
@@ -62,7 +71,8 @@ function MidProductCard({ card, productData }: ProductCard) {
         </div>
         {/* <!--timmer--> */}
         <CountdownTimer
-          class={`${card === 'max' ? 'max' : 'mid'}`}
+          cardSize={`${card === 'max' ? 'max' : 'mid'}`}
+          discountDate={productData.discountTargetDate}
         ></CountdownTimer>
       </div>
     </div>

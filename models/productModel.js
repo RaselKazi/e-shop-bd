@@ -37,16 +37,34 @@ const productSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please Enter Product Category'],
     },
+    brand: {
+      type: String,
+      required: [true, 'Please Enter Product brand'],
+    },
     stock: {
       type: Number,
       required: [true, 'Please Enter product Stock'],
       maxLength: [4, 'Stock cannot exceed 4 characters'],
       default: 1,
     },
+    discount: {
+      type: Number,
+      required: [true, 'Please Enter product discount'],
+      maxLength: [3, 'Stock cannot exceed 3 characters'],
+      default: 0,
+    },
+    discountTargetDate: {
+      type: Date,
+      required: [true, 'Please Enter product discount'],
+      default: Date.now,
+    },
     size: {
       type: String,
       required: [true, 'Please Enter product Size'],
     },
+
+    isFeatured: { type: Boolean, required: true, default: false },
+
     numOfReviews: {
       type: Number,
       default: 0,

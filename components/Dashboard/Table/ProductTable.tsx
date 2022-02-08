@@ -8,7 +8,6 @@ import {
   useAsyncDebounce,
 } from 'react-table'
 
-import { COLUMNS } from '../../../data/TableData'
 import TableGlobalFilter from './TableGlobalFilter'
 
 type TableProps = {
@@ -22,9 +21,9 @@ interface Data {
   stock: Number
 }
 
-function ProductTable({ TableData }: TableProps) {
-  const columns = useMemo(() => COLUMNS, [])
-  const data = useMemo(() => TableData, [])
+function ProductTable({ TableData, colum }: TableProps) {
+  const columns = useMemo(() => colum, [])
+  const data = TableData
   const {
     getTableProps,
     getTableBodyProps,
@@ -50,7 +49,7 @@ function ProductTable({ TableData }: TableProps) {
     useSortBy,
     usePagination
   )
-  console.log(TableData)
+
   return (
     <div className=" border mx-8 bg-gray-900 border-sky-500 rounded-lg mt-8 flex flex-col">
       <div className="px-10 flex justify-between items-center">
@@ -65,15 +64,15 @@ function ProductTable({ TableData }: TableProps) {
         </Link>
       </div>
 
-      <div className="-my-2 -mx-4 sm:-mx-6 lg:-mx-8">
-        <div className="py-2 align-middle inline-block max-w-full sm:px-6 lg:px-8 overflow-hidden overflow-x-auto">
-          <table className="table" {...getTableProps()}>
+      <div className=" max-w-full -my-2 -mx-4 sm:-mx-6 lg:-mx-8">
+        <div className="py-2 align-middle inline-block  sm:px-6 lg:px-8 overflow-x-auto ">
+          <table className="table-auto " {...getTableProps()}>
             <thead className="bg-gray-900">
               {headerGroups.map((headerGroup) => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column) => (
                     <th
-                      className="group px-6 py-3 text-center text-xs font-medium text-white uppercase tracking-wider border-b border-sky-500"
+                      className="group px-3 py-2 lg:px-6 lg:py-3 text-center text-xs font-medium text-white uppercase tracking-wider border-b border-sky-500"
                       {...column.getHeaderProps(column.getSortByToggleProps())}
                     >
                       <div className="flex items-center justify-between">
@@ -112,7 +111,7 @@ function ProductTable({ TableData }: TableProps) {
                     {row.cells.map((cell) => {
                       return (
                         <td
-                          className=" text-center border-gray-900 border-x px-6 py-4 text-gray-200 whitespace-nowrap"
+                          className=" text-center border-gray-900 border-x py-2 lg:px-4 text-gray-200 whitespace-nowrap"
                           role="cell"
                           {...cell.getCellProps()}
                         >

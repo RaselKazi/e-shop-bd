@@ -106,8 +106,9 @@ function Footer() {
             </a>
           </p>
         </div>
-
-        <BrandIcon></BrandIcon>
+        <div className="pt-4 text-center">
+          <BrandIcon></BrandIcon>
+        </div>
       </div>
 
       {/* ===Back to top button and social button== */}

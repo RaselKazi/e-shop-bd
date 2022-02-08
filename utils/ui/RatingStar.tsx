@@ -7,7 +7,6 @@ type RatingStar = {
   setRating?: Dispatch<SetStateAction<number>>
 }
 export default function RatingStar({ show, value, setRating }: RatingStar) {
-  console.log(value)
   return (
     <div>
       <Rating

@@ -4,25 +4,53 @@ import ProductTable from '../../components/Dashboard/Table/ProductTable'
 import DashboardLayout from '../../components/Layout/DashboardLayout'
 import { Store } from '../../utils/Store'
 import { useQuery, useQueryClient } from 'react-query'
+import { PRODUCTCOLUMNS } from '../../data/TableData'
+import { getError } from '../../utils/error'
+import { useRouter } from 'next/router'
+import useCheckAdminAndRedirect from '../../hook/useCheckAdminAndRedirect'
 
+function reducer(state, action) {
+  switch (action.type) {
+    case 'FETCH_REQUEST':
+      return { ...state, loading: true, error: '' }
+    case 'FETCH_SUCCESS':
+      return { ...state, loading: false, product: action.payload, error: '' }
+    case 'FETCH_FAIL':
+      return { ...state, loading: false, error: action.payload }
+    default:
+      state
+  }
+}
 function allProduct() {
-  const { state, dispatch } = useContext(Store)
+  useCheckAdminAndRedirect()
+  const { state } = useContext(Store)
+  const { userInfo } = state
+  const router = useRouter()
 
-  // const { isLoading, data } = useQuery('product', () => {
-  //   return axios.get('/api/admin/products')
-  // })
-  // dispatch({ type: 'ADD_ITEM', payload: data?.data })
+  const [{ loading, error, product }, dispatch] = useReducer(reducer, {
+    loading: true,
+    product: [],
+    error: '',
+  })
 
   useEffect(() => {
-    axios.get('/api/admin/products').then((res) => {
-      dispatch({ type: 'ADD_ITEM', payload: res.data.data })
-    })
+    const fetchData = async () => {
+      try {
+        dispatch({ type: 'FETCH_REQUEST' })
+        const { data } = await axios.get(`/api/admin/products`, {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        })
+        dispatch({ type: 'FETCH_SUCCESS', payload: data.data })
+      } catch (err) {
+        dispatch({ type: 'FETCH_FAIL', payload: getError(err) })
+      }
+    }
+    fetchData()
   }, [])
-  console.log(state.product)
   return (
     <DashboardLayout>
       <div className=" flex justify-center items-center px-6 py-4 ">
-        <ProductTable TableData={state.product}></ProductTable>
+        <ProductTable colum={PRODUCTCOLUMNS} TableData={product}></ProductTable>
       </div>
     </DashboardLayout>
   )

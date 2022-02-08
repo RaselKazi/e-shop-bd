@@ -28,7 +28,7 @@ export default function payment() {
     } else {
       dispatch({ type: 'SAVE_PAYMENT_METHOD', payload: paymentMethod })
       Cookies.set('paymentMethod', paymentMethod)
-      router.push('/placeOlder')
+      router.push('/place-older')
     }
   }
   return (
@@ -139,7 +139,7 @@ export default function payment() {
               </div>
 
               <button className=" p-3 my-6 w-full bg-yellow-500 bg-opacity-80 rounded text-lg text-white font-bold uppercase hover:bg-yellow-600 transition duration-200 ">
-                submit
+                Continue
               </button>
               <button
                 className=" p-3 w-full bg-gray-500 bg-opacity-80 rounded text-lg text-white font-bold uppercase hover:bg-gray-600 transition duration-200 "
@@ -150,7 +150,7 @@ export default function payment() {
             </div>
           </form>
         </div>
-        <ToastContainer theme="dark" limit={2} />
+        <ToastContainer limit={2} />
       </section>
     </Layout>
   )

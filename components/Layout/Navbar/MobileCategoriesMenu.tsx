@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import SidebarCard from '../Sidebar/SidebarCard'
 import SidebarImgCard from '../Sidebar/SidebarImgCard'
 import { CategoriesMenuItem } from '../../../data/CategoriesData'
+import Link from 'next/link'
 function MobileCategoriesMenu() {
   const [open, setOpen] = useState(false)
   return (
-    <div className=" font-semibold w-full" x-data=" {active :'active1'}">
+    <div className=" font-semibold w-full">
       <ul className=" border rounded divide-y">
         <li className=" p-4 flex items-center bg-gray-100">
           <span>
@@ -29,14 +30,19 @@ function MobileCategoriesMenu() {
         {/* <!-- catagory start--> */}
 
         {CategoriesMenuItem.map((item) => (
-          <li className="p-4 hover:bg-gray-100">
-            <a className="w-full  flex items-center justify-between text-gray-500 text-sm hover:text-yellow-500">
-              <span>
-                {item.icon}
-                {item.title}
-              </span>
-            </a>
-          </li>
+          <Link
+            key={item.title}
+            href={`/product?category=${item.title.split(' ').join('')}`}
+          >
+            <li className="p-4 hover:bg-gray-100 cursor-pointer">
+              <a className="w-full  flex items-center justify-between text-gray-500 text-sm hover:text-yellow-500 ">
+                <span>
+                  {item.icon}
+                  {item.title}
+                </span>
+              </a>
+            </li>
+          </Link>
         ))}
 
         {/* <!-------more catagory----------> */}

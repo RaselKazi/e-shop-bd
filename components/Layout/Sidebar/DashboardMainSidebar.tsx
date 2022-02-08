@@ -1,17 +1,28 @@
 import Link from 'next/link'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { SetStateAction, useState } from 'react'
 import { DashboardMenuItem } from '../../../data/DashboardData'
 
 function DashboardMainSidebar() {
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('')
   const [mobileMenu, setMobileMenu] = useState(false)
+  const router = useRouter()
+  const goTo = (
+    title: SetStateAction<string>,
+    link: string,
+    dropdown: boolean
+  ) => {
+    dropdown && router.push(link)
+
+    active === '' ? setActive(title) : setActive('')
+  }
 
   return (
     <div>
       {/* <!-- Mobile Menu Toggle --> */}
       <button
-        className="sm:hidden absolute top-5 right-5 focus:outline-none"
+        className=" z-50 focus:outline-none md:hidden text-sky-500 fixed top-6 right-8 "
         onClick={() => setMobileMenu(!mobileMenu)}
       >
         {/*Menu Icons */}
@@ -49,24 +60,24 @@ function DashboardMainSidebar() {
       </button>
 
       <div
-        className={`h-screen z-50 
+        className={` h-screen z-50 
         bg-gray-900 transition-all duration-300 space-y-2 border-r border-sky-800    ${
           open ? 'sm:w-20 w-64' : 'w-64'
         } ${
           mobileMenu
-            ? ' absolute sm:static block top-0 left-0'
-            : ' hidden md:sticky md:block top-0 -left-64 '
+            ? 'absolute top-0 left-0'
+            : 'hidden sticky md:block top-0 -left-64 '
         }`}
       >
         <h1
           className="text-white text-center font-black py-4 relative"
           // x-bind:className="$store.sidebar.full ? 'text-2xl px-4' : 'text-xl px-4 xm:px-2'"
         >
-          LOGO
+          <Link href="/">LOGO</Link>
           <span
             className="
             hidden z-50
-            sm:block border
+            md:block border
             border-sky-500
              text-sky-500
             absolute  
@@ -99,7 +110,12 @@ function DashboardMainSidebar() {
 
           {DashboardMenuItem.map((menu) => {
             return (
-              <div className="relative " onClick={() => setActive(menu.title)}>
+              <div
+                className="relative "
+                onClick={() =>
+                  goTo(menu.title, `${menu.link}`, menu.dropdown.length === 0)
+                }
+              >
                 <div
                   className={`flex
               justify-between
@@ -116,31 +132,38 @@ function DashboardMainSidebar() {
                       : 'text-gray-400'
                   }`}
                 >
-                  <Link href={`/${menu.link}`}>
-                    <div className="relative flex space-x-2 items-center">
-                      {menu.icon}
-                      <h1
-                        className={` ${
-                          open
-                            ? 'sm:hidden hidden  group-hover:block sm:absolute top-0 left-14 sm:border border-sky-600 sm:text-md sm:bg-gray-900 sm:px-2 sm:py-1 sm:rounded-md transition duration-300'
-                            : ''
-                        }`}
-                      >
-                        {menu.title}
-                      </h1>
-                    </div>
-                  </Link>
-                  {menu.dropdown.length === 0 ? (
+                  <div className="relative flex space-x-2 items-center">
+                    {menu.icon}
                     <h1
-                      className={`w-5 h-5 p-1 text-base bg-red-500 rounded-md leading-3 text-center text-white ${
-                        open ? ' absolute top-0 left-5' : ''
+                      className={` ${
+                        open
+                          ? 'sm:hidden hidden  group-hover:block sm:absolute top-0 left-14 sm:border border-sky-600 sm:text-md sm:bg-gray-900 sm:px-2 sm:py-1 sm:rounded-md transition duration-300'
+                          : ''
                       }`}
                     >
-                      8
+                      {menu.title}
                     </h1>
+                  </div>
+
+                  {menu.dropdown.length === 0 ? (
+                    menu.title === 'Chat' ? (
+                      <h1
+                        className={`w-5 h-5 p-1 text-base bg-red-500 rounded-md leading-3 text-center text-white ${
+                          open ? ' absolute top-0 left-5' : ''
+                        }`}
+                      >
+                        8
+                      </h1>
+                    ) : (
+                      ''
+                    )
                   ) : (
                     <svg
-                      className={`h-4 w-4 ${open ? 'sm:hidden' : ''}`}
+                      className={`h-4 w-4  ${
+                        active === menu.title
+                          ? ' transition duration-300 rotate-180'
+                          : 'transition duration-300 rotate-0'
+                      }`}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -153,6 +176,7 @@ function DashboardMainSidebar() {
                     </svg>
                   )}
                 </div>
+
                 {/* <!-- Dropdown content --> */}
 
                 {active === menu.title ? (
@@ -160,7 +184,7 @@ function DashboardMainSidebar() {
                     className={`text-gray-400 space-y-3  ${
                       open
                         ? 'sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 sm:ml-0 w-28 border-2 border-sky-800 '
-                        : 'border-l border-gray-400 ml-4 pl-4'
+                        : 'border-l border-dashed border-gray-400 ml-4'
                     }`}
                   >
                     {/* <!-- Sub Dropdown  --> */}
@@ -192,13 +216,19 @@ function DashboardMainSidebar() {
                         </h1>
                       </div>
                     </div> */}
-                    {menu?.dropdown.map((drop) => {
-                      return (
-                        <h1 className="pb-2 border-b-2 border-sky-900 hover:text-gray-200 cursor-pointer">
-                          {drop}
-                        </h1>
-                      )
-                    })}
+                    <ul>
+                      {menu?.dropdown.map((drop) => {
+                        return (
+                          <Link href={`${drop.link}`}>
+                            <li className=" hover:bg-gray-800 py-2 cursor-pointer transition duration-300">
+                              <h1 className="pl-5 text-gray-200 hover:text-sky-500">
+                                {drop.title}
+                              </h1>
+                            </li>
+                          </Link>
+                        )
+                      })}
+                    </ul>
                   </div>
                 ) : (
                   ''

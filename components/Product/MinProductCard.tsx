@@ -1,10 +1,28 @@
+import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useContext } from 'react'
+import { toast, ToastContainer } from 'react-toastify'
 import product from '../../public/images/2__85707.1528614702.jpg'
+import { Store } from '../../utils/Store'
 import RatingStar from '../../utils/ui/RatingStar'
-
+import 'react-toastify/dist/ReactToastify.css'
 function MinProductCard({ productData }) {
+  const { state, dispatch } = useContext(Store)
+  const AddToCart = async (product: { _id: String }) => {
+    const existItem = state.cart.cartItems.find(
+      (x: { _id: String }) => x._id === product._id
+    )
+    const quantity = existItem ? existItem.quantity + 1 : 1
+    const { data } = await axios.get(`/api/product/${product._id}`)
+    if (data.countInStock < quantity) {
+      toast.error('🛒 Sorry. Product is out of stock')
+
+      return
+    }
+    toast('🛒 Add to Cart a Product')
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } })
+  }
   return (
     <div className=" group md:flex xl:items-center py-2">
       <div className="md:w-2/5 w-full mr-4 relative">
@@ -20,9 +38,12 @@ function MinProductCard({ productData }) {
         </Link>
 
         {/* <!--bages---> */}
-        <div className=" absolute top-1 right-1 text-xs text-white bg-red-500 h-10 w-10 flex items-center justify-center rounded-full">
-          <span>-53%</span>
-        </div>
+
+        {productData.discount > 0 && (
+          <div className=" absolute top-0 right-0 text-base font-bold text-white bg-red-600 h-7 w-12 flex items-center justify-center rounded">
+            <span>{`- ${productData.discount}%`}</span>
+          </div>
+        )}
       </div>
 
       <div className="py-2">
@@ -36,15 +57,23 @@ function MinProductCard({ productData }) {
         {/* <!--Price--> */}
         <div className=" flex items-center my-2">
           <span className=" text-yellow-500 text-md font-bold mr-4">
-            {`$${productData.price}`}
+            {`$${
+              productData.price -
+              (productData.price * productData.discount) / 100
+            }`}
           </span>
-          <span className=" text-gray-500 text-sm">
-            <del>{`$${productData.price}`}</del>
-          </span>
+          {productData.discount > 0 && (
+            <span className=" text-gray-500 text-sm">
+              <del>{`$${productData.price}`}</del>
+            </span>
+          )}
         </div>
 
         <div className="xl:flex md:block flex items-center space-x-1">
-          <button className="flex items-center uppercase text-white hover:bg-yellow-500 duration-100 bg-black bg-opacity-60 text-xs font-medium p-2 rounded whitespace-nowrap">
+          <button
+            className="flex items-center uppercase text-white hover:bg-yellow-500 duration-100 bg-black bg-opacity-60 text-xs font-medium p-2 rounded whitespace-nowrap"
+            onClick={() => AddToCart(productData)}
+          >
             <span className="mr-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +90,7 @@ function MinProductCard({ productData }) {
                 />
               </svg>
             </span>
-            <span>Choose Options</span>
+            <span>Add to Cart</span>
           </button>
 
           <div className="flex justify-center xl:pt-0 md:pt-2 pt-0 items-center space-x-1">
@@ -97,6 +126,7 @@ function MinProductCard({ productData }) {
           </div>
         </div>
       </div>
+      <ToastContainer limit={2} />
     </div>
   )
 }

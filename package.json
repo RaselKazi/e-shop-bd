@@ -10,7 +10,7 @@
   "dependencies": {
     "@types/react-table": "^7.7.9",
     "axios": "^0.24.0",
-    "bcryptjs": "^2.4.3",
+    "bcrypt": "^5.0.1",
     "chart.js": "^3.7.0",
     "cloudinary": "^1.28.1",
     "country-state-city": "^3.0.1",
@@ -29,6 +29,7 @@
     "react-icons": "^4.3.1",
     "react-image-magnify": "^2.1.1",
     "react-js-pagination": "^3.0.2",
+    "react-paginate": "^8.1.0",
     "react-query": "^3.34.7",
     "react-rating": "^2.0.5",
     "react-select": "^5.2.1",
@@ -39,6 +40,7 @@
     "validator": "^13.7.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/js-cookie": "^3.0.1",
     "@types/node": "17.0.0",
     "@types/react": "17.0.37",

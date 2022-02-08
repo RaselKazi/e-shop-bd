@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import React, { useContext, useState } from 'react'
 import { Store } from '../../utils/Store'
 import CartProductCard from '../Product/CartProductCard'
@@ -18,6 +19,12 @@ export default function CartItem({ variant }: CartItemProps) {
   const removeItemHandler = (item) => {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: item })
   }
+  const router = useRouter()
+  const GoTOCart = () => {
+    if (variant === 'min') {
+      router.push('/cart')
+    }
+  }
 
   return (
     <div>
@@ -26,7 +33,7 @@ export default function CartItem({ variant }: CartItemProps) {
           key={item._id}
           className=" mx-8 my-4 grid grid-cols-5 border-b  border-gray-200 hover:bg-gray-100 cursor-pointer "
         >
-          <div className=" col-span-3">
+          <div className=" col-span-3" onClick={GoTOCart}>
             <CartProductCard variant={variant} CartData={item} />
           </div>
 
@@ -43,14 +50,14 @@ export default function CartItem({ variant }: CartItemProps) {
                   <div className=" ">
                     <input
                       type="number"
-                      className="appearance-none font-bold text-center outline-none  w-20"
+                      className="appearance-none font-bold text-center outline-none w-14  md:w-20"
                       value={item.quantity}
                       onChange={(e) => {
                         updateCartHandler(item, parseInt(`${e.target.value}`))
                       }}
                     />
                   </div>
-                  <div className=" px-4 py-1">
+                  <div className=" px-2 md:px-4 py-1">
                     <button
                       className="block"
                       onClick={() => {
@@ -98,7 +105,9 @@ export default function CartItem({ variant }: CartItemProps) {
 
             <div
               className={`  text-red-600 bg-red-500/30   rounded hover:bg-red-500 hover:text-gray-100 transition duration-200 font-bold ${
-                variant === 'min' ? 'text-xl px-2 ' : 'text-2xl px-3'
+                variant === 'min'
+                  ? 'text-xl px-2 '
+                  : ' text-xl px-2 md:text-2xl md:px-3'
               }`}
               onClick={() => removeItemHandler(item)}
             >

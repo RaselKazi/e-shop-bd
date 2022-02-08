@@ -10,7 +10,7 @@ function BottomBar() {
   const [aboutopen, setAboutOpen] = useState(false)
   const { state, dispatch } = useContext(Store)
   return (
-    <div className=" bg-yellow-500 flex items-center justify-between  xl:px-24 sm:px-10 px-4">
+    <div className="static top-0 left-0 w-full bg-yellow-500 flex items-center justify-between z-20  xl:px-24 sm:px-10 px-4">
       <div>
         <button
           className=" p-2 rounded bg-gradient-to-b from-gray-600 to-gray-900 lg:hidden inline-block"
@@ -63,14 +63,14 @@ function BottomBar() {
 
         {/*main Menu*/}
         <ul className="hidden uppercase text-white font-bold lg:flex items-center space-x-1 text-sm">
-          <li>
+          <li className=" hover:text-gray-100">
             <Link href="/">
               <a className="p-3">Home</a>
             </Link>
           </li>
 
           <li className=" relative">
-            <Link href="/product">
+            <Link href="/product?sort=newest">
               <a className="p-3">
                 New products
                 <span className=" absolute z-20 -top-7 right-0 p-1 rounded bg-purple-700 text-xs  capitalize px-4">
@@ -82,7 +82,7 @@ function BottomBar() {
           </li>
 
           <li className=" relative">
-            <Link href="/product/2">
+            <Link href="/product?sort=Bestselling">
               <a className="p-3">
                 Best sales
                 <span className=" absolute z-20 -top-7 right-0 p-1 rounded bg-red-600 text-xs capitalize px-4 ">
@@ -94,7 +94,7 @@ function BottomBar() {
           </li>
 
           <li>
-            <Link href="/">
+            <Link href="/product">
               <a className="p-3">Shop</a>
             </Link>
           </li>
@@ -168,9 +168,11 @@ function BottomBar() {
             >
               <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
             </svg>
-            <span className=" absolute z-20 -top-1 left-9 h-5 w-5 rounded-full box-border flex items-center justify-center bg-red-600 text-md text-white">
-              {state.cart.cartItems.length}
-            </span>
+            {state.cart.cartItems.length > 0 && (
+              <span className=" absolute z-20 -top-1 left-9 h-5 w-5 rounded-full box-border flex items-center justify-center bg-red-600 text-md text-white">
+                {state.cart.cartItems.length}
+              </span>
+            )}
           </span>
           <div className="lg:flex group hidden items-center space-x-2">
             <span>{`My cart - $ ${state.cart.cartItems.reduce(

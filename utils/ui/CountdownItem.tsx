@@ -1,9 +1,14 @@
 import React from 'react'
 type CountdownItemProp = {
   size: string
+  text: string
   value: Number
 }
-export default function CountdownItem({ size, value }: CountdownItemProp) {
+export default function CountdownItem({
+  size,
+  text,
+  value,
+}: CountdownItemProp) {
   return (
     <li className=" mr-4 text-center">
       <span
@@ -13,7 +18,7 @@ export default function CountdownItem({ size, value }: CountdownItemProp) {
       >
         {value}
       </span>
-      <h5 className=" text-gray-400 uppercase my-2 text-xs">days</h5>
+      <h5 className=" text-gray-400 uppercase my-2 text-xs">{text}</h5>
     </li>
   )
 }

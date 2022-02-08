@@ -6,10 +6,14 @@ import { SizeList } from '../../data/CategoriesData'
 import RatingStar from '../../utils/ui/RatingStar'
 import { Store } from '../../utils/Store'
 import axios from 'axios'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import BrandIcon from '../Layout/Footer/BrandIcon'
+import ReasonsIcon from '../Layout/Footer/ReasonsIcon'
 
 function ProductCardDetails({ productData }) {
   const [openModal, setOpenModal] = useState(false)
-  const [quantity, setQuantity] = useState(0)
+  const [productQuantity, setProductQuantity] = useState(0)
   const { state, dispatch } = useContext(Store)
 
   const addToCartHandler = async (product: { _id: String }) => {
@@ -19,10 +23,21 @@ function ProductCardDetails({ productData }) {
     const quantity = existItem ? existItem.quantity + 1 : 1
     const { data } = await axios.get(`/api/product/${product._id}`)
     if (data.countInStock < quantity) {
-      window.alert('Sorry. Product is out of stock')
+      toast.error('🛒 Sorry. Product is out of stock')
       return
     }
-    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } })
+    toast('🛒 Add to Cart a Product')
+    if (productQuantity >= 1) {
+      dispatch({
+        type: 'CART_ADD_ITEM',
+        payload: { ...product, quantity: productQuantity },
+      })
+    } else {
+      dispatch({
+        type: 'CART_ADD_ITEM',
+        payload: { ...product, quantity },
+      })
+    }
   }
 
   return (
@@ -39,17 +54,22 @@ function ProductCardDetails({ productData }) {
           </div>
 
           <div className=" px-4 text-gray-500">
-            <span>(No reviews yet)</span>
+            <span>{productData.ratings === 0 ? '(No reviews yet)' : ''}</span>
           </div>
         </div>
         {/* --Price- */}
         <div className=" flex items-center">
           <span className=" text-yellow-500 text-2xl font-bold mr-3">
-            {`$${productData.price}`}
+            {`$${
+              productData.price -
+              (productData.price * productData.discount) / 100
+            }`}
           </span>
-          <span className=" text-gray-400 text-sm">
-            <del>£459.00</del>
-          </span>
+          {productData.discount > 0 && (
+            <span className=" text-gray-500 text-lg">
+              <del>{`$${productData.price}`}</del>
+            </span>
+          )}
         </div>
       </div>
       {/* -----Size Chart------ */}
@@ -84,9 +104,7 @@ function ProductCardDetails({ productData }) {
       {/* ------Brand Details---- */}
       <div className=" grid grid-cols-2 text-sm font-medium tracking-tighter text-gray-500 gap-2 border-b pb-5">
         <span>Brand</span>
-        <span>sport 1</span>
-        <span>SKU:</span>
-        <span>sport 1</span>
+        <span>{productData.brand}</span>
         <span>Condition:</span>
         <span>New</span>
       </div>
@@ -122,9 +140,9 @@ function ProductCardDetails({ productData }) {
               <input
                 type="number"
                 className="appearance-none font-bold text-center outline-none"
-                value={quantity}
+                value={productQuantity}
                 onChange={(e) => {
-                  setQuantity(parseInt(`${e.target.value}`))
+                  setProductQuantity(parseInt(`${e.target.value}`))
                 }}
               />
             </div>
@@ -133,7 +151,7 @@ function ProductCardDetails({ productData }) {
               <button
                 className="block"
                 onClick={() => {
-                  setQuantity((pvs) => pvs + 1)
+                  setProductQuantity((pvs) => pvs + 1)
                 }}
               >
                 <svg
@@ -152,9 +170,9 @@ function ProductCardDetails({ productData }) {
 
               <button
                 onClick={() => {
-                  setQuantity((pvs) => pvs - 1)
+                  setProductQuantity((pvs) => pvs - 1)
                 }}
-                disabled={quantity === 0}
+                disabled={productQuantity === 0}
                 className="block"
               >
                 <svg
@@ -239,14 +257,16 @@ function ProductCardDetails({ productData }) {
           4 GREAT REASONS TO BUY FROM US:
         </h4>
 
-        <div className=" my-5">
+        <div className=" mt-4 mb-2">
           {/* <img className=" w-12 inline-block mr-4 hover:opacity-70 duration-300" src="images/reasons-1.png" alt=""> */}
+          <ReasonsIcon />
         </div>
 
-        <div className="pt-4">
-          {/* <img className="inline-block mb-4 md:mr-2 mr-4" src="images/pay-1.webp" alt=""> */}
+        <div className="pt-2">
+          <BrandIcon />
         </div>
       </div>
+      <ToastContainer limit={2} />
     </div>
   )
 }

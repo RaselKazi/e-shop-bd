@@ -1,6 +1,8 @@
 import React from 'react'
 
-function MostTypeOfOrder() {
+import { Doughnut, Line } from 'react-chartjs-2'
+
+function MostTypeOfOrder({ chartData }) {
   return (
     <div className="flex flex-col p-6 bg-gray-900 rounded-lg gap-y-6">
       <div className="flex justify-between items-center">
@@ -13,7 +15,7 @@ function MostTypeOfOrder() {
       </div>
       <hr className="border-gray-700" />
       <div className="flex gap-x-7">
-        <img width="176" alt="" />
+        <div>hi</div>
         <div className="flex flex-col gap-y-4">
           <div className="flex gap-x-2 items-start">
             <div className="w-4 h-4 mt-0.5 rounded-full bg-red-400" />
