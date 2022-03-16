@@ -18,9 +18,9 @@ function MobileCategoriesMenu() {
               stroke="currentColor"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M4 6h16M4 12h8m-8 6h16"
               />
             </svg>
@@ -33,6 +33,7 @@ function MobileCategoriesMenu() {
           <Link
             key={item.title}
             href={`/product?category=${item.title.split(' ').join('')}`}
+            passHref
           >
             <li className="p-4 hover:bg-gray-100 cursor-pointer">
               <a className="w-full  flex items-center justify-between text-gray-500 text-sm hover:text-yellow-500 ">

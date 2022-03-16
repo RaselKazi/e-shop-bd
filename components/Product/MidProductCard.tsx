@@ -3,12 +3,14 @@ import React from 'react'
 import Link from 'next/link'
 import CountdownTimer from '../../utils/ui/CountdownTimer'
 import HoverCardItem from '../../utils/ui/HoverCardItem'
+import { IProduct } from '../../type/product.model.type'
 
 type ProductCard = {
   card?: String
-  productData: any
+  productData: IProduct
 }
 function MidProductCard({ card, productData }: ProductCard) {
+  console.log(productData)
   return (
     <div
       className={`group border-b p-5 ${
@@ -18,18 +20,18 @@ function MidProductCard({ card, productData }: ProductCard) {
       }`}
     >
       <div className="col-span-2 relative cursor-pointer">
-        <Link href={`product/${productData?._id}`}>
+        <Link href={`product/${productData._id}`} passHref>
           <Image
             className=" mx-auto h-full w-full"
             alt=""
-            src={productData?.images[0].url}
+            src={productData.images[0].url}
             layout="responsive"
             width={300}
             height={320}
           />
         </Link>
 
-        {/* <!--bages---> */}
+        {/* <!--begs---> */}
         {productData.discount > 0 && (
           <div className="  absolute top-0 right-0 text-base font-bold text-white bg-red-600 h-7 w-16 flex items-center justify-center rounded">
             <span>
@@ -45,7 +47,7 @@ function MidProductCard({ card, productData }: ProductCard) {
       <div
         className={`md:py-0 py-5 ${card === 'max' ? 'lg:p-5' : 'col-span-3 '}`}
       >
-        <Link href={`product/${productData?._id}`}>
+        <Link href={`product/${productData._id}`}>
           <a className=" text-gray-800 text-xl hover:text-yellow-500 font-bold cursor-pointer">
             {productData?.name}
           </a>
@@ -65,11 +67,11 @@ function MidProductCard({ card, productData }: ProductCard) {
         </div>
         <div>
           <span className=" text-gray-500 text-sm leading-loose">
-            Nam tempus turpis at metus scelerisque placerat nulla deumantos
-            sollicitudin felis. Pellentesque diam dolor
+            Nam tempus turpin at metes scale risque placenta nullo demantoid
+            solicitude felid. Pellentesque diam dolor
           </span>
         </div>
-        {/* <!--timmer--> */}
+        {/* <!--timer--> */}
         <CountdownTimer
           cardSize={`${card === 'max' ? 'max' : 'mid'}`}
           discountDate={productData.discountTargetDate}

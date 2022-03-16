@@ -1,10 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { CategoriesMenuItem } from '../../../data/CategoriesData'
-import { Store } from '../../../utils/Store'
 import Link from 'next/link'
 export default function SidebarCategories() {
   const [open, setOpen] = useState(false)
-
   return (
     <ul className=" border rounded divide-y">
       <li className="  p-3 flex items-center bg-gray-200 bg-opacity-80 rounded">
@@ -17,9 +15,9 @@ export default function SidebarCategories() {
             stroke="currentColor"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M4 6h16M4 12h8m-8 6h16"
             />
           </svg>
@@ -31,6 +29,7 @@ export default function SidebarCategories() {
         <Link
           key={item.title}
           href={`/product?category=${item.title.split(' ').join('')}`}
+          passHref
         >
           <li
             className="p-4 hover:bg-gray-100 cursor-pointer"
@@ -54,10 +53,7 @@ export default function SidebarCategories() {
           }`}
         >
           <li className="p-4 hover:bg-gray-100">
-            <a
-              className="w-full  flex items-center justify-between text-gray-500 text-sm hover:text-yellow-500"
-              href="#"
-            >
+            <a className="w-full  flex items-center justify-between text-gray-500 text-sm hover:text-yellow-500">
               <span>
                 <svg
                   className="w-4 h-4 mb-1 inline-block mr-2"

@@ -1,22 +1,32 @@
 import Link from 'next/link'
 import React, { useContext } from 'react'
+import { IProduct } from '../../type/product.model.type'
 import { Store } from '../../utils/Store'
 import CartProductCard from '../Product/CartProductCard'
 
-export default function CompareCartItem() {
+type CompareCartItemProps = {
+  cartData: IProduct[]
+  removeType: string
+  cartLink: string
+}
+export default function CompareCartItem({
+  cartData,
+  removeType,
+  cartLink,
+}: CompareCartItemProps) {
   const { state, dispatch } = useContext(Store)
 
-  const removeItemHandler = (item) => {
-    dispatch({ type: 'COMPARE_CART_REMOVE_ITEM', payload: item })
+  const removeItemHandler = (item: IProduct) => {
+    dispatch({ type: removeType, payload: item })
   }
   return (
     <div>
-      {state.compareCartItems.map((item) => (
+      {cartData.map((item: IProduct) => (
         <div
           key={item._id}
           className=" mx-8 my-4 grid grid-cols-5 border-b  border-gray-200 hover:bg-gray-100 cursor-pointer "
         >
-          <Link href="/product/compare">
+          <Link href={`/product${cartLink}`} passHref>
             <div className=" col-span-4">
               <CartProductCard variant="min" CartData={item} />
             </div>

@@ -11,6 +11,10 @@ const initialState = {
     ? JSON.parse(Cookies.get('compareCartItems'))
     : [],
 
+  wishListItems: Cookies.get('wishListItems')
+    ? JSON.parse(Cookies.get('wishListItems'))
+    : [],
+
   cart: {
     cartItems: Cookies.get('cartItems')
       ? JSON.parse(Cookies.get('cartItems'))
@@ -128,6 +132,30 @@ function reducer(state, action) {
     case 'COMPARE_CART_CLEAR':
       return { ...state, compareCartItems: [] }
 
+    case 'WISH_LIST_ADD_ITEM': {
+      const newItem = action.payload
+      const existItem = state.wishListItems.find(
+        (item) => item._id === newItem._id
+      )
+      const wishListItems = existItem
+        ? state.wishListItems.map((item) =>
+            item.name === existItem.name ? newItem : item
+          )
+        : [...state.wishListItems, newItem]
+      Cookies.set('wishListItems', JSON.stringify(wishListItems))
+      return { ...state, wishListItems }
+    }
+
+    case 'WISH_LIST_REMOVE_ITEM': {
+      const wishListItems = state.wishListItems.filter(
+        (item) => item._id !== action.payload._id
+      )
+      Cookies.set('wishListItems', JSON.stringify(wishListItems))
+      return { ...state, wishListItems }
+    }
+
+    case 'WISH_LIST_CLEAR':
+      return { ...state, wishListItems: [] }
     default:
       return state
   }

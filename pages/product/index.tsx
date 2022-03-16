@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useContext, useState } from 'react'
 import ReactPaginate from 'react-paginate'
 import Layout from '../../components/Layout/Layout'
@@ -10,13 +11,23 @@ import Product from '../../models/productModel'
 import { Store } from '../../utils/Store'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
+import {
+  IProduct,
+  IProductPageQuery,
+  IProductQuery,
+} from '../../type/product.model.type'
 
 const PAGE_SIZE = 9
-
-function products(props) {
+type IProductProps = {
+  products: IProduct[]
+  countProducts: number
+  categories: string[]
+  brands: string[]
+  pages: number
+}
+function products(props: IProductProps) {
   const [tabs, setTabs] = useState('tabe')
 
-  const { state, dispatch } = useContext(Store)
   const router = useRouter()
 
   const {
@@ -33,13 +44,11 @@ function products(props) {
     page,
     searchQuery,
     category,
-    // brand,
-    min,
-    max,
+    brand,
     price,
-    // rating,
+    rating,
     sort,
-  }) => {
+  }: IProductQuery) => {
     const path = router.pathname
     const { query } = router
     if (page) query.page = page
@@ -58,11 +67,11 @@ function products(props) {
     })
   }
 
-  const sortHandler = (e) => {
-    filterSearch({ sort: e.target.value })
+  const sortHandler = (sort: string) => {
+    filterSearch({ sort })
   }
 
-  const handlePage = (data) => {
+  const handlePage = (data: { selected: number }) => {
     const page = data.selected + 1
     filterSearch({ page })
   }
@@ -102,9 +111,9 @@ function products(props) {
                         stroke="currentColor"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
                           d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
                         />
                       </svg>
@@ -122,9 +131,9 @@ function products(props) {
                         stroke="currentColor"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
                           d="M4 6h16M4 10h16M4 14h16M4 18h16"
                         />
                       </svg>
@@ -138,7 +147,7 @@ function products(props) {
 
                     <select
                       className=" focus:outline-none border focus:border-gray-500 p-1 px-2"
-                      onChange={sortHandler}
+                      onChange={(e) => sortHandler(e.target.value)}
                     >
                       <option value="featured">Featured Items</option>
                       <option value="newest">Newest Items</option>
@@ -153,8 +162,10 @@ function products(props) {
                 </div>
                 {tabs === 'tabs1' ? (
                   <div className="grid gap-10 py-10 ">
-                    {products.map((pro: any) => (
-                      <MidProductCard productData={pro} />
+                    {products.map((pro) => (
+                      <div key={pro._id}>
+                        <MidProductCard productData={pro} />
+                      </div>
                     ))}
                   </div>
                 ) : (
@@ -166,8 +177,10 @@ function products(props) {
                         : 'lg:grid-cols-3 sm:grid-cols-2 grid-cols-1'
                     } `}
                   >
-                    {products.map((pro: any) => (
-                      <ProductCard productData={pro} />
+                    {products.map((pro) => (
+                      <div key={pro._id}>
+                        <ProductCard productData={pro} />
+                      </div>
                     ))}
                   </div>
                 )}
@@ -201,7 +214,7 @@ function products(props) {
 }
 export default dynamic(() => Promise.resolve(products), { ssr: false })
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ query }: IProductPageQuery) {
   await dbConnect()
 
   const pageSize = query.pageSize || PAGE_SIZE

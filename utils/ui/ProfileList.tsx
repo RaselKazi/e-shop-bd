@@ -3,10 +3,7 @@ import React from 'react'
 function ProfileList() {
   return (
     <div>
-      <a
-        href=""
-        className="flex items-center p-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
-      >
+      <a className="flex items-center p-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
         <svg
           className="w-5 h-5 mx-1"
           viewBox="0 0 24 24"

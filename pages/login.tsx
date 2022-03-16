@@ -42,9 +42,8 @@ function login() {
       })
       toast.success('User login successfully')
       dispatch({ type: 'USER_LOGIN', payload: data })
-
       Cookies.set('userInfo', JSON.stringify(data))
-      router.push(redirect || '/')
+      router.push('/')
     } catch (err) {
       toast.error(getError(err))
     }
@@ -86,9 +85,9 @@ function login() {
                     stroke="currentColor"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                     ></path>
                   </svg>
@@ -132,9 +131,9 @@ function login() {
                     stroke="currentColor"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
                     />
                   </svg>
@@ -207,7 +206,6 @@ function login() {
                     text-white
                     bg-blue-600
                   "
-                href="#"
               >
                 <svg
                   className="svg-inline--fa fa-facebook-f fa-w-10 w-5 h-5"
@@ -234,7 +232,6 @@ function login() {
                     text-white
                     bg-blue-400
                   "
-                href="#"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -258,7 +255,6 @@ function login() {
                     text-white
                     bg-red-600
                   "
-                href="#"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -282,9 +278,9 @@ function login() {
                   stroke="currentColor"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M17 8l4 4m0 0l-4 4m4-4H3"
                   />
                 </svg>

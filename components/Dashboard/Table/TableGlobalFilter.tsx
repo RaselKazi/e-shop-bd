@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { useAsyncDebounce } from 'react-table'
 
 type FilterProps = {
   filter: string
-  setFilter: (e: React.ChangeEvent<HTMLInputElement>) => void
+  setFilter: (filter: string) => void
 }
 
 function TableGlobalFilter({ filter, setFilter }: FilterProps) {

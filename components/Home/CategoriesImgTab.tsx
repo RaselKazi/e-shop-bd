@@ -20,6 +20,7 @@ function CategoriesImgTab() {
       <div className=" grid grid-cols-7 divide-x divide-y">
         {CategoriesImgList.map((item) => (
           <button
+            key={item.title}
             className={`hover:bg-gray-100 text-center p-2 md:py-4 md:px-6 relative group ${
               openCategories === item.title && 'bg-gray-100'
             }`}

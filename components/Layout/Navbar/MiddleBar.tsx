@@ -8,15 +8,33 @@ function MiddleBar() {
   const { state, dispatch } = useContext(Store)
   const [search, setSearch] = useState('')
   const [compareCartOpen, setCompareCartOpen] = useState(false)
+  const [wishListsOpen, setWishListsOpen] = useState(false)
   const router = useRouter()
   const searchHandler = () => {
     router.push(`/product?query=${search}`)
   }
+
+  const CompareHandler = () => {
+    if (compareCartOpen) {
+      setCompareCartOpen(false)
+      setWishListsOpen(false)
+    } else {
+      setCompareCartOpen(true)
+      setWishListsOpen(false)
+    }
+  }
+  const wishListHandler = () => {
+    if (wishListsOpen) {
+      setWishListsOpen(false)
+      setCompareCartOpen(false)
+    } else {
+      setWishListsOpen(true)
+      setCompareCartOpen(false)
+    }
+  }
   return (
     <div className="flex justify-between items-center py-6 xl:px-24 sm:px-10 px-4">
-      <div>
-        <a href="">{/* <img  src="images/logo-01.png" alt=""> */}</a>
-      </div>
+      <div>{/* <img src="/public/images/logo-01.png" alt="" /> */}</div>
 
       <div className="w-full sm:px-8 px-2 flex items-center">
         <input
@@ -48,7 +66,7 @@ function MiddleBar() {
         <div className=" relative">
           <div
             className=" flex items-center text-gray-500  md:mr-4 mr-1 cursor-pointer"
-            onClick={() => setCompareCartOpen(!compareCartOpen)}
+            onClick={CompareHandler}
           >
             <div className="p-2 border rounded-full mr-2">
               <svg
@@ -73,30 +91,50 @@ function MiddleBar() {
               className="bg-white shadow-lg absolute right-0 top-12 border rounded z-50  items-center justify-center w-96"
               onClick={() => setCompareCartOpen(false)}
             >
-              <CompareCartItem />
+              <CompareCartItem
+                cartData={state.compareCartItems}
+                removeType="COMPARE_CART_REMOVE_ITEM"
+                cartLink="/compare"
+              />
             </div>
           )}
         </div>
-
-        <a className=" flex items-center text-gray-500 " href="#">
-          <div className="p-2 border rounded-full sm:mr-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                clipRule="evenodd"
-              />
-            </svg>
+        <div className=" relative">
+          <div
+            className=" flex items-center text-gray-500  md:mr-4 mr-1 cursor-pointer"
+            onClick={wishListHandler}
+          >
+            <div className="p-2 border rounded-full sm:mr-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+            <span className="hidden md:inline-block whitespace-nowrap">
+              Wish Lists
+            </span>
           </div>
-          <span className="hidden md:inline-block whitespace-nowrap">
-            Wish Lists
-          </span>
-        </a>
+          {wishListsOpen && (
+            <div
+              className="bg-white shadow-lg absolute right-0 top-12 border rounded z-50  items-center justify-center w-96"
+              onClick={() => setWishListsOpen(false)}
+            >
+              <CompareCartItem
+                cartData={state.wishListItems.slice(0, 3)}
+                removeType="WISH_LIST_REMOVE_ITEM"
+                cartLink="/wish-list"
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

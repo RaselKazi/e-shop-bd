@@ -7,7 +7,7 @@ export default function CartItem() {
     <div className="my-3 ">
       <div className="grid lg:grid-cols-4 grid-cols-4">
         <div className="col-span-1">
-          <Link href={`product/${''}`}>
+          <Link href={`product/${''}`} passHref>
             <Image
               className="hover:bg-opacity-50 transition-all cursor-pointer duration-200"
               alt=""

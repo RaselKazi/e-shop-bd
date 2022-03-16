@@ -64,38 +64,38 @@ function BottomBar() {
         {/*main Menu*/}
         <ul className="hidden uppercase text-white font-bold lg:flex items-center space-x-1 text-sm">
           <li className=" hover:text-gray-100">
-            <Link href="/">
-              <a className="p-3">Home</a>
+            <Link href="/" passHref>
+              <div className="p-3 cursor-pointer">Home</div>
             </Link>
           </li>
 
           <li className=" relative">
-            <Link href="/product?sort=newest">
-              <a className="p-3">
+            <Link href="/product?sort=newest" passHref>
+              <div className="p-3 cursor-pointer">
                 New products
                 <span className=" absolute z-20 -top-7 right-0 p-1 rounded bg-purple-700 text-xs  capitalize px-4">
                   New
                 </span>
                 <span className="absolute -top-3 right-6 p-1 bg-purple-700 h-3 w-3 transform rotate-45"></span>
-              </a>
+              </div>
             </Link>
           </li>
 
           <li className=" relative">
-            <Link href="/product?sort=Bestselling">
-              <a className="p-3">
+            <Link href="/product?sort=Bestselling" passHref>
+              <div className="p-3 cursor-pointer">
                 Best sales
                 <span className=" absolute z-20 -top-7 right-0 p-1 rounded bg-red-600 text-xs capitalize px-4 ">
                   Hot
                 </span>
                 <span className="absolute -top-3 right-6 p-1 bg-red-600 h-3 w-3 transform rotate-45"></span>
-              </a>
+              </div>
             </Link>
           </li>
 
           <li>
-            <Link href="/product">
-              <a className="p-3">Shop</a>
+            <Link href="/product" passHref>
+              <div className="p-3 cursor-pointer">Shop</div>
             </Link>
           </li>
 
@@ -125,30 +125,30 @@ function BottomBar() {
                 className="absolute  bg-white border w-52 rounded shadow text-sm text-black overflow-hidden font-normal z-50"
                 onClick={() => setAboutOpen(false)}
               >
-                <Link href="/faq">
-                  <a className=" block hover:bg-gray-100  px-4 p-3 border-b">
+                <Link href="/faq" passHref>
+                  <div className=" block hover:bg-gray-100  px-4 p-3 border-b">
                     FAQ
-                  </a>
+                  </div>
                 </Link>
 
-                <Link href="/condition">
-                  <a className=" block hover:bg-gray-100  px-4 p-3 border-b">
+                <Link href="/condition" passHref>
+                  <div className=" block hover:bg-gray-100  px-4 p-3 border-b">
                     Termsconditions
-                  </a>
+                  </div>
                 </Link>
 
-                <Link href="/">
-                  <a className=" block hover:bg-gray-100  px-4 p-3">
+                <Link href="/" passHref>
+                  <div className=" block hover:bg-gray-100  px-4 p-3">
                     Privacy policy
-                  </a>
+                  </div>
                 </Link>
               </div>
             )}
           </li>
 
           <li>
-            <Link href="/contact">
-              <a className="p-3">Contact us</a>
+            <Link href="/contact" passHref>
+              <a className="p-3 cursor-pointer">Contact us</a>
             </Link>
           </li>
         </ul>

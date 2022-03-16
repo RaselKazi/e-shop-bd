@@ -6,7 +6,10 @@ import ProductDetails from '../../components/Product/ProductDetails'
 import ProductZoomCarousel from '../../components/Product/ProductZoomCarousel'
 import dbConnect, { convertDocToObj } from '../../utils/dbConnect'
 import Product from '../../models/productModel'
-function ProductDetail({ product }) {
+import { IProduct } from '../../type/product.model.type'
+
+type IParams = { params: { id: string } }
+function ProductDetail({ product }: { product: IProduct }) {
   return (
     <Layout>
       <main>
@@ -39,7 +42,7 @@ function ProductDetail({ product }) {
 
 export default ProductDetail
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps({ params }: IParams) {
   const { id } = params
 
   await dbConnect()

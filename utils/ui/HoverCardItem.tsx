@@ -1,22 +1,22 @@
 import axios from 'axios'
 import React, { useContext, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
-import { cardHoverItem } from '../../data/ProductCardData'
 import { Store } from '../Store'
 import 'react-toastify/dist/ReactToastify.css'
 import { useRouter } from 'next/router'
+import { IProduct } from '../../type/product.model.type'
 type HoverCardItemProps = {
-  productId?: String
+  productId: IProduct
 }
-export default function HoverCardItem({ productId }) {
+export default function HoverCardItem({ productId }: HoverCardItemProps) {
   const [hoverEffect, setHoverEffect] = useState('')
 
   const { state, dispatch } = useContext(Store)
   const router = useRouter()
 
-  const AddToCart = async (product: { _id: String }) => {
+  const AddToCart = async (product: IProduct): Promise<void> => {
     const existItem = state.cart.cartItems.find(
-      (x: { _id: String }) => x._id === product._id
+      (x: { _id: string }) => x._id === product._id
     )
     const quantity = existItem ? existItem.quantity + 1 : 1
     const { data } = await axios.get(`/api/product/${product._id}`)
@@ -30,10 +30,18 @@ export default function HoverCardItem({ productId }) {
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } })
   }
 
-  // const AddToWish = () => {
-  //   console.log('hihihi')
-  // }
-  const AddToCompare = async (product: { _id: String }) => {
+  const AddToWish = async (product: IProduct): Promise<void> => {
+    const existItem = state.wishListItems.find(
+      (x: { _id: String }) => x._id === product._id
+    )
+    if (existItem) {
+      toast('🛒 Product exist')
+    } else {
+      toast('🛒 Add to Wish Lists')
+      dispatch({ type: 'WISH_LIST_ADD_ITEM', payload: product })
+    }
+  }
+  const AddToCompare = async (product: IProduct): Promise<void> => {
     const existItem = state.compareCartItems.find(
       (x: { _id: String }) => x._id === product._id
     )
@@ -46,7 +54,7 @@ export default function HoverCardItem({ productId }) {
       dispatch({ type: 'COMPARE_CART_ADD_ITEM', payload: product })
     }
   }
-  const QuickView = (product: { _id: any }) => {
+  const QuickView = (product: IProduct): void => {
     router.push(`/product/${product._id}`)
   }
   return (
@@ -66,9 +74,9 @@ export default function HoverCardItem({ productId }) {
             stroke="currentColor"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
             />
           </svg>
@@ -84,6 +92,7 @@ export default function HoverCardItem({ productId }) {
           className={`group text-white hover:bg-yellow-500 transition duration-100 bg-black bg-opacity-60 text-xs font-medium p-2 my-2 rounded flex items-center  delay-700`}
           onMouseEnter={() => setHoverEffect('Add to Wish List')}
           onMouseLeave={() => setHoverEffect('')}
+          onClick={() => AddToWish(productId)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -92,9 +101,9 @@ export default function HoverCardItem({ productId }) {
             fill="currentColor"
           >
             <path
-              fill-rule="evenodd"
+              fillRule="evenodd"
               d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-              clip-rule="evenodd"
+              clipRule="evenodd"
             />
           </svg>
           <span
@@ -118,9 +127,9 @@ export default function HoverCardItem({ productId }) {
             fill="currentColor"
           >
             <path
-              fill-rule="evenodd"
+              fillRule="evenodd"
               d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-              clip-rule="evenodd"
+              clipRule="evenodd"
             />
           </svg>
           <span
@@ -145,9 +154,9 @@ export default function HoverCardItem({ productId }) {
             stroke="currentColor"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="3"
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
             />
           </svg>

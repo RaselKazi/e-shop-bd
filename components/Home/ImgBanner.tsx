@@ -8,8 +8,8 @@ type ImgBannerProps = {
 function ImgBanner({ imgLink }: ImgBannerProps) {
   return (
     <div className=" pt-10">
-      <Link href="/">
-        <a href="shop.html">
+      <Link href="/" passHref>
+        <a>
           <Image
             className="w-full duration-300 hover:opacity-80"
             alt="banner"

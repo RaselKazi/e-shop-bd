@@ -1,8 +1,8 @@
 import React from 'react'
 import ContactForm from '../components/Contact/ContactForm'
 import SocialItem from '../components/Contact/SocialItem'
-import ContactDetails from '../components/Layout/Footer/contactDetails'
 import Layout from '../components/Layout/Layout'
+import { countItemList } from '../data/ContactData'
 import Breadcrumb from '../utils/ui/Breadcrumb'
 
 function contact() {
@@ -47,7 +47,14 @@ function contact() {
 
             <div>
               <ul>
-                <ContactDetails></ContactDetails>
+                {countItemList.map((item) => (
+                  <li key={item.title} className=" text-gray-500 mb-4">
+                    <a>
+                      <span className=" inline-block">{item.icon}</span>
+                      <span className=" ml-3">{item.title}</span>
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
 

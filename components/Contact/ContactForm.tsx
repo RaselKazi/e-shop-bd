@@ -28,10 +28,7 @@ export default function ContactForm() {
       <div className="mb-5">
         <label className=" text-sm font-bold" htmlFor="name">
           Email <span className=" text-red-500">*</span> ({' '}
-          <a className="text-blue-400" href="privacy-policy.html">
-            privacy policy
-          </a>{' '}
-          )
+          <div className="text-blue-400">privacy policy</div> )
         </label>
         <input
           className="p-4 shadow rounded h-10 w-full bg-gray-100 focus:outline-none "
@@ -49,9 +46,7 @@ export default function ContactForm() {
           id="message"
           className=" w-full resize-none h-40 p-4 shadow rounded bg-gray-100 focus:outline-none"
           required
-        >
-          I'm interested in learning more about...
-        </textarea>
+        ></textarea>
       </div>
 
       <button

@@ -4,10 +4,10 @@ function ProductDescription() {
   return (
     <div>
       <div className="text-sm text-gray-600 leading-loose">
-        <strong>Viewing angle (typical)</strong>
+        <strong>Viewing angle typical</strong>
 
         <p className=" mt-4">
-          <strong>User controls (hardware and software)</strong>
+          <strong>User controls hardware and software</strong>
         </p>
 
         <ul>
@@ -16,10 +16,10 @@ function ProductDescription() {
           <li>Brightness</li>
           <li>Monitor tilt</li>
         </ul>
-        <p className=" mt-4">
+        <div className=" mt-4">
           <strong>Connectors and cables</strong>
           <br /> Cable
-        </p>
+        </div>
 
         <ul>
           <li>DVI (Digital Visual Interface)</li>
@@ -59,7 +59,7 @@ function ProductDescription() {
         </p>
 
         <ul>
-          <li>Operating temperature: 50° to 95° F (10° to 35° C)</li>
+          <li>Operating temperature: 50° to 95° F 10° to 35° C</li>
         </ul>
         <p className=" mt-4">
           <strong>Agency approvals</strong>
@@ -73,7 +73,7 @@ function ProductDescription() {
         </p>
 
         <ul>
-          <li>Height: 21.3 inches (54.3 cm)</li>
+          <li>Height: 21.3 inches 54.3 cm</li>
         </ul>
         <p className=" mt-4">
           <strong>System Requirements</strong>

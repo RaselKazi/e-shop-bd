@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
-import sidebarimg from '../../../public/images/ad1.jpg'
-function SideberCard() {
+import sidebarImg from '../../../public/images/ad1.jpg'
+function SidebarCard() {
   return (
     <div className=" mt-5 border rounded">
       <div className=" font-bold p-3 flex items-center bg-gray-200 bg-opacity-80 rounded">
@@ -12,7 +12,7 @@ function SideberCard() {
         <Image
           className="w-full hover:opacity-80 duration-300"
           alt=""
-          src={sidebarimg}
+          src={sidebarImg}
           layout="responsive"
           width={275}
           height={200}
@@ -32,4 +32,4 @@ function SideberCard() {
   )
 }
 
-export default SideberCard
+export default SidebarCard

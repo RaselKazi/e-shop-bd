@@ -1,6 +1,6 @@
 import React from 'react'
+import { countItemList } from '../../../data/ContactData'
 import { footerMenuItem } from '../../../data/FooterData'
-import ContactDetails from './contactDetails'
 export default function DesktopFooterItem() {
   return (
     <div className="lg:grid hidden md:grid-cols-6  xl:gap-6 border-t py-5 xl:px-24 sm:px-10 px-4">
@@ -12,7 +12,16 @@ export default function DesktopFooterItem() {
 
         <div>
           <ul>
-            <ContactDetails></ContactDetails>
+            <div>
+              {countItemList.map((item) => (
+                <li key={item.title} className=" text-gray-500 mb-4">
+                  <a>
+                    <span className=" inline-block">{item.icon}</span>
+                    <span className=" ml-3">{item.title}</span>
+                  </a>
+                </li>
+              ))}
+            </div>
           </ul>
         </div>
       </div>
@@ -20,7 +29,7 @@ export default function DesktopFooterItem() {
 
       {footerMenuItem.map((menuItem) => {
         return (
-          <div>
+          <div key={menuItem.title}>
             <div className=" mb-8">
               <h3 className=" font-bold leading-loose text-sm">
                 {menuItem.title}
@@ -30,9 +39,9 @@ export default function DesktopFooterItem() {
 
             <div>
               <ul>
-                {menuItem.items.map((item) => {
+                {menuItem.items.map((item, i) => {
                   return (
-                    <li className=" text-gray-600 mb-2">
+                    <li key={i} className=" text-gray-600 mb-2">
                       <a>
                         <span className=" inline-block">
                           <svg

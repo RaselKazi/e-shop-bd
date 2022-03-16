@@ -10,8 +10,8 @@ const payList = [brand1, brand2, brand3, brand4, brand5]
 function BrandIcon() {
   return (
     <div>
-      {payList.map((pay) => (
-        <div className="inline-block mb-4 md:mr-2 mr-4 ">
+      {payList.map((pay, i) => (
+        <div key={i} className="inline-block mb-4 md:mr-2 mr-4 ">
           <Image alt="" src={pay} layout="fixed" width={60} height={25} />
         </div>
       ))}

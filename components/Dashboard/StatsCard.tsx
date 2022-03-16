@@ -43,6 +43,7 @@ function StatsCard({ data }: StatsCardProps) {
       {stats.map((st) => {
         return (
           <div
+            key={st.title}
             v-for="stat in stats"
             className="flex flex-col py-2 px-2  w-1/3 bg-gray-900 rounded-lg gap-y-3"
           >

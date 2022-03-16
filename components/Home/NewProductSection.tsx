@@ -7,8 +7,9 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import CartProductCard from '../Product/CartProductCard'
-
-function NewProductSection({ productData }) {
+import { IProduct } from '../../type/product.model.type'
+type ProductSectionProps = { productData: IProduct[] }
+function NewProductSection({ productData }: ProductSectionProps) {
   return (
     <div className=" relative py-2 mx-3 border-t-2">
       <Swiper
@@ -24,13 +25,17 @@ function NewProductSection({ productData }) {
         }}
       >
         <SwiperSlide>
-          {productData.slice(0, 4).map((pro: any) => (
-            <CartProductCard CartData={pro} />
+          {productData.slice(0, 4).map((pro) => (
+            <div key={pro._id}>
+              <CartProductCard CartData={pro} />
+            </div>
           ))}
         </SwiperSlide>
         <SwiperSlide>
-          {productData.slice(4, 8).map((pro: any) => (
-            <CartProductCard CartData={pro} />
+          {productData.slice(4, 8).map((pro) => (
+            <div key={pro._id}>
+              <CartProductCard CartData={pro} />
+            </div>
           ))}
         </SwiperSlide>
       </Swiper>

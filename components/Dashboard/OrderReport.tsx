@@ -70,9 +70,9 @@ function OrderReport() {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => {
+          {orders.map((order, i) => {
             return (
-              <tr key={order.menu} className="text-sm text-gray-500 ">
+              <tr key={i} className="text-sm text-gray-500 ">
                 <td className="py-4">
                   <div className="flex gap-4 items-center">
                     <Image

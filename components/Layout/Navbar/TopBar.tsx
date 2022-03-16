@@ -26,7 +26,7 @@ function TopBar() {
   return (
     <div className="flex justify-between bg-gray-100 py-3 xl:px-24 sm:px-10 px-4">
       <div className=" sm:block hidden">
-        <p className="text-sm text-gray-600">
+        <div className="text-sm text-gray-600">
           {state.userInfo ? (
             <div>
               Welcome to E-market
@@ -48,7 +48,7 @@ function TopBar() {
               </Link>
             </div>
           )}
-        </p>
+        </div>
       </div>
 
       <div className="flex items-center sm:justify-end justify-between text-sm md:divide-x-2 divide-gray-300  text-gray-600 md:w-auto w-full">
@@ -102,29 +102,34 @@ function TopBar() {
 
           {open && (
             <div
-              className=" absolute rounded p-3 bg-white border w-full shadow mt-2 text-base overflow-hidden duration-300"
+              className=" absolute rounded p-3 bg-white border w-full shadow mt-2 text-base overflow-hidden duration-300 z-10"
               onClick={() => setOpen(false)}
             >
               <ul className=" ">
                 {state.userInfo?.role === 'admin' ? (
-                  <Link href="/dashboard">
+                  <Link href="/dashboard" passHref>
                     <li className=" py-1 rounded cursor-pointer capitalize hover:bg-gray-100 transition duration-200 border-b border-gray-300">
                       Admin panel
                     </li>
                   </Link>
                 ) : (
-                  <Link href="/profile">
+                  <Link href="/profile" passHref>
                     <li className=" py-1 rounded cursor-pointer capitalize hover:bg-gray-100 transition duration-200 border-b border-gray-300">
                       Profile
                     </li>
                   </Link>
                 )}
-                <Link href="/product/compare">
+                <Link href="/product/compare" passHref>
                   <li className=" py-1 rounded cursor-pointer capitalize hover:bg-gray-100 transition duration-200 border-b border-gray-300">
                     Compare
                   </li>
                 </Link>
-                <Link href="/place-older">
+                <Link href="/product/wish-list" passHref>
+                  <li className=" py-1 rounded cursor-pointer capitalize hover:bg-gray-100 transition duration-200 border-b border-gray-300">
+                    Wish List
+                  </li>
+                </Link>
+                <Link href="/place-older" passHref>
                   <li className="py-1 rounded cursor-pointer  capitalize hover:bg-gray-100 transition duration-200 border-b border-gray-300">
                     Check out
                   </li>
@@ -138,7 +143,7 @@ function TopBar() {
                     Log out
                   </li>
                 ) : (
-                  <Link href="/login">
+                  <Link href="/login" passHref>
                     <li className="py-1 rounded cursor-pointer  capitalize hover:bg-gray-100 transition duration-200 border-b border-gray-300">
                       Sign in
                     </li>
@@ -151,7 +156,7 @@ function TopBar() {
 
         <div className="sm:px-4 flex items-center space-x-6">
           {socialIconData.map((social) => (
-            <a className=" text-gray-600" href="#">
+            <a key={social.id} className=" text-gray-600" href="#">
               {social.icon}
             </a>
           ))}

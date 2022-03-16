@@ -1,4 +1,4 @@
-import { ReactElement, useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import type { NextPage } from 'next'
 import Layout from '../components/Layout/Layout'
 import BlogSection from '../components/Home/BlogSection'
@@ -21,22 +21,30 @@ import HeadLineText from '../utils/ui/HeadLineText'
 import { Store } from '../utils/Store'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
-const Home: NextPage = (props) => {
+import { IHomePageQuery, IProduct } from '../type/product.model.type'
+
+interface IProductProps {
+  allProducts: IProduct[]
+  topProducts: IProduct[]
+  productCategory: IProduct[]
+  FeaturedProducts: IProduct[]
+  NewArrivalsProducts: IProduct[]
+  BestsellingProducts: IProduct[]
+}
+const Home = ({
+  allProducts,
+  topProducts,
+  productCategory,
+  FeaturedProducts,
+  NewArrivalsProducts,
+  BestsellingProducts,
+}: IProductProps) => {
   const { state, dispatch } = useContext(Store)
   const [productTab, setProductTab] = useState('')
   const router = useRouter()
-
-  const {
-    allProducts,
-    topProducts,
-    productCategory,
-    FeaturedProducts,
-    NewArrivalsProducts,
-    BestsellingProducts,
-  } = props
-
   return (
     <Layout>
+      {/* Carousel and Categories section */}
       <section className="xl:px-24 sm:px-10 px-4 pt-10">
         <div className="lg:grid lg:grid-cols-5 gap-8 sm:border rounded sm:p-5 relative fakeLoader">
           <div className="hidden lg:block">
@@ -47,14 +55,13 @@ const Home: NextPage = (props) => {
 
         <CategoriesCard></CategoriesCard>
       </section>
+
+      {/* POPULAR TAGS and MinProductCard section */}
       <section className="xl:px-24 sm:px-10 px-4 pt-10">
         <div className="lg:grid lg:grid-cols-4 gap-8 overflow-hidden">
           <div className=" hidden lg:block">
             <div>
-              <a
-                href="shop.html"
-                className=" font-bold border-b-2 border-yellow-500 inline-block pb-1"
-              >
+              <a className=" font-bold border-b-2 border-yellow-500 inline-block pb-1">
                 POPULAR TAGS
               </a>
             </div>
@@ -77,8 +84,10 @@ const Home: NextPage = (props) => {
             </div>
             <div className=" border border-gray-200 rounded sm:p-5 p-2">
               <div className=" grid grid-cols-2 sm:gap-6 gap-2 divide-y">
-                {topProducts.map((pro: any) => (
-                  <MinProductCard productData={pro} />
+                {topProducts.map((pro) => (
+                  <div key={pro._id}>
+                    <MinProductCard productData={pro} />
+                  </div>
                 ))}
               </div>
             </div>
@@ -86,20 +95,20 @@ const Home: NextPage = (props) => {
         </div>
         <ImgBanner imgLink="bn1.png"></ImgBanner>
       </section>
+      {/* DEALS OF THE WEEK ProductCard section */}
       <section className="xl:px-24 sm:px-10 px-4 pt-10">
         <div>
-          <a
-            href="shop.html"
-            className=" font-bold border-b-2 border-yellow-500 inline-block pb-1"
-          >
+          <a className=" font-bold border-b-2 border-yellow-500 inline-block pb-1">
             DEALS OF THE WEEK
           </a>
         </div>
         <div className=" md:grid md:grid-cols-3 border rounded">
           <MidProductCard productData={allProducts[0]} card="max" />
           <div className="col-span-2">
-            {allProducts.slice(2, 4).map((pro: any) => (
-              <MidProductCard productData={pro} />
+            {allProducts.slice(2, 4).map((pro) => (
+              <div key={pro._id}>
+                <MidProductCard productData={pro} />
+              </div>
             ))}
           </div>
         </div>
@@ -110,16 +119,20 @@ const Home: NextPage = (props) => {
           <ImgBanner imgLink="bn3.webp"></ImgBanner>
         </div>
       </section>
+      {/* New Arrivals ProductCard section */}
       <section className="xl:px-24 sm:px-10 px-4 pt-10 overflow-hidden">
         <CategoriesImgTab></CategoriesImgTab>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 lg:grid-cols-4 pt-6">
-          {productCategory.map((pro: any) => (
-            <ProductCard productData={pro} />
+          {productCategory.map((pro) => (
+            <div key={pro._id}>
+              <ProductCard productData={pro} />
+            </div>
           ))}
         </div>
 
         <ImgBanner imgLink="bn4.webp"></ImgBanner>
       </section>
+      {/* Bestselling small ProductCard section */}
       <section className="xl:px-24 sm:px-10 px-4 pt-10 overflow-hidden">
         <div className=" border-gray-100 grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3  md:grid-cols-2">
           {/* carousel */}
@@ -148,16 +161,14 @@ const Home: NextPage = (props) => {
 
         <ImgLogo></ImgLogo>
       </section>
-
       <BlogSection></BlogSection>
     </Layout>
   )
 }
 export default dynamic(() => Promise.resolve(Home), { ssr: false })
 
-export async function getServerSideProps({ query }) {
+export async function getServerSideProps({ query }: IHomePageQuery) {
   await dbConnect()
-
   const category = query.category || ''
   const sort = query.sort || ''
 

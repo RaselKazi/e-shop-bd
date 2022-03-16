@@ -1,7 +1,7 @@
 import React, { Dispatch } from 'react'
 
 type TabListProps = {
-  title: String
+  title: string
   handelTab: Dispatch<React.SetStateAction<string>>
 }
 export default function TabList({ title, handelTab }: TabListProps) {

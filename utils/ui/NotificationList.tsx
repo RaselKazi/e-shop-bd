@@ -4,10 +4,7 @@ import blog from '../../public/images/10.jpg'
 function NotificationList() {
   return (
     <div className="py-2">
-      <a
-        href=""
-        className="flex items-center justify-between px-4 py-3 -mx-2 transition-colors duration-200 transform border-b border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 dark:border-gray-700"
-      >
+      <a className="flex items-center justify-between px-4 py-3 -mx-2 transition-colors duration-200 transform border-b border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 dark:border-gray-700">
         <Image
           className=" rounded-full w-8 hover:opacity-80"
           alt="a"

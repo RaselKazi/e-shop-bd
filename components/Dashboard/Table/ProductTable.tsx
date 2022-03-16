@@ -1,5 +1,6 @@
+/* eslint-disable react/jsx-key */
 import Link from 'next/link'
-import { useMemo } from 'react'
+import { PropsWithChildren, ReactElement, useMemo } from 'react'
 import {
   useTable,
   useSortBy,
@@ -11,7 +12,8 @@ import {
 import TableGlobalFilter from './TableGlobalFilter'
 
 type TableProps = {
-  TableData: {}
+  TableData: {}[]
+  colum: {}
 }
 interface Data {
   name: string
@@ -21,7 +23,8 @@ interface Data {
   stock: Number
 }
 
-function ProductTable({ TableData, colum }: TableProps) {
+function ProductTable(props): ReactElement {
+  const { TableData, colum } = props
   const columns = useMemo(() => colum, [])
   const data = TableData
   const {
@@ -57,7 +60,7 @@ function ProductTable({ TableData, colum }: TableProps) {
           filter={state.globalFilter}
           setFilter={setGlobalFilter}
         ></TableGlobalFilter>
-        <Link href="newproduct">
+        <Link href="newproduct" passHref>
           <button className=" h-10 border hover:border-sky-400 hover:bg-sky-800  border-sky-500  bg-gray-900  px-7 rounded-md text-sm text-sky-400 hover:text-white font-medium transition duration-200">
             Add Product
           </button>
@@ -70,7 +73,7 @@ function ProductTable({ TableData, colum }: TableProps) {
             <thead className="bg-gray-900">
               {headerGroups.map((headerGroup) => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
+                  {headerGroup.headers.map((column, _i) => (
                     <th
                       className="group px-3 py-2 lg:px-6 lg:py-3 text-center text-xs font-medium text-white uppercase tracking-wider border-b border-sky-500"
                       {...column.getHeaderProps(column.getSortByToggleProps())}

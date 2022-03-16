@@ -10,8 +10,8 @@ const ReasonsList = [Reasons1, Reasons2, Reasons3, Reasons4]
 export default function ReasonsIcon() {
   return (
     <div className="">
-      {ReasonsList.map((Reasons) => (
-        <div className="inline-block mb-1 mr-4 ">
+      {ReasonsList.map((Reasons, i) => (
+        <div key={i} className="inline-block mb-1 mr-4 ">
           <Image alt="" src={Reasons} layout="fixed" width={50} height={50} />
         </div>
       ))}

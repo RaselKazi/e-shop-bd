@@ -1,14 +1,19 @@
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
-export default function OrderProductCard({ CartData }) {
-  console.log(CartData)
+import { IOrderCard } from '../../type/order.model.type'
+
+type OrderProductCardProps = { CartData: IOrderCard[] }
+export default function OrderProductCard({ CartData }: OrderProductCardProps) {
   return (
     <div className="mx-3">
       {CartData.map((item) => (
-        <div className="p-2 h-20 w-full grid grid-cols-4 gap-6  border-b border-gray-300 hover:bg-gray-200 rounded-md transition duration-200">
+        <div
+          key={item._id}
+          className="p-2 h-20 w-full grid grid-cols-4 gap-6  border-b border-gray-300 hover:bg-gray-200 rounded-md transition duration-200"
+        >
           <div className="col-span-1">
-            <Link href={`product/${item.productId}`}>
+            <Link href={`product/${item.productId}`} passHref>
               <Image
                 className="hover:bg-opacity-50 transition-all cursor-pointer duration-200"
                 alt=""

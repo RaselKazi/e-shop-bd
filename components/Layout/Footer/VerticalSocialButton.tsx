@@ -12,6 +12,7 @@ export default function VerticalSocialButton() {
       >
         {socialIconData.map((social) => (
           <a
+            key={social.id}
             className="mb-2 p-2 duration-300 bg-black bg-opacity-20 rounded-md hover:text-white hover:bg-yellow-500 block"
             href="#"
           >

@@ -23,8 +23,8 @@ type FormValues = {
   brand: string
   size: string
   colors: string[]
-  price: Number
-  stock: Number
+  price: string
+  stock: string
 }
 
 function newproduct() {
@@ -35,9 +35,7 @@ function newproduct() {
 
   const { state, dispatch } = useContext(Store)
   const { userInfo } = state
-  const createProductImagesChange = (e: {
-    target: { files: Iterable<unknown> | ArrayLike<unknown> }
-  }) => {
+  const createProductImagesChange = (e) => {
     const files = Array.from(e.target.files)
 
     setImages([])
@@ -186,6 +184,7 @@ function newproduct() {
                   >
                     {categoriesOptionList.map((List) => (
                       <option
+                        key={List}
                         className=" text-slate-400"
                         value={List.split(' ').join('')}
                       >
@@ -211,29 +210,17 @@ function newproduct() {
                     {...register('brand')}
                   >
                     {brandsList.map((List) => (
-                      <option className=" text-slate-400" value={List}>
+                      <option
+                        key={List}
+                        className=" text-slate-400"
+                        value={List}
+                      >
                         {List}
                       </option>
                     ))}
                   </select>
                 </div>
-              </div>
 
-              <div className="grid sm:grid-cols-2 gap-6 mb-5">
-                <div>
-                  <label className="text-gray-200 text-sm font-bold">
-                    Color <span className=" text-red-500">*</span>
-                  </label>
-                  <Select
-                    defaultValue={[ColorList[2], ColorList[3]]}
-                    isMulti
-                    options={ColorList}
-                    className=""
-                    classNamePrefix="  
-                   "
-                    {...register('colors')}
-                  />
-                </div>
                 <div>
                   <label className=" text-gray-200 text-sm font-bold ">
                     Size
@@ -248,7 +235,11 @@ function newproduct() {
                     {...register('size')}
                   >
                     {SizeList.map((List) => (
-                      <option className=" text-slate-400" value={List}>
+                      <option
+                        key={List}
+                        className=" text-slate-400"
+                        value={List}
+                      >
                         {List}
                       </option>
                     ))}

@@ -5,12 +5,15 @@ import dynamic from 'next/dynamic'
 import RatingStar from '../../utils/ui/RatingStar'
 import HoverCardItem from '../../utils/ui/HoverCardItem'
 import CountdownTimer from '../../utils/ui/CountdownTimer'
-function ProductCard({ productData }) {
+import { IProduct } from '../../type/product.model.type'
+
+type ProductCardProps = { productData: IProduct }
+function ProductCard({ productData }: ProductCardProps) {
   return (
     <div className="bg-gray-200 bg-opacity-30 py-8 border rounded border-t-0">
       <div className="pb-4 group">
         <div className=" relative">
-          <Link href={`product/${productData._id}`}>
+          <Link href={`product/${productData._id}`} passHref>
             <Image
               className=" mx-auto h-full w-full cursor-pointer"
               alt=""

@@ -13,7 +13,7 @@ function CartProductCard({ variant, CartData }: CartProductCard) {
         }`}
       >
         <div className="col-span-1">
-          <Link href={`product/${CartData?._id}`}>
+          <Link href={`product/${CartData?._id}`} passHref>
             <Image
               className="hover:bg-opacity-50 transition-all cursor-pointer duration-200"
               alt=""

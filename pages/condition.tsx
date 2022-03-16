@@ -6,7 +6,7 @@ function condition() {
     <Layout>
       <section className="xl:px-24 sm:px-10 px-4 pt-5">
         <div className=" text-gray-500">
-          <p>
+          <div>
             <h4 className=" text-2xl font-bold tracking-tight mt-5 text-black">
               PROHIBITED ACTIVITIES
             </h4>
@@ -43,7 +43,7 @@ function condition() {
             </ul>
             <br />
             <br />
-          </p>
+          </div>
         </div>
       </section>
     </Layout>

@@ -4,13 +4,13 @@ import Rating from 'react-rating'
 type RatingStar = {
   value: Number
   show?: Boolean
-  setRating?: Dispatch<SetStateAction<number>>
+  setRating: Dispatch<SetStateAction<string>>
 }
 export default function RatingStar({ show, value, setRating }: RatingStar) {
   return (
     <div>
       <Rating
-        initialRating={value}
+        initialRating={Number(value)}
         emptySymbol={
           <svg
             className={`text-gray-300 -z-40  cursor-pointer ${
@@ -34,7 +34,7 @@ export default function RatingStar({ show, value, setRating }: RatingStar) {
           </svg>
         }
         readonly={!show}
-        onClick={(e) => setRating(e)}
+        onClick={(e) => setRating(e.toString())}
       ></Rating>
     </div>
   )

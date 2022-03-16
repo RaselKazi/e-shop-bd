@@ -10,13 +10,14 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import BrandIcon from '../Layout/Footer/BrandIcon'
 import ReasonsIcon from '../Layout/Footer/ReasonsIcon'
-
-function ProductCardDetails({ productData }) {
+import { IProduct } from '../../type/product.model.type'
+type CardDetailsProps = { productData: IProduct }
+function ProductCardDetails({ productData }: CardDetailsProps) {
   const [openModal, setOpenModal] = useState(false)
   const [productQuantity, setProductQuantity] = useState(0)
   const { state, dispatch } = useContext(Store)
 
-  const addToCartHandler = async (product: { _id: String }) => {
+  const addToCartHandler = async (product: IProduct) => {
     const existItem = state.cart.cartItems.find(
       (x: { _id: String }) => x._id === product._id
     )
@@ -40,6 +41,30 @@ function ProductCardDetails({ productData }) {
     }
   }
 
+  const AddToWish = async (product: IProduct): Promise<void> => {
+    const existItem = state.wishListItems.find(
+      (x: { _id: String }) => x._id === product._id
+    )
+    if (existItem) {
+      toast('🛒 Product exist')
+    } else {
+      toast('🛒 Add to Wish Lists')
+      dispatch({ type: 'WISH_LIST_ADD_ITEM', payload: product })
+    }
+  }
+  const AddToCompare = async (product: IProduct): Promise<void> => {
+    const existItem = state.compareCartItems.find(
+      (x: { _id: String }) => x._id === product._id
+    )
+    if (existItem) {
+      toast('🛒 Product exist')
+    } else if (state.compareCartItems.length > 3) {
+      toast('🛒 Compare Cart is full')
+    } else {
+      toast('🛒 Add to CompareCart a Product')
+      dispatch({ type: 'COMPARE_CART_ADD_ITEM', payload: product })
+    }
+  }
   return (
     <div>
       <div>
@@ -118,7 +143,7 @@ function ProductCardDetails({ productData }) {
           required
         >
           {SizeList.map((List) => (
-            <option className=" text-slate-400" value={List}>
+            <option key={List} className=" text-slate-400" value={List}>
               {List}
             </option>
           ))}
@@ -161,9 +186,9 @@ function ProductCardDetails({ productData }) {
                   fill="currentColor"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
               </button>
@@ -182,9 +207,9 @@ function ProductCardDetails({ productData }) {
                   fill="currentColor"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
               </button>
@@ -202,7 +227,10 @@ function ProductCardDetails({ productData }) {
         </button>
 
         <div className="group relative inline-block">
-          <button className=" p-2 px-6 border-2 border-yellow-500 hover:border-yellow-600 duration-300 rounded-sm text-sm bg-yellow-500 text-white hover:bg-yellow-600 ">
+          <button
+            className=" p-2 px-6 border-2 border-yellow-500 hover:border-yellow-600 duration-300 rounded-sm text-sm bg-yellow-500 text-white hover:bg-yellow-600 "
+            onClick={() => AddToWish(productData)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -210,9 +238,9 @@ function ProductCardDetails({ productData }) {
               fill="currentColor"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               />
             </svg>
           </button>
@@ -225,7 +253,10 @@ function ProductCardDetails({ productData }) {
         </div>
 
         <div className="group relative inline-block">
-          <button className="p-2 px-6 border-2 border-yellow-500 hover:border-yellow-600 duration-300 rounded-sm text-sm bg-yellow-500 text-white hover:bg-yellow-600">
+          <button
+            className="p-2 px-6 border-2 border-yellow-500 hover:border-yellow-600 duration-300 rounded-sm text-sm bg-yellow-500 text-white hover:bg-yellow-600"
+            onClick={() => AddToCompare(productData)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -233,9 +264,9 @@ function ProductCardDetails({ productData }) {
               fill="currentColor"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               />
             </svg>
           </button>
@@ -248,7 +279,7 @@ function ProductCardDetails({ productData }) {
         </div>
       </div>
       {/* ----Share--- */}
-      <div className=" flex items-center">
+      <div className="">
         <SocialItem></SocialItem>
       </div>
       {/* FROM US */}

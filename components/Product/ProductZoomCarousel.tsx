@@ -1,10 +1,9 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
 import ReactImageMagnify from 'react-image-magnify'
-import CarouselBigImg from './../../public/images/image-left.jpg'
-import CarouselImg from './../../public/images/ad1.jpg'
-function ProductZoomCarousel({ images }) {
-  const [imgUrl, setImgUrl] = useState(`${images[0].url}`)
+import { IImagesItems } from '../../type/product.model.type'
+function ProductZoomCarousel({ images }: IImagesItems) {
+  const [imgUrl, setImgUrl] = useState<string>(`${images[0].url}` as string)
   return (
     <div>
       <div>
@@ -28,6 +27,7 @@ function ProductZoomCarousel({ images }) {
         {/* -------001--------- */}
         {images.map((img) => (
           <div
+            key={img.url}
             className="border border-gray-300"
             onClick={() => setImgUrl(img.url)}
           >

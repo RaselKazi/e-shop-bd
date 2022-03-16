@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useState, useEffect } from 'react'
 import CountdownItem from './CountdownItem'
 import CountdownItemBlack from './CountdownItemBlack'
@@ -5,6 +6,7 @@ import CountdownItemBlack from './CountdownItemBlack'
 type classProp = {
   cardSize?: string
   variant?: string
+  discountDate: Date
 }
 function CountdownTimer({ cardSize, discountDate, variant }: classProp) {
   const [partyTime, setPartyTime] = useState(false)

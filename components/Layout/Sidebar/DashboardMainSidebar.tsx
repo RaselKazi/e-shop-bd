@@ -35,9 +35,9 @@ function DashboardMainSidebar() {
             stroke="currentColor"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M6 18L18 6M6 6l12 12"
             />
           </svg>
@@ -50,9 +50,9 @@ function DashboardMainSidebar() {
             stroke="currentColor"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M4 6h16M4 12h16m-7 6h7"
             />
           </svg>
@@ -97,9 +97,9 @@ function DashboardMainSidebar() {
               fill="currentColor"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               />
             </svg>
           </span>
@@ -111,6 +111,7 @@ function DashboardMainSidebar() {
           {DashboardMenuItem.map((menu) => {
             return (
               <div
+                key={menu.title}
                 className="relative "
                 onClick={() =>
                   goTo(menu.title, `${menu.link}`, menu.dropdown.length === 0)
@@ -169,9 +170,9 @@ function DashboardMainSidebar() {
                       fill="currentColor"
                     >
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
+                        clipRule="evenodd"
                       />
                     </svg>
                   )}
@@ -219,7 +220,7 @@ function DashboardMainSidebar() {
                     <ul>
                       {menu?.dropdown.map((drop) => {
                         return (
-                          <Link href={`${drop.link}`}>
+                          <Link key={drop.link} href={`${drop.link}`} passHref>
                             <li className=" hover:bg-gray-800 py-2 cursor-pointer transition duration-300">
                               <h1 className="pl-5 text-gray-200 hover:text-sky-500">
                                 {drop.title}

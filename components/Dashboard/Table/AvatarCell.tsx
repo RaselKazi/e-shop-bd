@@ -9,9 +9,12 @@ type avatar = {
 export function AvatarCell({ value, column, row }: avatar) {
   return (
     <div className=" pl-4 flex justify-start items-center">
-      {row.original[column.imgAccessor].map((img) => {
+      {row.original[column.imgAccessor].map((img: { url: string }) => {
         return (
-          <div className="rounded-full  -mx-2  border-4 border-gray-400 flex z-10">
+          <div
+            key={img.url}
+            className="rounded-full  -mx-2  border-4 border-gray-400 flex z-10"
+          >
             <Image
               className="rounded-full hover:opacity-80"
               alt="h"

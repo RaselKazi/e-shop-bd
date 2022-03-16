@@ -8,6 +8,7 @@ export default function ProductColor() {
       {color.map((c) => {
         return (
           <button
+            key={c}
             className={`cursor-pointer h-6 w-6  border border-white inline-block ring-1 ring-gray-200 mr-2 bg-${c}-500`}
           ></button>
         )

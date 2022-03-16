@@ -10,7 +10,7 @@ export default function CheckoutWizard({ step }: WizardProps) {
         <div className=" grid grid-cols-5 justify-items-end">
           <div className=""></div>
           {StepsItem.map((item, i) => (
-            <div>
+            <div key={item.title}>
               <div key={item.title} className="grid grid-cols-4 items-center">
                 <div className="col-span-1 relative">
                   <div

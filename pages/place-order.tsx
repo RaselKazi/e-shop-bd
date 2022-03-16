@@ -12,6 +12,7 @@ import CheckoutWizard from '../utils/ui/CheckoutWizard'
 import List from '../utils/ui/List'
 import TextAndSubtext from '../utils/ui/TextAndSubtext'
 import 'react-toastify/dist/ReactToastify.css'
+import { IProduct } from '../type/product.model.type'
 export default function placeOlder() {
   const router = useRouter()
   const { state, dispatch } = useContext(Store)
@@ -28,7 +29,7 @@ export default function placeOlder() {
       router.push('/cart')
     }
   }, [])
-  const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100 // 123.456 => 123.46
+  const round2 = (num: number) => Math.round(num * 100 + Number.EPSILON) / 100 // 123.456 => 123.46
   const itemsPrice = round2(
     cartItems.reduce(
       (a: number, c: { price: number; quantity: number }) =>
@@ -38,8 +39,10 @@ export default function placeOlder() {
   )
   const afterDiscountPrice = round2(
     cartItems.reduce(
-      (a: number, c) =>
-        a + c.price - ((c.price * c.discount) / 100) * c.quantity,
+      (a: number, c: { price: number; discount: number; quantity: number }) => {
+        const discountPrice = c.price - (c.price * c.discount) / 100
+        return a + discountPrice * c.quantity
+      },
       0
     )
   )
@@ -48,7 +51,7 @@ export default function placeOlder() {
   const totalPrice = round2(afterDiscountPrice + shippingPrice + taxPrice)
 
   //modify cartItems
-  const cartItem = cartItems.map((c) => {
+  const cartItem = cartItems.map((c: IProduct) => {
     return {
       productId: c._id,
       name: c.name,

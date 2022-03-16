@@ -1,6 +1,11 @@
 import React from 'react'
-
-export default function CompareItem({ index, title, data }) {
+import { IProduct } from '../../type/product.model.type'
+type CompareItem = {
+  index: number
+  title: string
+  data: String | Number
+}
+export default function CompareItem({ index, title, data }: CompareItem) {
   return (
     <div>
       {index === 0 ? (

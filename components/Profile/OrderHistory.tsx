@@ -1,7 +1,8 @@
 import React from 'react'
+import { IOrder } from '../../type/order.model.type'
 import { dateFormate } from '../../utils/dateFormate'
-
-export default function OrderHistory({ orderData }) {
+type OrderHistoryProps = { orderData: IOrder[] }
+export default function OrderHistory({ orderData }: OrderHistoryProps) {
   return (
     <div className=" flex justify-center">
       <table className="table-auto border-collapse border border-gray-300 rounded-3xl">

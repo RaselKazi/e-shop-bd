@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import React, { Dispatch, SetStateAction } from 'react'
-import handler from '../../pages/api/hello'
 type HeadLineProps = {
   productTab: String
   setProductTab: Dispatch<SetStateAction<string>>

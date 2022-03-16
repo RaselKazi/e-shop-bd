@@ -1,13 +1,14 @@
 import Image from 'next/image'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import blog from '../../../public/images/10.jpg'
+import { Store } from '../../../utils/Store'
 import NotificationList from '../../../utils/ui/NotificationList'
 import ProfileList from '../../../utils/ui/ProfileList'
 
 function DashboardNavbar() {
-  const [mobileMenu, setMobileMenu] = useState(false)
   const [open, setOpen] = useState(false)
   const [notificationOpen, setNotificationOpen] = useState(false)
+  const { state, dispatch } = useContext(Store)
   return (
     <div className="flex sticky top-0 w-full z-40  bg-gray-900 py-4 items-center justify-around shadow-xl border-b border-sky-800">
       <div className="relative flex flex-1 max-w-xs sm:max-w-xs lg:max-w-xl">
@@ -48,9 +49,9 @@ function DashboardNavbar() {
             height={40}
           />
 
-          <a className="inline-flex items-center pl-4" href="#">
+          <a className="inline-flex items-center pl-4">
             <span className="text-md hover:text-sky-700 hidden md:block  font-normal tracking-widest text-sky-300 transition duration-300">
-              Thomas
+              {state.userInfo?.name}
             </span>
             <span className="text-gray-500 fill-current" />
           </a>
@@ -60,10 +61,7 @@ function DashboardNavbar() {
               open ? ' opacity-1 scale-1 ' : 'hidden opacity-0 scale-0'
             }`}
           >
-            <a
-              href="#"
-              className="flex justify-between items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
+            <a className="flex justify-between items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
               <Image
                 className=" hover:opacity-80 flex-shrink-0 object-cover mx-1 rounded-full w-9 h-9"
                 alt=""
@@ -75,10 +73,10 @@ function DashboardNavbar() {
 
               <div className="mx-1">
                 <h1 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
-                  Jane Doe
+                  {state.userInfo?.name}
                 </h1>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  janedoe@gmail
+                  {state.userInfo?.email}
                 </p>
               </div>
             </a>
@@ -124,12 +122,9 @@ function DashboardNavbar() {
             <NotificationList></NotificationList>
             <NotificationList></NotificationList>
             <div>
-              <a
-                href=""
-                className="block py-2 font-bold text-center text-white bg-gray-800 dark:bg-gray-800"
-              >
+              <div className="block py-2 font-bold text-center text-white bg-gray-800 dark:bg-gray-800">
                 See all notifications
-              </a>
+              </div>
             </div>
           </div>
         </button>

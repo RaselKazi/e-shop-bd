@@ -35,9 +35,9 @@ function ImgLogo() {
           }}
         >
           <div className="">
-            {brandLogoImgList.map((img) => (
-              <SwiperSlide>
-                <a className="px-2">
+            {brandLogoImgList.map((img, i) => (
+              <SwiperSlide key={i}>
+                <div className="px-2">
                   <Image
                     className=" opacity-50 duration-200 hover:opacity-100"
                     src={`/../public/images/${img}`}
@@ -46,7 +46,7 @@ function ImgLogo() {
                     width={100}
                     height={60}
                   />
-                </a>
+                </div>
               </SwiperSlide>
             ))}
           </div>

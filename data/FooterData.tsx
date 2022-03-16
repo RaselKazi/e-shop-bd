@@ -1,5 +1,6 @@
 export const socialIconData = [
   {
+    id: 1,
     link: '',
     bgColor: 'bg-blue-800',
     icon: (
@@ -14,6 +15,7 @@ export const socialIconData = [
     ),
   },
   {
+    id: 2,
     link: '',
     bgColor: 'bg-blue-400',
     icon: (
@@ -31,6 +33,7 @@ export const socialIconData = [
     ),
   },
   {
+    id: 3,
     link: '',
     bgColor: 'bg-red-600',
     icon: (
@@ -48,6 +51,7 @@ export const socialIconData = [
     ),
   },
   {
+    id: 4,
     link: '',
     bgColor: 'bg-pink-600',
     icon: (
@@ -62,6 +66,7 @@ export const socialIconData = [
     ),
   },
   {
+    id: 5,
     link: '',
     bgColor: 'bg-red-500',
     icon: (
@@ -78,11 +83,11 @@ export const socialIconData = [
 ]
 
 export const footerMenu = [
-  { title: 'Product Support', link: '' },
-  { title: 'PCs Setup', link: '' },
-  { title: 'Services', link: '' },
-  { title: 'Terms & Conditions', link: '' },
-  { title: 'Privacy Policy', link: '' },
+  { title: 'Product Support', link: '/' },
+  { title: 'PCs Setup', link: '/' },
+  { title: 'Services', link: '/' },
+  { title: 'Terms & Conditions', link: '/' },
+  { title: 'Privacy Policy', link: '/' },
 ]
 
 export const footerMenuItem = [

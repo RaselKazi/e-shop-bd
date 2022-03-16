@@ -8,24 +8,21 @@ import DashboardLayout from '../../components/Layout/DashboardLayout'
 import useCheckAdminAndRedirect from '../../hook/useCheckAdminAndRedirect'
 import { getError } from '../../utils/error'
 import { Store } from '../../utils/Store'
+import Preloader from '../../utils/ui/Preloader'
 
-function reducer(state: any, action: { type: string; payload?: any }) {
-  switch (action.type) {
-    case 'FETCH_REQUEST':
-      return { ...state, loading: true, error: '' }
-    case 'FETCH_SUCCESS':
-      return { ...state, loading: false, summary: action.payload, error: '' }
-    case 'FETCH_FAIL':
-      return { ...state, loading: false, error: action.payload }
-    default:
-      state
-  }
+type summaryData = {
+  ordersPrice: Number
+  productsCount: Number
+  ordersCount: Number
+  usersCount: Number
+  salesData: { _id: string; totalSales: number }[]
 }
 
 function dashboard() {
   useCheckAdminAndRedirect()
   const [mobileMenu, setMobileMenu] = useState(false)
-
+  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState<summaryData | null>(null)
   //JavaScript function to get the current date
   let today = new Date()
   const dd = String(today.getDate()).padStart(2, '0')
@@ -37,50 +34,47 @@ function dashboard() {
   const { state } = useContext(Store)
   const { userInfo } = state
 
-  const [{ loading, error, summary }, dispatch] = useReducer(reducer, {
-    loading: true,
-    summary: { salesData: [] },
-    error: '',
-  })
-
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
       try {
-        dispatch({ type: 'FETCH_REQUEST' })
         const { data } = await axios.get(`/api/admin/summary`, {
           headers: { authorization: `Bearer ${userInfo.token}` },
         })
 
-        dispatch({ type: 'FETCH_SUCCESS', payload: data })
-      } catch (err) {
-        dispatch({ type: 'FETCH_FAIL', payload: getError(err) })
-      }
+        setData(data)
+        setLoading(false)
+      } catch (err) {}
     }
     fetchData()
   }, [])
 
-  return (
-    <DashboardLayout>
-      <div className="flex w-full md:flex-row lg:flex-row sm:flex-col flex-col">
-        <main className="flex flex-col flex-1 gap-6 p-4">
-          <header>
-            <h1 className="text-3xl font-semibold leading-loose text-white">
-              Dashboard
-            </h1>
-            <div className="text-gray-200">{day}</div>
-          </header>
+  if (loading) {
+    return <Preloader />
+  } else {
+    return (
+      <DashboardLayout>
+        <div className="flex w-full md:flex-row lg:flex-row sm:flex-col flex-col">
+          <main className="flex flex-col flex-1 gap-6 p-4">
+            <header>
+              <h1 className="text-3xl font-semibold leading-loose text-white">
+                Dashboard
+              </h1>
+              <div className="text-gray-200">{day}</div>
+            </header>
+            <hr className="border-gray-700" />
+            {data && <StatsCard data={data} />}
 
-          <hr className="border-gray-700" />
-          <StatsCard data={summary} />
-          <OrderReport />
-        </main>
-        <aside className="flex flex-col gap-y-6 pt-6 pr-6">
-          <MostOrdered />
-          <MostTypeOfOrder chartData={summary.salesData} />
-        </aside>
-      </div>
-    </DashboardLayout>
-  )
+            <OrderReport />
+          </main>
+          <aside className="flex flex-col gap-y-6 pt-6 pr-6">
+            <MostOrdered />
+            <MostTypeOfOrder />
+          </aside>
+        </div>
+      </DashboardLayout>
+    )
+  }
 }
 
 export default dashboard

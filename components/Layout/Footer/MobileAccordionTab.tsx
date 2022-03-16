@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
+import { countItemList } from '../../../data/ContactData'
 import { footerMenuItem } from '../../../data/FooterData'
-import ContactDetails from './contactDetails'
 
 export default function MobileAccordionTab() {
   const [open, setOpen] = useState('')
 
-  const handleClick = (item) => {
+  const handleClick = (item: React.SetStateAction<string>) => {
     if (open === '') {
       setOpen(item)
     } else {
@@ -49,14 +49,23 @@ export default function MobileAccordionTab() {
           }`}
         >
           <ul className=" p-5 pb-0">
-            <ContactDetails></ContactDetails>
+            <div>
+              {countItemList.map((item) => (
+                <li key={item.title} className=" text-gray-500 mb-4">
+                  <a>
+                    <span className=" inline-block">{item.icon}</span>
+                    <span className=" ml-3">{item.title}</span>
+                  </a>
+                </li>
+              ))}
+            </div>
           </ul>
         </div>
       </div>
 
       {footerMenuItem.map((menuItem) => {
         return (
-          <div className="mb-3">
+          <div key={menuItem.title} className="mb-3">
             <button
               className="bg-gray-200 bg-opacity-90 p-2 px-4 rounded border  focus:outline-none flex items-center justify-between w-full font-bold text-sm"
               onClick={() => {
@@ -92,10 +101,10 @@ export default function MobileAccordionTab() {
               }`}
             >
               <ul className="p-5 pb-0">
-                {menuItem.items.map((item) => {
+                {menuItem.items.map((item, i) => {
                   return (
-                    <li className=" text-gray-600 mb-2">
-                      <a href="">
+                    <li key={i} className=" text-gray-600 mb-2">
+                      <a>
                         <span className=" inline-block">
                           <svg
                             className="svg-inline--fa fa-dot-circle fa-w-16 w-2 h-2"

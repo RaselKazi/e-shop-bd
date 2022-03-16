@@ -1,6 +1,6 @@
 import React from 'react'
 type CountdownItemProp = {
-  size: string
+  size: string | undefined
   text: string
   value: Number
 }

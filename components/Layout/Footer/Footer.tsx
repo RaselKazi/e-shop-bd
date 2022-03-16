@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React, { useState } from 'react'
 import BrandIcon from './BrandIcon'
+import Image from 'next/image'
 import { socialIconData, footerMenu } from '../../../data/FooterData'
 import MobileAccordionTab from './MobileAccordionTab'
 import VerticalSocialButton from './VerticalSocialButton'
@@ -26,11 +27,9 @@ function Footer() {
           <ul className=" flex items-center justify-center text-gray-200 duration-100">
             {footerMenu.map((menu) => {
               return (
-                <li>
-                  <Link href={menu.link}>
-                    <a className="mr-3 p-2 hover:text-white" href="">
-                      {menu.title}
-                    </a>
+                <li key={menu.title}>
+                  <Link href={menu.link} passHref>
+                    <p className="mr-3 p-2 hover:text-white ">{menu.title}</p>
                   </Link>
                 </li>
               )
@@ -41,8 +40,8 @@ function Footer() {
         <div className=" flex items-center justify-center">
           {socialIconData.map((social) => (
             <a
+              key={social.id}
               className="mr-3 p-3 text-white duration-300 bg-black bg-opacity-25 rounded-full hover:bg-white hover:text-black"
-              href="#"
             >
               {social.icon}
             </a>
@@ -74,7 +73,7 @@ function Footer() {
             </svg>
           </span>
           <div>
-            <h4 className=" text-2xl font-bold">Signup For Newsletter</h4>
+            <h4 className=" text-2xl font-bold">Sign up For Newsletter</h4>
             <p className=" text-gray-400 text-sm">
               Well never share your email address with a third-party.
             </p>
@@ -95,16 +94,10 @@ function Footer() {
       {/* ---------004-------------- */}
       <div className=" lg:flex items-start  justify-center lg:justify-between text-gray-500 border-t py-4 xl:px-24 sm:px-10 px-4">
         <div className="flex items-center justify-center text-center">
-          <p>
-            © Powered by
-            <a className=" text-yellow-500" href="http://smarttraders.org/">
-              learn with Kazi
-            </a>
-            Designed by
-            <a className=" text-yellow-500" href="">
-              Rasel kzi
-            </a>
-          </p>
+          © Powered by
+          <p className=" text-yellow-500">learn with Kazi</p>
+          Designed by
+          <p className=" text-yellow-500">Rasel kzi</p>
         </div>
         <div className="pt-4 text-center">
           <BrandIcon></BrandIcon>
