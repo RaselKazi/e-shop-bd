@@ -1,12 +1,10 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { useContext, useEffect, useReducer, useState } from 'react'
-import ProductTable from '../../../components/Dashboard/Table/ProductTable'
+import { useContext, useEffect, useState } from 'react'
 import DashboardLayout from '../../../components/Layout/DashboardLayout'
-import { ORDERSCOLUMNS } from '../../../data/TableData'
 import { IOrder } from '../../../type/order.model.type'
-import { getError } from '../../../utils/error'
 import { Store } from '../../../utils/Store'
+import ActionCol from '../../../utils/ui/ActionCol'
 import TableCol from '../../../utils/ui/TableCol'
 import TableRow from '../../../utils/ui/TableRow'
 
@@ -28,27 +26,36 @@ function OrdersList() {
     }
     fetchData()
   }, [])
-
+  console.log(data)
   return (
     <DashboardLayout>
-      <div className="flex w-full  justify-center mx-auto">
+      <div className="w-full w-max-full mt-9 flex justify-center items-center">
         {data && (
-          <div className=" mt-10 w-7/12 sm:w-3/6 md:w-5/12 border-2 border-sky-700 rounded-lg bg-gray-900 overflow-hidden">
-            <div className="w-full overflow-x-auto ">
+          <div className=" border-2 border-sky-700 rounded-lg bg-gray-900 overflow-hidden w-max-full">
+            <div className=" overflow-auto w-full">
               <table className="table-auto ">
                 <thead className="bg-gray-900">
                   <tr>
-                    <TableRow title="Name" />
-                    <TableRow title="email" />
-                    <TableRow title="role" />
+                    <TableRow title="fullName" />
+                    <TableRow title="address" />
+                    <TableRow title="totalPrice" />
+                    <TableRow title="payment" />
+                    <TableRow title="Status" />
+                    <TableRow title="action" />
                   </tr>
                 </thead>
                 <tbody className="  bg-gray-900 divide-y divide-sky-900/30">
                   {data.slice(0, 10).map((order) => (
-                    <tr className="  hover:bg-sky-900/10  bg-gray-800/40 odd:bg-gray-800 transition duration-200">
+                    <tr
+                      key={order._id}
+                      className="  hover:bg-sky-900/10  bg-gray-800/40 odd:bg-gray-800 transition duration-200"
+                    >
+                      <TableCol title={order.shippingAddress.fullName} />
+                      <TableCol title={order.shippingAddress.address} />
+                      <TableCol title={order.totalPrice} />
                       <TableCol title={order.paymentMethod} />
-                      <TableCol title={order.itemsPrice} />
                       <TableCol title={order.orderStatus} />
+                      <ActionCol />
                     </tr>
                   ))}
                 </tbody>

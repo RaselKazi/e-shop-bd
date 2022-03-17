@@ -6,7 +6,7 @@ type AvatarColProps = {
 }
 export default function AvatarCol({ images }: AvatarColProps) {
   return (
-    <th className=" pl-4 my-2 flex justify-start items-center">
+    <th className=" px-4 my-2 flex justify-start items-center">
       {images.map((img) => {
         return (
           <div

@@ -70,21 +70,15 @@ function DashboardMainSidebar() {
         }`}
       >
         <h1
-          className="text-white text-center font-black py-4 relative"
-          // x-bind:className="$store.sidebar.full ? 'text-2xl px-4' : 'text-xl px-4 xm:px-2'"
+          className={`text-sky-500 text-center font-black py-4 relative  ${
+            open ? 'text-base px-2 xm:px-2' : 'text-2xl px-4'
+          }`}
         >
           <Link href="/">LOGO</Link>
           <span
             className="
             hidden z-50
-            md:block border
-            border-sky-500
-             text-sky-500
-            absolute  
-            -right-3
-            top-4
-           bg-gray-900
-            shadow-md rounded-md
+            md:block border-[3px] border-sky-500 text-sky-500 absolute  -right-4 top-4 bg-gray-900 rounded-full
           "
             onClick={() => setOpen(!open)}
           >

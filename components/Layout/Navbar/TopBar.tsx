@@ -72,7 +72,7 @@ function TopBar() {
 
         <div className="relative">
           <a
-            className=" flex items-center sm:px-4 whitespace-nowrap"
+            className=" flex items-center sm:px-4 whitespace-nowrap cursor-pointer"
             onClick={() => setOpen(!open)}
           >
             <svg
