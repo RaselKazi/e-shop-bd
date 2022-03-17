@@ -4,13 +4,13 @@ import DashboardMainSidebar from './Sidebar/DashboardMainSidebar'
 
 function DashboardLayout({ children }: any) {
   return (
-    <div className="flex max-w-screen min-h-screen font-sans bg-gray-800">
+    <div className="flex w-screen max-w-screen h-screen max-h-screen font-sans bg-gray-800 overflow-hidden">
       <DashboardMainSidebar></DashboardMainSidebar>
       <div className="w-full max-w-full">
         <DashboardNavbar></DashboardNavbar>
-        <main className="max-w-full flex w-full min-h-screen items-center justify-center mx-auto bg-gray-800">
+        <div className="max-w-full h-full max-h-full  overflow-y-auto  mx-auto bg-gray-800">
           {children}
-        </main>
+        </div>
       </div>
     </div>
   )

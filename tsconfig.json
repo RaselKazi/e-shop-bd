@@ -19,7 +19,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "components/Dashboard/Table/ProductTable.jsx"
+    "components/Dashboard/Table/ProductTable.jsx",
+    "pages/dashboard/newproduct.jsx"
   ],
   "exclude": ["node_modules"]
 }

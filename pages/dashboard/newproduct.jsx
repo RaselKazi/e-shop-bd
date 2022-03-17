@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { useContext, useState } from 'react'
+import React, { ChangeEvent, useContext, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useForm, SubmitHandler } from 'react-hook-form'
@@ -16,16 +16,16 @@ import 'react-toastify/dist/ReactToastify.css'
 import Select from 'react-select'
 import { Store } from '../../utils/Store'
 import useCheckAdminAndRedirect from '../../hook/useCheckAdminAndRedirect'
-type FormValues = {
-  name: string
-  description: string
-  category: string
-  brand: string
-  size: string
-  colors: string[]
-  price: string
-  stock: string
-}
+// type FormValues = {
+//   name: string
+//   description: string
+//   category: string
+//   brand: string
+//   size: string
+//   colors: string[]
+//   price: string
+//   stock: string
+// }
 
 function newproduct() {
   useCheckAdminAndRedirect()
@@ -35,8 +35,8 @@ function newproduct() {
 
   const { state, dispatch } = useContext(Store)
   const { userInfo } = state
-  const createProductImagesChange = (e) => {
-    const files = Array.from(e.target.files)
+  const createProductImagesChange = (event) => {
+    const files = Array.from(event.target.files)
 
     setImages([])
     setImagesPreview([])
@@ -58,8 +58,8 @@ function newproduct() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>()
-  const onSubmit: SubmitHandler<FormValues> = async ({
+  } = useForm()
+  const onSubmit = async ({
     name,
     description,
     category,
