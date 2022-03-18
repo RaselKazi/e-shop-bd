@@ -33,3 +33,13 @@ export interface IOrder {
   updatedAt: Date
   __v: number
 }
+
+export interface IOrderServer {
+  orderItems: IOrderCard[]
+  shippingAddress: IShippingAddress
+  paymentMethod: String
+  itemsPrice: Number
+  shippingPrice: Number
+  taxPrice: Number
+  totalPrice: Number
+}

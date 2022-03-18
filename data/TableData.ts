@@ -1,10 +1,7 @@
-import ActionButton from '../components/Dashboard/Table/ActionButton'
-import { AvatarCell } from '../components/Dashboard/Table/AvatarCell'
-
 export const PRODUCTCOLUMNS = [
   {
     Header: 'Product Images',
-    Cell: AvatarCell,
+
     imgAccessor: 'images',
     emailAccessor: 'email',
   },
@@ -29,7 +26,6 @@ export const PRODUCTCOLUMNS = [
   {
     Header: 'action',
     accessor: '_id',
-    Cell: ActionButton,
   },
 ]
 
@@ -65,7 +61,6 @@ export const ORDERSCOLUMNS = [
   {
     Header: 'action',
     accessor: '_id',
-    Cell: ActionButton,
   },
 ]
 
@@ -85,6 +80,5 @@ export const USERSCOLUMNS = [
   {
     Header: 'action',
     accessor: '_id',
-    Cell: ActionButton,
   },
 ]

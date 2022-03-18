@@ -40,13 +40,13 @@ export interface IProductPageQuery {
 }
 
 export interface IProductQuery {
-  pageSize: number
-  page: number
-  category?: String | string[]
-  sort?: String | string[]
-  brand?: String | string[]
-  price?: String | string[]
-  rating?: String | string[]
+  pageSize?: number
+  page?: string | string[]
+  category?: string | string[]
+  sort?: string
+  brand?: string | string[]
+  price?: string | string[]
+  rating?: string | string[]
   searchQuery?: string | string[]
 }
 

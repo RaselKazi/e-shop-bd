@@ -13,5 +13,5 @@
     "ecmaVersion": 12
   },
   "plugins": ["react"],
-  "rules": { "react-hooks/rules-of-hooks": "info" }
+  "rules": { "react-hooks/rules-of-hooks": 0 }
 }

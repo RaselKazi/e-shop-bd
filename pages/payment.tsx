@@ -28,7 +28,7 @@ export default function payment() {
     } else {
       dispatch({ type: 'SAVE_PAYMENT_METHOD', payload: paymentMethod })
       Cookies.set('paymentMethod', paymentMethod)
-      router.push('/place-older')
+      router.push('/place-order')
     }
   }
   return (

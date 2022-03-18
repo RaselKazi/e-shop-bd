@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import ReactPaginate from 'react-paginate'
 import Layout from '../../components/Layout/Layout'
 import Sidebar from '../../components/Layout/Sidebar/Sidebar'
@@ -8,7 +7,6 @@ import MidProductCard from '../../components/Product/MidProductCard'
 import ProductCard from '../../components/Product/ProductCard'
 import dbConnect, { convertDocToObj } from '../../utils/dbConnect'
 import Product from '../../models/productModel'
-import { Store } from '../../utils/Store'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import {
@@ -30,23 +28,21 @@ function products(props: IProductProps) {
 
   const router = useRouter()
 
-  const {
-    query = 'all',
-    category = 'all',
-    brand = 'all',
-    price = 'all',
-    rating = 'all',
-    sort = 'featured',
-  } = router.query
+  // const {
+  //   query = 'all',
+  //   category = 'all',
+  //   brand = 'all',
+  //   price = 'all',
+  //   rating = 'all',
+  //   sort = 'featured',
+  // } = router.query
   const { products, countProducts, categories, brands, pages } = props
 
   const filterSearch = ({
     page,
     searchQuery,
     category,
-    brand,
     price,
-    rating,
     sort,
   }: IProductQuery) => {
     const path = router.pathname
@@ -55,11 +51,7 @@ function products(props: IProductProps) {
     if (searchQuery) query.searchQuery = searchQuery
     if (sort) query.sort = sort
     if (category) query.category = category
-    // if (brand) query.brand = brand
     if (price) query.price = price
-    // if (rating) query.rating = rating
-    // if (min) query.min ? query.min : query.min === 0 ? 0 : min
-    // if (max) query.max ? query.max : query.max === 0 ? 0 : max
 
     router.push({
       pathname: path,
@@ -72,7 +64,9 @@ function products(props: IProductProps) {
   }
 
   const handlePage = (data: { selected: number }) => {
-    const page = data.selected + 1
+    const pages: Number = data.selected + 1 // because page start from 0
+    const page = pages.toString()
+
     filterSearch({ page })
   }
 

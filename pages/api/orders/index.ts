@@ -3,9 +3,16 @@ import Order from '../../../models/orderModel'
 import dbConnect from '../../../utils/dbConnect'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { isAuth } from '../../../utils/auth'
+import { IOrderServer } from '../../../type/order.model.type'
+
+interface Request {
+  body: IOrderServer
+  user: { _id: string }
+}
 const handler = nc()
 handler.use(isAuth)
-handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
+handler.post(async (req: Request, res: NextApiResponse) => {
+  console.log(req)
   await dbConnect()
   const {
     orderItems,

@@ -1,7 +1,7 @@
 import React from 'react'
 type StatsCardProps = {
   data: {
-    ordersPrice: number
+    ordersPrice: Number
     productsCount: Number
     ordersCount: Number
     usersCount: Number
@@ -12,7 +12,7 @@ function StatsCard({ data }: StatsCardProps) {
     {
       title: 'Total Revenue',
       percentage: '+32.40%',
-      value: `$ ${Math.ceil(data.ordersPrice)}`,
+      value: `$ ${Math.ceil(Number(data.ordersPrice))}`,
       status: 'up',
       icon: 'CoinIcon',
     },
