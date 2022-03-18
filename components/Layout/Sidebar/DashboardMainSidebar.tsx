@@ -78,7 +78,7 @@ function DashboardMainSidebar() {
           <span
             className="
             hidden z-50
-            md:block border-[3px] border-sky-500 text-sky-500 absolute  -right-4 top-4 bg-gray-900 rounded-full
+            md:block border-[3px] border-sky-500 text-sky-500  absolute  -right-4 top-4 bg-gray-900 rounded-full
           "
             onClick={() => setOpen(!open)}
           >
