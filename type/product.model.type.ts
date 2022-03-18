@@ -5,7 +5,7 @@ export interface IProduct {
   description: String
   quantity: number
   price: number
-  ratings: Number
+  ratings: number
   images: [{ public_id: string; url: string; _id: string }]
   category: String
   brand: String
@@ -20,8 +20,8 @@ export interface IProduct {
 }
 
 export interface ICartItems {
-  quantity: Number | any
-  price: Number | any
+  quantity: number
+  price: number
 }
 export interface IHomePageQuery {
   query: { category: String; sort: String }

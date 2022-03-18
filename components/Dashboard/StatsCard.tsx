@@ -1,7 +1,7 @@
 import React from 'react'
 type StatsCardProps = {
   data: {
-    ordersPrice: Number | any
+    ordersPrice: number
     productsCount: Number
     ordersCount: Number
     usersCount: Number

@@ -1,10 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { IProduct } from '../../type/product.model.type'
 
 import RatingStar from '../../utils/ui/RatingStar'
-type CartProductCard = { variant?: String; CartData: any }
+type CartProductCard = { variant?: String; CartData: IProduct }
 function CartProductCard({ variant, CartData }: CartProductCard) {
+  console.log(CartData)
   return (
     <div className="my-3">
       <div
@@ -39,7 +41,7 @@ function CartProductCard({ variant, CartData }: CartProductCard) {
 
           {variant !== 'min' && (
             <div className=" flex items-center space-x-1 mt-2">
-              <RatingStar value={CartData?.ratings} />
+              <RatingStar value={CartData.ratings} />
             </div>
           )}
 

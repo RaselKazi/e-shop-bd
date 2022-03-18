@@ -2,9 +2,9 @@ import React, { Dispatch, SetStateAction } from 'react'
 import Rating from 'react-rating'
 
 type RatingStar = {
-  value: Number
+  value: number
   show?: Boolean
-  setRating: Dispatch<SetStateAction<string>>
+  setRating?: Dispatch<SetStateAction<number>>
 }
 export default function RatingStar({ show, value, setRating }: RatingStar) {
   return (
@@ -34,7 +34,7 @@ export default function RatingStar({ show, value, setRating }: RatingStar) {
           </svg>
         }
         readonly={!show}
-        onClick={(e) => setRating(e.toString())}
+        onClick={(e: number) => Number(e)}
       ></Rating>
     </div>
   )

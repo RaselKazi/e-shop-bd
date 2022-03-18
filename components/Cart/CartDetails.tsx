@@ -10,7 +10,7 @@ export default function CartDetails() {
 
   const round2 = (num: number) => Math.round(num * 100 + Number.EPSILON) / 100 // 123.456 => 123.46
   const items = cartItems.reduce(
-    (a: any, c: { quantity: number }) => a + c.quantity,
+    (a: number, c: { quantity: number }) => a + c.quantity,
     0
   )
   const itemsPrice = round2(
@@ -32,7 +32,7 @@ export default function CartDetails() {
         <div className="">Price</div>
         <div className="">total</div>
       </li>
-      {cartItems.map((item: ICartItems, i: React.Key | null | undefined) => (
+      {cartItems.map((item: ICartItems, i: React.Key) => (
         <li
           key={i}
           className="p-4 flex justify-between items-center hover:bg-gray-100"

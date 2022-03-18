@@ -1,8 +1,7 @@
-import React from 'react'
 import DashboardNavbar from './Navbar/DashboardNavbar'
 import DashboardMainSidebar from './Sidebar/DashboardMainSidebar'
 
-function DashboardLayout({ children }: any) {
+function DashboardLayout({ children }: React.PropsWithChildren<{}>) {
   return (
     <div className="flex w-screen max-w-screen h-screen max-h-screen font-sans bg-gray-800 overflow-hidden">
       <DashboardMainSidebar></DashboardMainSidebar>
