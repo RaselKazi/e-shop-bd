@@ -40,7 +40,7 @@ function ImgLogo() {
                 <div className="px-2">
                   <Image
                     className=" opacity-50 duration-200 hover:opacity-100"
-                    src={`/../public/images/${img}`}
+                    src={img}
                     alt=""
                     layout="responsive"
                     width={100}

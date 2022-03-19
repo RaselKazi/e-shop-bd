@@ -93,7 +93,7 @@ const Home = ({
             </div>
           </div>
         </div>
-        <ImgBanner imgLink="bn1.png"></ImgBanner>
+        <ImgBanner imgLink="https://raw.githubusercontent.com/RaselKazi/e-shop-bd/main/public/images/bn4.webp"></ImgBanner>
       </section>
       {/* DEALS OF THE WEEK ProductCard section */}
       <section className="xl:px-24 sm:px-10 px-4 pt-10">
@@ -114,9 +114,9 @@ const Home = ({
         </div>
         <div className=" md:grid md:grid-cols-2 gap-8 pt-10">
           <div className="mb-6 md:mb-0">
-            <ImgBanner imgLink="bn2.webp"></ImgBanner>
+            <ImgBanner imgLink="https://raw.githubusercontent.com/RaselKazi/e-shop-bd/main/public/images/bn2.webp"></ImgBanner>
           </div>
-          <ImgBanner imgLink="bn3.webp"></ImgBanner>
+          <ImgBanner imgLink="https://raw.githubusercontent.com/RaselKazi/e-shop-bd/main/public/images/bn3.webp"></ImgBanner>
         </div>
       </section>
       {/* New Arrivals ProductCard section */}
@@ -130,7 +130,7 @@ const Home = ({
           ))}
         </div>
 
-        <ImgBanner imgLink="bn4.webp"></ImgBanner>
+        <ImgBanner imgLink="https://raw.githubusercontent.com/RaselKazi/e-shop-bd/main/public/images/bn4.webp"></ImgBanner>
       </section>
       {/* Bestselling small ProductCard section */}
       <section className="xl:px-24 sm:px-10 px-4 pt-10 overflow-hidden">

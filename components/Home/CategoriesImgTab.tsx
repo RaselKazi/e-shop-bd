@@ -31,7 +31,7 @@ function CategoriesImgTab() {
             <Image
               className=""
               alt=""
-              src={`/../public/images/${item.img}`}
+              src={item.img}
               layout="responsive"
               width={100}
               height={50}
